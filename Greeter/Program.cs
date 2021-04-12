@@ -14,7 +14,7 @@ namespace Greeter
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.Http("http://localhost:12201")
+                .WriteTo.Http("localhost:5044")
                 .CreateLogger();
 
             //Log.Logger = new LoggerConfiguration().WriteTo.File(@"C:\Users\Mads\source\repos\Bachelor\log.txt").CreateLogger();
