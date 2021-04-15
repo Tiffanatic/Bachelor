@@ -8,7 +8,7 @@ namespace RapidTime.Core.Models.Auth
         public string Firstname { get; set; }
         public string Lastname { get; set; }
 
-        public bool GdprDeleted { get; set; }
+        public bool GdprDeleted { get; set; } = false;
 
         public DateTime? DeleteDate { get; set; } = null;
         
