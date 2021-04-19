@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RapidTime.Core.Models.Auth;
 using RapidTime.Data;
+
 
 namespace RapidTime
 {
@@ -17,7 +19,10 @@ namespace RapidTime
         {
             services.AddGrpc();
 
-            services.AddDbContext<RapidTimeDbContext>();
+            services.AddDbContext<RapidTimeDbContext>(opts => 
+                opts.UseInMemoryDatabase("database"));
+
+            services.AddScoped<RapidTimeDbContext>();
             
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<RapidTimeDbContext>()

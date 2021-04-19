@@ -3,5 +3,9 @@
     public interface IUnitofWork
     {
         
+        
+        
+        void Commit();
+        void Rollback();
     }
 }
