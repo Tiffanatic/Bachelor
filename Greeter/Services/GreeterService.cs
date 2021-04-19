@@ -17,6 +17,7 @@ namespace Greeter
 
         public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
         {
+            _logger.LogInformation("User said hello");
             return Task.FromResult(new HelloReply
             {
                 Message = "Hello " + request.Name
