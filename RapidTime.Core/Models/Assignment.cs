@@ -9,11 +9,5 @@ namespace RapidTime.Core.Models
         public double Amount { get; set; }
         public string TimeSpent { get; set; }
         public Customer Customer { get; set; }
-
-
-        public int GetAssignmentId()
-        {
-            return this.Id;
-        }
     }
 }
