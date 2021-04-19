@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace RapidTime
 {
@@ -7,6 +9,9 @@ namespace RapidTime
     {
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Http("http://localhost:9601/")
+                .CreateLogger();
             CreateHostBuilder(args).Build().Run();
         }
 
