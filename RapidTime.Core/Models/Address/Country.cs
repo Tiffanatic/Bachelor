@@ -1,8 +1,7 @@
 ﻿namespace RapidTime.Core.Models.Address
 {
-    public class Country
+    public class Country : BaseEntity
     {
-        public int Id { get; set; }
         public string CountryName { get; set; }
         public string CountryCode { get; set; }
     }

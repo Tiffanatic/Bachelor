@@ -1,8 +1,7 @@
 ﻿namespace RapidTime.Core.Models
 {
-    public class CompanyType
+    public class CompanyType : BaseEntity
     {
-        public int Id { get; set; }
         public string CompanyTypeName { get; set; }
     }
 }
