@@ -25,4 +25,9 @@
       <ProjectReference Include="..\RapidTime.Data\RapidTime.Data.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Protobuf Include="Protos\assignment.proto" GrpcServices="Server" ProtoRoot="Protos\" />
+        <Protobuf Include="Protos\assignmentType.proto" GrpcServices="Server" ProtoRoot="Protos\" />
+    </ItemGroup>
+
 </Project>

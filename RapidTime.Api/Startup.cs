@@ -8,8 +8,7 @@ using Microsoft.Extensions.Hosting;
 using RapidTime.Core.Models.Auth;
 using RapidTime.Data;
 
-
-namespace RapidTime
+namespace RapidTime.Api
 {
     public class Startup
     {

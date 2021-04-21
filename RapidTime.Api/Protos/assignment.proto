@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+option csharp_namespace = "RapidTime.Api";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "Protos/assignmentType.proto";
+
+package assignment;
+
+service Assignment {
+  rpc GetAssignment (AssignmentRequest) returns (AssignmentResponse);
+  rpc GetMultiAssignment (stream AssignmentRequest) returns ( MultiAssignmentResponse);
+  rpc CreateAssignment (CreateAssignmentRequest) returns (AssignmentResponse);
+  rpc UpdateAssignment (UpdateAssignmentRequest) returns (AssignmentResponse);
+  rpc DeleteAssignment (AssignmentRequest) returns (google.protobuf.Empty);
+  
+}
+
+// Assignment created to represent the base entity class
+message AssignmentBase {
+  AssignmentTypeBase assignmentType = 1;
+  google.protobuf.Timestamp date = 2;
+  double amount = 3;
+  string timeSpent = 4;
+  CustomerBase customer = 5;
+}
+
+message CreateAssignmentRequest {
+  AssignmentBase base = 1;
+}
+
+message UpdateAssignmentRequest {
+  AssignmentBase base = 1;
+}
+
+message AssignmentRequest {
+  string id = 1;
+}
+
+message AssignmentResponse {
+  int32 id = 1;
+  string assignmentType = 2;
+  google.protobuf.Timestamp date = 3;
+  int64 amount = 4;
+  string timeSpent = 5;
+  CustomerBase customer = 6;
+  
+}
+
+message MultiAssignmentResponse {
+  repeated AssignmentResponse assignmentResponse = 1;
+}
+

@@ -1,0 +1,36 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RapidTime.Api";
+
+import "google/protobuf/empty.proto";
+
+package city;
+
+service City {
+  rpc GetCity (GetCityRequest) returns (CityResponse);
+  rpc MultiCity (stream GetCityRequest) returns (MultiCityResponse);
+  rpc CreateCity (CreateCityRequest) returns (CityResponse);
+}
+
+message GetCityRequest {
+  int32 id = 1;
+}
+
+message CityResponse {
+  CityBase response = 1;
+}
+
+message MultiCityResponse {
+  repeated CityResponse response = 1;
+}
+
+message CreateCityRequest {
+  string postalCode = 1;
+  string cityName = 2;
+}
+
+message CityBase {
+  int32 id = 1;
+  string postalCode = 2;
+  string cityName = 3;
+}

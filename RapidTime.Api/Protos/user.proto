@@ -1,0 +1,44 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RapidTime.Api";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service User {
+  rpc GetUser (GetUserRequest) returns (UserResponse);
+  rpc UpdateUser (UpdateUserRequest) returns (UserResponse);
+  rpc CreateUser (CreateUserRequest) returns (UserResponse);
+  rpc DeleteUser (DeleteUserRequest) returns (google.protobuf.Empty);
+}
+
+message UserBase{
+  string firstName = 1;
+  string lastName = 2;
+  bool gdprDeleted = 3;
+  google.protobuf.Timestamp deleteDate = 4;
+}
+
+message GetUserRequest{
+  int32 id = 1;
+}
+
+message UserResponse{
+  UserBase response = 1;
+}
+
+message UpdateUserRequest{
+  int32 id = 1;
+  string firstName = 2;
+  string lastName = 3;
+  bool gdprDeleted = 4;
+  google.protobuf.Timestamp deleteDate = 5;
+}
+
+message CreateUserRequest{
+  UserBase request = 1;
+}
+
+message DeleteUserRequest{
+  int32 id = 1;
+}
