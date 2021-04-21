@@ -3,8 +3,8 @@
 option csharp_namespace = "RapidTime.Api";
 
 import "google/protobuf/empty.proto";
-import "city.proto";
-import "country.proto";
+import "Protos/city.proto";
+import "Protos/country.proto";
 
 package addressAggregate;
 

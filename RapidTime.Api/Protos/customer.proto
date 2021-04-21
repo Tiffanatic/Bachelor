@@ -4,9 +4,9 @@ option csharp_namespace = "RapidTime.Api";
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
-import "addressAggregate.proto";
-import "companyType.proto";
-import "contact.proto";
+import "Protos/addressAggregate.proto";
+import "Protos/companyType.proto";
+import "Protos/contact.proto";
 
 package customer;
 

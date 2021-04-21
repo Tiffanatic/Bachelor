@@ -3,7 +3,7 @@
 option csharp_namespace = "RapidTime.Api";
 
 import "google/protobuf/empty.proto";
-import "assignmentType.proto";
+import "Protos/assignmentType.proto";
 
 package price;
 
