@@ -31,16 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="Protos\companyType.proto" GrpcServices="Server" />
-        <Protobuf Include="Protos\contact.proto" GrpcServices="Server" />
-        <Protobuf Include="Protos\country.proto" GrpcServices="Server" />
-        <Protobuf Include="Protos\city.proto" GrpcServices="Server" />
-        <Protobuf Include="Protos\user.proto" GrpcServices="Server" />
-        <Protobuf Include="Protos\addressAggregate.proto" GrpcServices="Server" />
-        <Protobuf Include="Protos\customer.proto" GrpcServices="Server" />
-        <Protobuf Include="Protos\assignment.proto" GrpcServices="Server" />
-        <Protobuf Include="Protos\assignmentType.proto" GrpcServices="Server" />
-        <Protobuf Include="Protos\price.proto" GrpcServices="Server" />
+        <Protobuf Include="**\*.proto" GrpcServices="Server" />
     </ItemGroup>
 
 </Project>
