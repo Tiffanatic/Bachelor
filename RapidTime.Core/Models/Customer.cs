@@ -16,11 +16,11 @@ namespace RapidTime.Core.Models
         
         public enum InvoiceCurrencyEnum
         {
-            DKK = 1,
-            SEK = 2,
-            NOK = 3,
-            GBP = 4,
-            EUR = 5
+            DKK = 0,
+            SEK = 1,
+            NOK = 2,
+            GBP = 3,
+            EUR = 4
         }
     }
     
