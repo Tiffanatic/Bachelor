@@ -4,9 +4,9 @@ option csharp_namespace = "RapidTime.Api";
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
-import "Protos/addressAggregate.proto";
-import "Protos/companyType.proto";
-import "Protos/contact.proto";
+import "addressAggregate.proto";
+import "companyType.proto";
+import "contact.proto";
 
 package customer;
 
@@ -27,12 +27,12 @@ message CustomerResponse {
 
 message CreateCustomerRequest {
   string name = 2;
-  AddressAggregate address = 3;
-  CompanyType companyType = 4;
+  addressAggregate.AddressAggregateBase address = 3;
+  companyType.CompanyTypeBase companyType = 4;
   google.protobuf.Timestamp yearlyReview = 5;
   InvoiceCurrencyEnum invoiceCurrency = 6;
   string invoiceEmail = 7;
-  repeated Contact contact = 8;
+  repeated contact.ContactBase contact = 8;
 }
 
 message UpdateCustomerRequest {
@@ -46,12 +46,12 @@ message DeleteCustomerRequest {
 message CustomerBase {
   int32 id = 1;
   string name = 2;
-  AddressAggregate address = 3;
-  CompanyType companyType = 4;
+  addressAggregate.AddressAggregateBase address = 3;
+  companyType.CompanyTypeBase companyType = 4;
   google.protobuf.Timestamp yearlyReview = 5;
   InvoiceCurrencyEnum invoiceCurrency = 6;
   string invoiceEmail = 7;
-  repeated Contact contact = 8;
+  repeated contact.ContactBase contact = 8;
 }
 
 enum InvoiceCurrencyEnum {

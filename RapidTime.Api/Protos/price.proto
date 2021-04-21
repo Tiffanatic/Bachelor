@@ -3,7 +3,7 @@
 option csharp_namespace = "RapidTime.Api";
 
 import "google/protobuf/empty.proto";
-import "Protos/assignmentType.proto";
+import "assignmentType.proto";
 
 package price;
 
@@ -18,7 +18,8 @@ service Price {
 message PriceBase{
   int32 id = 1;
   double hourlyRate = 2;
-  AssignmentTypeBase assignmentType = 3;
+  
+  assignmentType.AssignmentTypeBase assignmentType = 3;
 }
 message GetPriceRequest{
   int32 id = 1;

@@ -4,8 +4,8 @@ option csharp_namespace = "RapidTime.Api";
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
-import "Protos/assignmentType.proto";
-import "Protos/customer.proto";
+import "assignmentType.proto";
+import "customer.proto";
 
 package assignment;
 
@@ -20,11 +20,11 @@ service Assignment {
 
 // Assignment created to represent the base entity class
 message AssignmentBase {
-  AssignmentTypeBase assignmentType = 1;
+  assignmentType.AssignmentTypeBase assignmentType = 1;
   google.protobuf.Timestamp date = 2;
   double amount = 3;
   string timeSpent = 4;
-  Customer customer = 5;
+  customer.CustomerBase customer = 5;
 }
 
 message CreateAssignmentRequest {
@@ -45,7 +45,7 @@ message AssignmentResponse {
   google.protobuf.Timestamp date = 3;
   int64 amount = 4;
   string timeSpent = 5;
-  CustomerBase customer = 6;
+  customer.CustomerBase customer = 6;
   
 }
 

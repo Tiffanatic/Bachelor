@@ -4,7 +4,7 @@ option csharp_namespace = "RapidTime.Api";
 
 import "google/protobuf/empty.proto";
 
-package assignment;
+package assignmentType;
 
 service AssignmentType {
   rpc GetAssignmentType (GetAssignmentTypeRequest) returns (AssignmentTypeResponse);

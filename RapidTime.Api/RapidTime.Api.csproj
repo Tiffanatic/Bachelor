@@ -5,7 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Grpc" Version="2.37.0" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.34.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.37.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.5" />
@@ -26,16 +31,16 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="Protos\addressAggregate.proto" GrpcServices="Server" ProtoRoot="Protos\" />
-        <Protobuf Include="Protos\assignment.proto" GrpcServices="Server" ProtoRoot="Protos\" />
-        <Protobuf Include="Protos\assignmentType.proto" GrpcServices="Server" ProtoRoot="Protos\" />
-        <Protobuf Include="Protos\city.proto" GrpcServices="Server" ProtoRoot="Protos\" />
-        <Protobuf Include="Protos\companyType.proto" GrpcServices="Server" ProtoRoot="Protos\" />
-        <Protobuf Include="Protos\contact.proto" GrpcServices="Server" ProtoRoot="Protos\" />
-        <Protobuf Include="Protos\country.proto" GrpcServices="Server" ProtoRoot="Protos\" />
-        <Protobuf Include="Protos\customer.proto" GrpcServices="Server" ProtoRoot="Protos\" />
-        <Protobuf Include="Protos\price.proto" GrpcServices="Server" ProtoRoot="Protos\" />
-        <Protobuf Include="Protos\user.proto" GrpcServices="Server" ProtoRoot="Protos\" />
+        <Protobuf Include="Protos\city.proto" GrpcServices="Server"/>
+        <Protobuf Include="Protos\companyType.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos\contact.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos\country.proto" GrpcServices="Server"/>
+        <Protobuf Include="Protos\user.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos\addressAggregate.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos\customer.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos\assignment.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos\assignmentType.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos\price.proto" GrpcServices="Server" />
     </ItemGroup>
 
 </Project>
