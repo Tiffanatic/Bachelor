@@ -26,8 +26,16 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Protobuf Include="Protos\addressAggregate.proto" GrpcServices="Server" ProtoRoot="Protos\" />
         <Protobuf Include="Protos\assignment.proto" GrpcServices="Server" ProtoRoot="Protos\" />
         <Protobuf Include="Protos\assignmentType.proto" GrpcServices="Server" ProtoRoot="Protos\" />
+        <Protobuf Include="Protos\city.proto" GrpcServices="Server" ProtoRoot="Protos\" />
+        <Protobuf Include="Protos\companyType.proto" GrpcServices="Server" ProtoRoot="Protos\" />
+        <Protobuf Include="Protos\contact.proto" GrpcServices="Server" ProtoRoot="Protos\" />
+        <Protobuf Include="Protos\country.proto" GrpcServices="Server" ProtoRoot="Protos\" />
+        <Protobuf Include="Protos\customer.proto" GrpcServices="Server" ProtoRoot="Protos\" />
+        <Protobuf Include="Protos\price.proto" GrpcServices="Server" ProtoRoot="Protos\" />
+        <Protobuf Include="Protos\user.proto" GrpcServices="Server" ProtoRoot="Protos\" />
     </ItemGroup>
 
 </Project>

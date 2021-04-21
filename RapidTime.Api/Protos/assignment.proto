@@ -5,6 +5,7 @@ option csharp_namespace = "RapidTime.Api";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "Protos/assignmentType.proto";
+import "Protos/customer.proto";
 
 package assignment;
 
@@ -23,7 +24,7 @@ message AssignmentBase {
   google.protobuf.Timestamp date = 2;
   double amount = 3;
   string timeSpent = 4;
-  CustomerBase customer = 5;
+  Customer customer = 5;
 }
 
 message CreateAssignmentRequest {
