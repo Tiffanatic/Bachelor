@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RapidTime.Core;
+using RapidTime.Core.Models;
 using RapidTime.Core.Models.Auth;
+using RapidTime.Core.Services;
 using RapidTime.Data;
 
 namespace RapidTime.Api
@@ -26,6 +29,10 @@ namespace RapidTime.Api
             services.AddIdentity<RapidTime.Core.Models.Auth.User, Role>()
                 .AddEntityFrameworkStores<RapidTimeDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddTransient<IUnitofWork, UnitofWork>();
+            services.AddTransient<ICityService, CityService>();
+            services.AddTransient<IRepository<BaseEntity>, Repository<BaseEntity>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
