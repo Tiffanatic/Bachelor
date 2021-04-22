@@ -5,7 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Grpc" Version="2.37.0" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.34.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.37.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.5" />
@@ -23,6 +28,10 @@
     <ItemGroup>
       <ProjectReference Include="..\RapidTime.Core\RapidTime.Core.csproj" />
       <ProjectReference Include="..\RapidTime.Data\RapidTime.Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="**\*.proto" GrpcServices="Server" />
     </ItemGroup>
 
 </Project>

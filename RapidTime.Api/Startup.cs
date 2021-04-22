@@ -8,8 +8,7 @@ using Microsoft.Extensions.Hosting;
 using RapidTime.Core.Models.Auth;
 using RapidTime.Data;
 
-
-namespace RapidTime
+namespace RapidTime.Api
 {
     public class Startup
     {
@@ -23,8 +22,8 @@ namespace RapidTime
                 opts.UseInMemoryDatabase("database"));
 
             services.AddScoped<RapidTimeDbContext>();
-            
-            services.AddIdentity<User, Role>()
+            // User changed to full path to avoid conflicts with generated classes from GRPC
+            services.AddIdentity<RapidTime.Core.Models.Auth.User, Role>()
                 .AddEntityFrameworkStores<RapidTimeDbContext>()
                 .AddDefaultTokenProviders();
         }

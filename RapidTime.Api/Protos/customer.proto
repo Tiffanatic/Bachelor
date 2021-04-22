@@ -1,0 +1,63 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RapidTime.Api";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "Protos/addressAggregate.proto";
+import "Protos/companyType.proto";
+import "Protos/contact.proto";
+
+package customer;
+
+service Customer {
+  rpc GetCustomer (GetCustomerRequest) returns (CustomerResponse);
+  rpc CreateCustomer (CreateCustomerRequest) returns (CustomerResponse);
+  rpc UpdateCustomer (UpdateCustomerRequest) returns (CustomerResponse);
+  rpc DeleteCustomer (DeleteCustomerRequest) returns (google.protobuf.Empty);
+}
+
+message GetCustomerRequest {
+  int32 id = 1;
+}
+
+message CustomerResponse {
+  CustomerBase response = 1;
+}
+
+message CreateCustomerRequest {
+  string name = 2;
+  addressAggregate.AddressAggregateBase address = 3;
+  companyType.CompanyTypeBase companyType = 4;
+  google.protobuf.Timestamp yearlyReview = 5;
+  InvoiceCurrencyEnum invoiceCurrency = 6;
+  string invoiceEmail = 7;
+  repeated contact.ContactBase contact = 8;
+}
+
+message UpdateCustomerRequest {
+  CustomerBase request = 1;
+}
+
+message DeleteCustomerRequest {
+  int32 id = 1;
+}
+
+message CustomerBase {
+  int32 id = 1;
+  string name = 2;
+  addressAggregate.AddressAggregateBase address = 3;
+  companyType.CompanyTypeBase companyType = 4;
+  google.protobuf.Timestamp yearlyReview = 5;
+  InvoiceCurrencyEnum invoiceCurrency = 6;
+  string invoiceEmail = 7;
+  repeated contact.ContactBase contact = 8;
+}
+
+enum InvoiceCurrencyEnum {
+  DKK = 0;
+  SEK = 1;
+  NOK = 2;
+  GBP = 3;
+  EUR = 4;
+}

@@ -1,0 +1,42 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RapidTime.Api";
+
+import "google/protobuf/empty.proto";
+
+package contact;
+
+service Contact{
+  rpc GetContact (GetContactRequest) returns (ContactResponse);
+  rpc UpdateContact (UpdateContactRequest) returns (ContactResponse);
+  rpc CreateContact (CreateContactRequest) returns (ContactResponse);
+  rpc DeleteContact (DeleteContactRequest) returns(google.protobuf.Empty);
+}
+
+message ContactBase{
+  string firstName = 1;
+  string lastName = 2;
+  string email = 3;
+  string telephoneNumber = 4;
+}
+
+message GetContactRequest{
+  int32 id = 1;
+}
+
+message ContactResponse{
+  ContactBase response = 1;
+}
+
+message UpdateContactRequest{
+  int32 id = 1;
+  ContactBase updatedContact = 2;
+}
+
+message CreateContactRequest{
+  ContactBase CreateContact = 1;
+}
+
+message DeleteContactRequest{
+  int32 id = 1;
+}

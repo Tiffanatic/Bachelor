@@ -1,0 +1,48 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RapidTime.Api";
+
+import "google/protobuf/empty.proto";
+
+package assignmentType;
+
+service AssignmentType {
+  rpc GetAssignmentType (GetAssignmentTypeRequest) returns (AssignmentTypeResponse);
+  rpc CreateAssignmentType (CreateAssignmentTypeRequest) returns (AssignmentTypeResponse);
+  rpc UpdateAssignmentType (UpdateAssignmentTypeRequest) returns (AssignmentTypeResponse);
+  rpc MultiAssignmentType (stream GetAssignmentTypeRequest) returns (MultiAssignmentTypeResponse);
+  rpc DeleteAssignmentType (DeleteAssignmentTypeRequest) returns (google.protobuf.Empty);
+}
+
+message DeleteAssignmentTypeRequest {
+    int32 id = 1;
+}
+
+message CreateAssignmentTypeRequest {
+  string name = 1;
+  string number = 2;
+  bool invoiceAble = 3;
+}
+
+message MultiAssignmentTypeResponse {
+  repeated AssignmentTypeResponse assignmentType = 1;
+}
+
+message UpdateAssignmentTypeRequest {
+  AssignmentTypeBase assignmentType = 1;
+}
+
+message GetAssignmentTypeRequest {
+  int32 id = 1;
+}
+
+message AssignmentTypeResponse {
+  AssignmentTypeBase assignmentType = 1;
+}
+
+message AssignmentTypeBase {
+  int32 id = 1;
+  string name = 2;
+  string number = 3;
+  bool invoiceAble = 4;
+}
