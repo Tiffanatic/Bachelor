@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Microsoft.Extensions.Logging;
 using Moq;
 using RapidTime.Core;
 using RapidTime.Core.Models.Address;
 using RapidTime.Core.Services;
+
 using Xunit;
 
 namespace RapidTime.Tests
@@ -23,12 +25,12 @@ namespace RapidTime.Tests
 
             var mockUnitofWork = new Mock<IUnitofWork>();
             var mockCountryRepository = new Mock<IRepository<Country>>();
-
+            var mockLogger = new Mock<ILogger>();
             mockCountryRepository.Setup(cr => cr.getAll())
                 .Returns(DummyData);
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
 
-            CountryService countryService = new CountryService(mockUnitofWork.Object);
+            CountryService countryService = new CountryService(mockUnitofWork.Object, mockLogger.Object);
             
             //Act
 
@@ -51,12 +53,12 @@ namespace RapidTime.Tests
         {
             var mockUnitofWork = new Mock<IUnitofWork>();
             var mockCountryRepository = new Mock<IRepository<Country>>();
-
+            var mockLogger = new Mock<ILogger>();
             mockCountryRepository.Setup(cr => cr.Delete(It.IsAny<int>()));
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
 
             Country country = new Country() {Id = 1};
-            CountryService countryService = new CountryService(mockUnitofWork.Object);
+            CountryService countryService = new CountryService(mockUnitofWork.Object, mockLogger.Object);
             //act
             countryService.DeleteCountry(country.Id);
             //assert
@@ -67,6 +69,7 @@ namespace RapidTime.Tests
         [Theory]
         [InlineData("Danmark")]
         [InlineData("SE")]
+        [InlineData("Dan")]
         public void ServiceShouldGetCountryByNameOrCode(string input)
         {
             //Arrange
@@ -78,12 +81,12 @@ namespace RapidTime.Tests
 
             var mockUnitofWork = new Mock<IUnitofWork>();
             var mockCountryRepository = new Mock<IRepository<Country>>();
-
+            var mockLogger = new Mock<ILogger>();
             mockCountryRepository.Setup(cr => cr.getAll())
                 .Returns(DummyData);
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
 
-            CountryService countryService = new CountryService(mockUnitofWork.Object);
+            CountryService countryService = new CountryService(mockUnitofWork.Object, mockLogger.Object);
             
             //act
             Country[] countries = countryService.GetCountryByNameOrCountryCode(input);
@@ -104,12 +107,12 @@ namespace RapidTime.Tests
 
             var mockUnitofWork = new Mock<IUnitofWork>();
             var mockCountryRepository = new Mock<IRepository<Country>>();
-
+            var mockLogger = new Mock<ILogger>();
             mockCountryRepository.Setup(cr => cr.getAll())
                 .Returns(DummyData);
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
 
-            CountryService countryService = new CountryService(mockUnitofWork.Object);
+            CountryService countryService = new CountryService(mockUnitofWork.Object, mockLogger.Object);
             //act
             var country = countryService.FindById(1);
             
@@ -123,10 +126,11 @@ namespace RapidTime.Tests
             //Arrange
             var mockUnitofWork = new Mock<IUnitofWork>();
             var mockCountryRepository = new Mock<IRepository<Country>>();
+            var mockLogger = new Mock<ILogger>();
             
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
 
-            CountryService countryService = new CountryService(mockUnitofWork.Object);
+            CountryService countryService = new CountryService(mockUnitofWork.Object, mockLogger.Object);
             Country country = new() {Id = 3, CountryName = "Norge", CountryCode = "NO"};
             //act
             countryService.Insert(country);
@@ -140,10 +144,10 @@ namespace RapidTime.Tests
         {
             var mockUnitofWork = new Mock<IUnitofWork>();
             var mockCountryRepository = new Mock<IRepository<Country>>();
-            
+            var mockLogger = new Mock<ILogger>();
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
 
-            CountryService countryService = new CountryService(mockUnitofWork.Object);
+            CountryService countryService = new CountryService(mockUnitofWork.Object, mockLogger.Object);
             Country country = new() {Id = 1, CountryCode = "DK", CountryName = "Danmark"};
             
             //act
@@ -152,8 +156,22 @@ namespace RapidTime.Tests
             //assert
             mockCountryRepository.Verify(_ => _.Update(country), Times.Once);
             mockUnitofWork.Verify(_ => _.Commit(), Times.Once);
-
         }
-        
+
+        [Fact]
+        public void ServiceShouldFailOnUpdate()
+        {
+            var mockUnitofWork = new Mock<IUnitofWork>();
+            var mockCountryRepository = new Mock<IRepository<Country>>();
+            var mockLogger = new Mock<ILogger>();
+            mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
+
+            CountryService countryService = new CountryService(mockUnitofWork.Object, mockLogger.Object);
+            Country country = null;
+            //act
+            countryService.Update(country);
+            //assert
+            
+        }
     }
 }

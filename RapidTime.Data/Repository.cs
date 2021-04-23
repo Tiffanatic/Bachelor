@@ -39,7 +39,6 @@ namespace RapidTime.Data
         public void Update(T entity)
         {
             if ( entity == null) throw new ArgumentNullException("entity");
-
             entities.Update(entity);
             
         }

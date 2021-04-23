@@ -38,7 +38,6 @@ namespace RapidTime.Core.Services
 
             city = cities.FindAll(x => true).Where(x => x.CityName.Contains(NameOrPostalCode)).ToArray();
             return city;
-            return null; 
         }
 
         public City FindById(int id)
