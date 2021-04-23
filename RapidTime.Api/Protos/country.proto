@@ -10,7 +10,13 @@ service Country {
   rpc GetCountry (GetCountryRequest) returns (CountryResponse);
   rpc CreateCountry (CreateCountryRequest) returns (CountryResponse);
   rpc DeleteCountry (DeleteCountryRequest) returns (google.protobuf.Empty);
+  rpc UpdateCountry (UpdateCountryRequest) returns (CountryResponse);
 }
+
+message UpdateCountryRequest {
+  CountryBase request = 1;
+}
+
 message CountryBase {
   int32 id = 1;
   string countryName = 2;
