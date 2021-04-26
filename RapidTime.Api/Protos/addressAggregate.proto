@@ -38,5 +38,5 @@ message AddressAggregateBase {
   city.CityBase city = 1;
   country.CountryBase country = 2;
   string street = 3;
-  int32 streetNumber = 4;
+  string streetNumber = 4;
 }
