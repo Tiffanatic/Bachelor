@@ -24,9 +24,21 @@ namespace RapidTime.Core.Services
             _unitOfWork.Commit();
         }
 
-        public AddressAggregate FindById(int i)
+        public AddressAggregate FindById(int id)
         {
-            return _unitOfWork.AddressAggregateRepository.GetbyId(i);
+            return _unitOfWork.AddressAggregateRepository.GetbyId(id);
+        }
+
+        public void Update(AddressAggregate addressAggregate)
+        {
+            _unitOfWork.AddressAggregateRepository.Update(addressAggregate);
+            _unitOfWork.Commit();
+        }
+
+        public void Insert(AddressAggregate addressAggregate)
+        {
+            _unitOfWork.AddressAggregateRepository.Insert(addressAggregate);
+            _unitOfWork.Commit();
         }
     }
 }

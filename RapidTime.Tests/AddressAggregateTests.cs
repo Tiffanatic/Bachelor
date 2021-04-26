@@ -108,10 +108,52 @@ namespace RapidTime.Tests
         [Fact]
         public void ServiceShouldUpdateAddressAggregate()
         {
+            //Arrange 
             _mockAddressAggregateRepository.Setup(cr
                 => cr.Update(It.IsAny<AddressAggregate>()));
-
-            //_addressAggregateService.Update();
+            AddressAggregate addressAggregate = new AddressAggregate()
+                {Id = 1, Street = "Vardevej", StreetNumber = "6"};
+            
+            //Act 
+            _addressAggregateService.Update(addressAggregate);
+            
+            //Assert
+            using (new AssertionScope())
+            {
+                _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
+                _mockAddressAggregateRepository.Verify(_ => _.Update(addressAggregate), Times.Once);
+            }
+        }
+        [Fact]
+        public void ServiceShouldInsertAddressAggregate()
+        {
+            AddressAggregate addressAggregate = new AddressAggregate()
+            {
+                Id = 3,
+                City = new()
+                {
+                    CityName = "Vejle",
+                    Id = 1,
+                    PostalCode = "7100"
+                },
+                Country = new Country()
+                {
+                    CountryCode = "DK",
+                    CountryName = "Danmark",
+                    Id = 1
+                },
+                Street = "Langelinje",
+                StreetNumber = "27"
+            };
+            //act
+            _addressAggregateService.Insert(addressAggregate);
+            
+            //assert
+            using (new AssertionScope())
+            {
+                _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
+                _mockAddressAggregateRepository.Verify(_ => _.Insert(addressAggregate), Times.Once);
+            }
         }
         
     }

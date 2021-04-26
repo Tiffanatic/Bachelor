@@ -41,7 +41,6 @@ namespace RapidTime.Data
         {
             if ( entity == null) throw new ArgumentNullException("entity");
             entities.Update(entity);
-            
         }
 
         public void Delete(int id)
