@@ -20,16 +20,9 @@ namespace RapidTime.Core.Services
 
         public IEnumerable<Country> GetAllCountries()
         {
-            try
-            {
-                return _unitofWork.CountryRepository.getAll();
-            }
-            catch (Exception ex)
-            {
-                _unitofWork.Rollback();
-                _logger.LogError("{Message}, {stackTrace}", ex.Message, ex.StackTrace);
-            }
-            return null;
+            
+        return _unitofWork.CountryRepository.getAll();
+        
         }
 
         public void DeleteCountry(int countryId)

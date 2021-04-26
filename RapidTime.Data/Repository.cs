@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models;
 
@@ -48,6 +49,11 @@ namespace RapidTime.Data
             if ( id == null) throw new ArgumentNullException(nameof(id));
 
             T entity = entities.SingleOrDefault(s => s.Id == id);
+
+            if (entity == null)
+            {
+                throw new ArgumentException("Item was not found");
+            }
             entities.Remove(entity);
         }
     }
