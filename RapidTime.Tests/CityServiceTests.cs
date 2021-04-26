@@ -16,6 +16,7 @@ namespace RapidTime.Tests
         public async void ServiceShouldGetAllCities()
         {
             //Arrange
+            
             List<City> DummyData = new List<City>()
             {
                 new() {PostalCode = "7100", CityName = "Vejle", Id = 1},
@@ -36,6 +37,7 @@ namespace RapidTime.Tests
             var cities = cityService.GetAllCities();
 
             //Assert
+            
             using (new AssertionScope())
             {
                 cities.Should().HaveCount(3);
