@@ -4,7 +4,7 @@ using RapidTime.Core.Models.Address;
 
 namespace RapidTime.Core.Services
 {
-    public class AddressAggregateService
+    public class AddressAggregateService : IAddressAggregateService
     {
         private IUnitofWork _unitOfWork;
 

@@ -7,5 +7,8 @@ namespace RapidTime.Core.Services
     {
         IEnumerable<AddressAggregate> GetAll();
         void Delete(int id);
+        AddressAggregate FindById(int id);
+        void Update(AddressAggregate addressAggregate);
+        void Insert(AddressAggregate addressAggregate);
     }
 }
