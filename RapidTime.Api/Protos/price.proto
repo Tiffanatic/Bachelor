@@ -18,6 +18,7 @@ service Price {
 message PriceBase{
   int32 id = 1;
   double hourlyRate = 2;
+  string userId = 3;
   
   assignmentType.AssignmentTypeBase assignmentType = 3;
 }
