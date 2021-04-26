@@ -13,6 +13,7 @@ namespace RapidTime.Core
         IRepository<Assignment> AssignmentRepository { get; }
         IRepository<Country> CountryRepository { get; }
         IRepository<City> CityRepository { get; }
+        IRepository<AddressAggregate> AddressAggregateRepository { get; }
         
         void Commit();
         void Rollback();
