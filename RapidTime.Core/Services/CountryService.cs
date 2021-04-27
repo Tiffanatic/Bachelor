@@ -103,10 +103,5 @@ namespace RapidTime.Core.Services
             }
         }
 
-        public void Commit()
-        {
-            _unitofWork.Commit();
-        }
-        
     }
 }
