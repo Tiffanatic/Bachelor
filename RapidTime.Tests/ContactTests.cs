@@ -126,5 +126,21 @@ namespace RapidTime.Tests
             _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
         }
         
+        // new Contact()
+        // {
+        //     Id = 1, Firstname = "Mads", Lastname = "Rynord", Email = "test@test.com", TelephoneNumber = "24757727"
+        // },
+
+        [Fact]
+        public void ShouldGetProperties()
+        {
+            var contact = DummyData[0];
+
+            contact.fullName().Should().Be("Mads Rynord");
+            contact.Firstname.Should().Be("Mads");
+            contact.Lastname.Should().Be("Rynord");
+            contact.TelephoneNumber.Should().Be("24757727");
+            contact.Email.Should().Be("test@test.com");
+        }
     }
 }
