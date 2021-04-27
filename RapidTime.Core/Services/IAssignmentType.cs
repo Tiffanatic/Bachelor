@@ -10,5 +10,7 @@ namespace RapidTime.Core.Services
         AssignmentType[] GetByNameOrNumber(string input);
         void Insert(AssignmentType assignmentType);
         AssignmentType GetById(int i);
+
+        void Update(AssignmentType assignmentType);
     }
 }
