@@ -21,7 +21,7 @@ service Assignment {
 // Assignment created to represent the base entity class
 message AssignmentBase {
   assignmentType.AssignmentTypeBase assignmentType = 1;
-  google.protobuf.Timestamp date = 2;
+  google.protobuf.Timestamp dateStarted = 2;
   double amount = 3;
   string timeSpent = 4;
   customer.CustomerBase customer = 5;
