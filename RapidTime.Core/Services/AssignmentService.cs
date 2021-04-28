@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core.Models;
+using RapidTime.Core.Models.Address;
 
 namespace RapidTime.Core.Services
 {
@@ -23,7 +25,18 @@ namespace RapidTime.Core.Services
 
         public Assignment[] FindAssignmentByNameOrNumber(string nameOrNumber)
         {
-            throw new System.NotImplementedException();
+            // List<Assignment> assignments = GetAll().ToList();
+            // var returnAssignment;
+            // Assignment[] assignment;
+            // if (int.TryParse(nameOrNumber, out returnAssignment))
+            // {
+            //     assignment = assignments.FindAll(x => x.PostalCode == postalCode.ToString()).ToArray();
+            //     return assignment;
+            // }
+            //
+            // city = cities.FindAll(x => true).Where(x => x.CityName.Contains(NameOrPostalCode)).ToArray();
+            // return city;
+            throw new NotImplementedException();
         }
 
         public void Delete(int id)
@@ -31,9 +44,11 @@ namespace RapidTime.Core.Services
             try
             {
                 _unitOfWork.AssignmentRepository.Delete(id);
+                _unitOfWork.Commit();
             }
             catch (Exception e)
             {
+                _unitOfWork.Rollback();
                 Console.WriteLine(e);
                 throw;
             }
@@ -48,6 +63,7 @@ namespace RapidTime.Core.Services
             }
             catch (Exception e)
             {
+                _unitOfWork.Rollback();
                 _logger.LogError("{Message}, {StackTrace}", e.Message, e.StackTrace);;
                 throw new ArgumentException(e.Message);
             }
