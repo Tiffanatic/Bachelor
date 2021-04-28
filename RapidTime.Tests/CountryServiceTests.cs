@@ -26,7 +26,7 @@ namespace RapidTime.Tests
             var mockUnitofWork = new Mock<IUnitofWork>();
             var mockCountryRepository = new Mock<IRepository<Country>>();
             var mockLogger = new Mock<ILogger>();
-            mockCountryRepository.Setup(cr => cr.getAll())
+            mockCountryRepository.Setup(cr => cr.GetAll())
                 .Returns(DummyData);
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
 
@@ -82,7 +82,7 @@ namespace RapidTime.Tests
             var mockUnitofWork = new Mock<IUnitofWork>();
             var mockCountryRepository = new Mock<IRepository<Country>>();
             var mockLogger = new Mock<ILogger>();
-            mockCountryRepository.Setup(cr => cr.getAll())
+            mockCountryRepository.Setup(cr => cr.GetAll())
                 .Returns(DummyData);
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
 
@@ -108,7 +108,7 @@ namespace RapidTime.Tests
             var mockUnitofWork = new Mock<IUnitofWork>();
             var mockCountryRepository = new Mock<IRepository<Country>>();
             var mockLogger = new Mock<ILogger>();
-            mockCountryRepository.Setup(cr => cr.getAll())
+            mockCountryRepository.Setup(cr => cr.GetAll())
                 .Returns(DummyData);
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
 

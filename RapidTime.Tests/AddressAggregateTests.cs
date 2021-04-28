@@ -50,7 +50,7 @@ namespace RapidTime.Tests
         public void ServiceShouldReturnAllAddresses()
         {
             //Arrange
-            _mockAddressAggregateRepository.Setup(cr => cr.getAll())
+            _mockAddressAggregateRepository.Setup(cr => cr.GetAll())
                 .Returns(DummyData);
 
             //Act

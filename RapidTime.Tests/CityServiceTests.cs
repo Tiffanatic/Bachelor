@@ -26,7 +26,7 @@ namespace RapidTime.Tests
 
             var mockUnitofWork = new Mock<IUnitofWork>();
             var mockCityRepository = new Mock<IRepository<City>>();
-            mockCityRepository.Setup(cr => cr.getAll())
+            mockCityRepository.Setup(cr => cr.GetAll())
                 .Returns(DummyData);
             mockUnitofWork.Setup(_ => _.CityRepository).Returns(mockCityRepository.Object);
 
@@ -79,7 +79,7 @@ namespace RapidTime.Tests
             };
             //arrange
             var mockCityRepository = new Mock<IRepository<City>>();
-            mockCityRepository.Setup(cr => cr.getAll()).Returns(DummyData);
+            mockCityRepository.Setup(cr => cr.GetAll()).Returns(DummyData);
             
             var mockUnitofWork = new Mock<IUnitofWork>();
             mockUnitofWork.Setup(_ => _.CityRepository).Returns(mockCityRepository.Object);

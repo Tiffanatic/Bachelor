@@ -23,7 +23,7 @@ namespace RapidTime.Core.Services
 
         public IEnumerable<Price> GetAll()
         {
-            return _unitofWork.PriceRepository.getAll();
+            return _unitofWork.PriceRepository.GetAll();
         }
 
         public void Insert(Price price)

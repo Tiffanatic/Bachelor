@@ -19,7 +19,7 @@ namespace RapidTime.Data
             entities = context.Set<T>();
         }
 
-        public IEnumerable<T> getAll()
+        public IEnumerable<T> GetAll()
         {
             return entities.AsEnumerable();
         }

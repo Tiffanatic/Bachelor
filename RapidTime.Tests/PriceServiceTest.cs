@@ -62,7 +62,7 @@ namespace RapidTime.Tests
         public void ServiceShouldReturnAllPrices()
         {
             //Arrange
-            _mockPriceRepository.Setup(pr => pr.getAll()).Returns(DummyData);
+            _mockPriceRepository.Setup(pr => pr.GetAll()).Returns(DummyData);
 
             //Act
             var prices = _priceService.GetAll();

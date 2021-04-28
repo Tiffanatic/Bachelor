@@ -16,7 +16,7 @@ namespace RapidTime.Core.Services
 
         public IEnumerable<City> GetAllCities()
         {
-            return _unitofWork.CityRepository.getAll();
+            return _unitofWork.CityRepository.GetAll();
         }
 
         public void DeleteCity(int id)

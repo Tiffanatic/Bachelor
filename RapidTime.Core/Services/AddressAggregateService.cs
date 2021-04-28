@@ -15,7 +15,7 @@ namespace RapidTime.Core.Services
 
         public IEnumerable<AddressAggregate> GetAll()
         {
-            return _unitOfWork.AddressAggregateRepository.getAll();
+            return _unitOfWork.AddressAggregateRepository.GetAll();
         }
 
         public void Delete(int id)

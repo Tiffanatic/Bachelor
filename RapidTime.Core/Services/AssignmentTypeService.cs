@@ -15,7 +15,7 @@ namespace RapidTime.Core.Services
 
         public IEnumerable<AssignmentType> GetAll()
         {
-            return _unitofWork.AssignmentTypeRepository.getAll();
+            return _unitofWork.AssignmentTypeRepository.GetAll();
         }
 
         public void Delete(int assignmentTypeId)
@@ -34,7 +34,7 @@ namespace RapidTime.Core.Services
         public AssignmentType[] GetByNameOrNumber(string input)
         {
             if (input == "") return new AssignmentType[0];
-            var assignmentTypes = _unitofWork.AssignmentTypeRepository.getAll();
+            var assignmentTypes = _unitofWork.AssignmentTypeRepository.GetAll();
             
             if (int.TryParse(input, out var number))
             {
