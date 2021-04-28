@@ -5,7 +5,7 @@
         public City City { get; set; }
         public Country Country { get; set; }
         public string Street { get; set; }
-        public int StreetNumber { get; set; }
+        public string StreetNumber { get; set; }
         
     }
 }
