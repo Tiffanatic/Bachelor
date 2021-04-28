@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Moq;
 using RapidTime.Core;
 using RapidTime.Core.Models;
 using RapidTime.Core.Models.Address;
-using RapidTime.Core.Models.Assignment;
-using RapidTime.Core.Models.AssignmentType;
-using RapidTime.Core.Models.Customer;
 
 namespace RapidTime.Tests
 {
@@ -13,22 +11,19 @@ namespace RapidTime.Tests
     {
         private Mock<IUnitofWork> _mockUnitOfWork;
         private Mock<IRepository<Assignment>> _mockAssignmentRepository;
-        private Mock<IRepository<AssignmentType>> _mockAssignmentTypeRepository;
-        private Mock<IRepository<AddressAggregate>> _mockAddressAggregateRepository;
-        private Mock<IRepository<Country>> _mockCountryRepository;
-        private Mock<IRepository<City>> _mockCityRepository;
+        // private Mock<IRepository<AssignmentType>> _mockAssignmentTypeRepository;
+        // private Mock<IRepository<AddressAggregate>> _mockAddressAggregateRepository;
+        // private Mock<IRepository<Country>> _mockCountryRepository;
+        // private Mock<IRepository<City>> _mockCityRepository;
 
-        public TimeRegistrationServiceTests(Mock<IUnitofWork> mockUnitOfWork, Mock<IRepository<Assignment>> mockAssignmentRepository, Mock<IRepository<AssignmentType>> mockAssignmentTypeRepository, Mock<IRepository<AddressAggregate>> mockAddressAggregateRepository, Mock<IRepository<Country>> mockCountryRepository, Mock<IRepository<City>> mockCityRepository)
+        public TimeRegistrationServiceTests()
         {
-            _mockUnitOfWork = mockUnitOfWork;
-            _mockAssignmentRepository = mockAssignmentRepository;
-            _mockAssignmentTypeRepository = mockAssignmentTypeRepository;
-            _mockAddressAggregateRepository = mockAddressAggregateRepository;
-            _mockCountryRepository = mockCountryRepository;
-            _mockCityRepository = mockCityRepository;
+            _mockUnitOfWork = new Mock<IUnitofWork>();
+            _mockAssignmentRepository = new Mock<IRepository<Assignment>>();
         }
 
-        public async void ServiceShouldReturnCorrectTime()
+        /*
+        public async void ServiceShouldReturnCorrectTimeRegistered()
         {
             //Arrange
             List<AssignmentType> assignments = new List<AssignmentType>()
@@ -101,11 +96,12 @@ namespace RapidTime.Tests
             
             Customer google = new() {Name = "Google"};
             Customer microsoft = new() {Name = "Microsoft"};
-            
 
-            //Act
+            List<Assignment> DummyData = new List<Assignment>()
+            {
+                new() {Amount = 10, Customer = (new Customer()), Date = DateTime.Now, Id = 0, AssignmentType = (new AssignmentType()), TimeSpent = }
+            }; */
 
-            //Assert
-        }
+        
     }
 }
