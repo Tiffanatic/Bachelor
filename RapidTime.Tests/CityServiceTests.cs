@@ -13,7 +13,7 @@ namespace RapidTime.Tests
     public class CityServiceTests
     {
         [Fact]
-        public async void ServiceShouldGetAllCities()
+        public void ServiceShouldGetAllCities()
         {
             //Arrange
             
@@ -50,7 +50,7 @@ namespace RapidTime.Tests
         }
 
         [Fact]
-        public async void ServiceShouldDeleteCity()
+        public void ServiceShouldDeleteCity()
         {
             //arrange 
             
@@ -69,7 +69,7 @@ namespace RapidTime.Tests
         }
 
         [Fact]
-        public async void ServiceShouldGetTheCityByNameOrPostalCode()
+        public void ServiceShouldGetTheCityByNameOrPostalCode()
         {
             List<City> DummyData = new List<City>()
             {
@@ -105,7 +105,7 @@ namespace RapidTime.Tests
         }
 
         [Fact]
-        public async void ServiceShouldGetById()
+        public void ServiceShouldGetById()
         {
             List<City> DummyData = new List<City>()
             {
@@ -128,7 +128,7 @@ namespace RapidTime.Tests
         }
 
         [Fact]
-        public async void ServiceShouldUpdateCity()
+        public void ServiceShouldUpdateCity()
         {
             List<City> DummyData = new List<City>()
             {
