@@ -115,7 +115,7 @@ namespace RapidTime.Tests
             //Act
             _priceService.Delete(DummyData[3].Id);
 
-            //Arrange
+            //Assert
             _mockUnitOfWork.Verify(x => x.Commit(), Times.Once);
             _mockPriceRepository.Verify(x => x.Delete(It.IsAny<int>()), Times.Once);
         }

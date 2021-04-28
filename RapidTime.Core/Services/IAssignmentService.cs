@@ -3,13 +3,13 @@ using RapidTime.Core.Models;
 
 namespace RapidTime.Core.Services
 {
-    public interface IAssignment
+    public interface IAssignmentService
     {
-        IEnumerable<Assignment> GetAllAssignments();
+        IEnumerable<Assignment> GetAll();
         Assignment[] FindAssignmentByNameOrNumber(string nameOrNumber);
-        void DeleteAssignment(int id);
+        void Delete(int id);
         void Insert(Assignment assignment);
-        Assignment FindById(int id);
+        Assignment GetById(int id);
         void Update(Assignment assignment);
     }
 }
