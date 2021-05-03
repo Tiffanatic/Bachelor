@@ -26,7 +26,46 @@ namespace RapidTime.Data
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<City>()
+                .HasOne<Country>(c => c.Country)
+                .WithMany(c => c.Cities)
+                .HasForeignKey(c => c.CountryId);
+
+            builder.Entity<AddressAggregate>()
+                .HasOne<Country>(a => a.Country)
+                .WithMany(c => c.AddressAggregates)
+                .HasForeignKey(c => c.CountryId);
             
+            builder.Entity<AddressAggregate>()
+                .HasOne<City>(a => a.City)
+                .WithMany(c => c.AddressAggregates)
+                .HasForeignKey(c => c.CityId);
+
+            builder.Entity<Customer>()
+                .HasOne<AddressAggregate>(c => c.Address)
+                .WithOne(c => c.Customer)
+                .HasForeignKey<AddressAggregate>(a => a.CustomerId);
+
+            builder.Entity<Customer>()
+                .HasOne<CompanyType>(c => c.CompanyType)
+                .WithMany(ct => ct.Customers)
+                .HasForeignKey(c => c.CompanyTypeId);
+
+            builder.Entity<CustomerContact>().HasKey(cc => new {cc.ContactId, cc.CustomerId});
+
+            builder.Entity<Assignment>()
+                .HasOne<Customer>()
+                .WithMany(a => a.Assignments)
+                .HasForeignKey(a => a.CustomerId);
+
+            builder.Entity<Assignment>()
+                .HasOne<AssignmentType>()
+                .WithMany(at => at.Assignments)
+                .HasForeignKey(a => a.AssignmentTypeId);
+                
+            
+
+
             base.OnModelCreating(builder);
         }
     }
