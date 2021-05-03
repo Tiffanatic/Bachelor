@@ -14,6 +14,7 @@ namespace RapidTime.Core
         IRepository<Country> CountryRepository { get; }
         IRepository<City> CityRepository { get; }
         IRepository<AddressAggregate> AddressAggregateRepository { get; }
+        IRepository<TimeRecord> TimeRecordRepository { get; }
         
         void Commit();
         void Rollback();

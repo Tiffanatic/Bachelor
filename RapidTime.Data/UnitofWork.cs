@@ -16,7 +16,8 @@ namespace RapidTime.Data
         private IRepository<Country> _countryRepository;
         private IRepository<City> _cityRepository;
         private IRepository<AddressAggregate> _addressAggregateRepository;
-        
+        private Repository<TimeRecord> _timeRecordRepository;
+
         public UnitofWork(RapidTimeDbContext context)
         {
             _context = context;
@@ -26,6 +27,15 @@ namespace RapidTime.Data
         {
             get { return _addressAggregateRepository ??= new Repository<AddressAggregate>(_context); }
         }
+
+        public IRepository<TimeRecord> TimeRecordRepository
+        {
+            get
+            {
+                return _timeRecordRepository ??= new Repository<TimeRecord>(_context);
+            }
+        }
+
         public IRepository<City> CityRepository
         {
             get { return _cityRepository ??= new Repository<City>(_context); }
