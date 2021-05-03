@@ -21,16 +21,16 @@ namespace RapidTime.Tests
                 Id= 1, 
                 City = new City() {Id = 1, PostalCode = "7100", CityName = "Vejle"}, 
                 Country = new Country() {Id = 1, CountryCode = "DK", CountryName = "Danmark"},
-                Street = "Skovgade",
-                StreetNumber = "21 2. 2"
+                Street = "Skovgade 21, 2, 2",
+                
             },
             new AddressAggregate()
             {
                 Id= 2, 
                 City = new City() {Id = 1, PostalCode = "7100", CityName = "Vejle"}, 
                 Country = new Country() {Id = 1, CountryCode = "DK", CountryName = "Danmark"},
-                Street = "Thulevej",
-                StreetNumber = "13"
+                Street = "Thulevej 13",
+                
             }
         };
 
@@ -112,7 +112,7 @@ namespace RapidTime.Tests
             _mockAddressAggregateRepository.Setup(cr
                 => cr.Update(It.IsAny<AddressAggregate>()));
             AddressAggregate addressAggregate = new AddressAggregate()
-                {Id = 1, Street = "Vardevej", StreetNumber = "6"};
+                {Id = 1, Street = "Vardevej 6" };
             
             //Act 
             _addressAggregateService.Update(addressAggregate);
@@ -142,8 +142,8 @@ namespace RapidTime.Tests
                     CountryName = "Danmark",
                     Id = 1
                 },
-                Street = "Langelinje",
-                StreetNumber = "27"
+                Street = "Langelinje 6",
+                
             };
             //act
             _addressAggregateService.Insert(addressAggregate);
