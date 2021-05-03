@@ -30,14 +30,7 @@ namespace RapidTime.Tests
                     }
                 },
                 CompanyType = new CompanyType() {Id = 1, CompanyTypeName = "A/S"},
-                Contacts = new List<Contact>()
-                {
-                    new Contact()
-                    {
-                        Id = 1, Email = "Test@test.com", Firstname = "Test", Lastname = "Test",
-                        TelephoneNumber = "12345678"
-                    }
-                },
+                
                 InvoiceCurrency = Customer.InvoiceCurrencyEnum.DKK,
                 InvoiceMail = "Economy@test.com",
                 Name = "Test company",
@@ -57,14 +50,7 @@ namespace RapidTime.Tests
                     }
                 },
                 CompanyType = new CompanyType() {Id = 1, CompanyTypeName = "A/S"},
-                Contacts = new List<Contact>()
-                {
-                    new Contact()
-                    {
-                        Id = 1, Email = "Test@test.com", Firstname = "Test", Lastname = "Test",
-                        TelephoneNumber = "12345678"
-                    }
-                },
+                
                 InvoiceCurrency = Customer.InvoiceCurrencyEnum.DKK,
                 InvoiceMail = "Economy@test.com",
                 Name = "Test holding company",
