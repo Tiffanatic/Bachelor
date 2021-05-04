@@ -1,107 +1,120 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentAssertions;
+using FluentAssertions.Extensions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using RapidTime.Core;
 using RapidTime.Core.Models;
 using RapidTime.Core.Models.Address;
+using RapidTime.Core.Services;
+using Xunit;
 
 namespace RapidTime.Tests
 {
     public class TimeRegistrationServiceTests
     {
+        public List<Assignment> DummyData = new()
+        {
+            new Assignment()
+            {
+                Id = 0,
+                DateStarted = DateTime.Now.AddDays(-4),
+                TimeRecords = new()
+                {
+                    new TimeRecord()
+                    {
+                        Date = DateTime.Now,
+                        TimeRecorded = new TimeSpan(0, 20, 0)
+                    },
+                    new TimeRecord()
+                    {
+                        Date = DateTime.Now,
+                        TimeRecorded = new TimeSpan(0, 20, 0)
+                    },
+                    new TimeRecord()
+                    {
+                        Date = DateTime.Today.AddDays(-1),
+                        TimeRecorded = new TimeSpan(0, 55, 0)
+                    },
+                    new TimeRecord()
+                    {
+                        Date = DateTime.Today.AddDays(-3),
+                        TimeRecorded = new TimeSpan(0, 55, 0)
+                    }
+                }
+            }
+        };
+        
         private Mock<IUnitofWork> _mockUnitOfWork;
+        private Mock<ILogger> _logger;
         private Mock<IRepository<Assignment>> _mockAssignmentRepository;
-        // private Mock<IRepository<AssignmentType>> _mockAssignmentTypeRepository;
-        // private Mock<IRepository<AddressAggregate>> _mockAddressAggregateRepository;
-        // private Mock<IRepository<Country>> _mockCountryRepository;
-        // private Mock<IRepository<City>> _mockCityRepository;
+        private TimeRegistrationService _timeRegistrationService;
+        private Mock<IRepository<TimeRecord>> _mockTimeRecordRepository;
+        private  AssignmentService _assignmentService;
 
         public TimeRegistrationServiceTests()
         {
+            _logger = new Mock<ILogger>();
             _mockUnitOfWork = new Mock<IUnitofWork>();
             _mockAssignmentRepository = new Mock<IRepository<Assignment>>();
-        }
+            _mockTimeRecordRepository = new Mock<IRepository<TimeRecord>>();
+            _assignmentService = new AssignmentService(_mockUnitOfWork.Object, _logger.Object);
+            _timeRegistrationService = new TimeRegistrationService(_mockUnitOfWork.Object, _assignmentService, _logger.Object);
 
-        /*
-        public async void ServiceShouldReturnCorrectTimeRegistered()
+            _mockUnitOfWork.Setup(_ => _.AssignmentRepository).Returns(_mockAssignmentRepository.Object);
+
+        }
+        
+        [Fact]
+        public void ServiceShouldReturnCorrectTimeRegistered()
         {
             //Arrange
-            List<AssignmentType> assignments = new List<AssignmentType>()
-            {
-                new AssignmentType() {Name = "Revision", Id = 0, Number = "100", InvoiceAble = true},
-                new AssignmentType() {Name = "Assistance", Id = 1, Number = "200", InvoiceAble = true},
-                new AssignmentType() {Name = "kontor", Id = 2, Number = "300", InvoiceAble = false}
-            };
-
-            List<City> citiesList = new List<City>()
-            {
-                new City() {Id = 0, CityName = "Kongens Lyngby", PostalCode = "2800"},
-                new City() {Id = 1, CityName = "Seattle", PostalCode = "WA 98052"},
-                new City() {Id = 2, CityName = "København K", PostalCode = "1165"},
-                new City() {Id = 3, CityName = "Mountain View", PostalCode = "CA 94043"},
-                new City() {Id = 4, CityName = "Stockholm", PostalCode = "111 22"}
-            };
-
-            List<Country> countryList = new List<Country>()
-            {
-                new Country() {Id = 0, CountryCode = "DK", CountryName = "Denmark"},
-                new Country() {Id = 1, CountryCode = "US", CountryName = "United States of America"},
-                new Country() {Id = 2, CountryCode = "SE", CountryName = "Sweden"}
-            };
+            _mockAssignmentRepository.Setup(ar => ar.GetbyId(0)).Returns(DummyData[0]);
             
+            //Act
+            var timeRecordedForAssignment = _timeRegistrationService.GetTimeRecordedForAssignment(0);
 
-            List<AddressAggregate> addressList = new List<AddressAggregate>()
-            {
-                new AddressAggregate()
-                {
-                    Id = 0,
-                    Street = "Kanalvej",
-                    StreetNumber = 7,
-                    City = citiesList.Find( c => c.PostalCode == "2800"),
-                    Country = countryList.Find(c => c.CountryCode == "DK")
-                },
-                new AddressAggregate()
-                {
-                    Id = 1,
-                    Street = "Sankt Petri Passage",
-                    StreetNumber = 5,
-                    City = citiesList.Find(c => c.PostalCode == "1165"),
-                    Country = countryList.Find(c => c.CountryCode == "DK")
-                },
-                new AddressAggregate()
-                {
-                    Id = 2,
-                    Street = "Kungsbroen",
-                    StreetNumber = 2,
-                    City = citiesList.Find(c => c.PostalCode == "111 22"),
-                    Country = countryList.Find(c => c.CountryCode == "SE")
-                },
-                new AddressAggregate()
-                {
-                    Id = 3,
-                    Street = "Amphitheatre Parkway",
-                    StreetNumber = 1600,
-                    City = citiesList.Find(c => c.PostalCode == "CA 94043"),
-                    Country = countryList.Find(c => c.CountryCode == "US")
-                },
-                new AddressAggregate()
-                {
-                    Id = 4,
-                    Street = "Microsoft Way",
-                    StreetNumber = 1,
-                    City = citiesList.Find(c => c.PostalCode == "WA 98052"),
-                    Country = countryList.Find(c => c.CountryCode == "US")
-                }
-            };
+            //Assert
+            timeRecordedForAssignment.Should().Be(new TimeSpan(0, 2, 30, 0));
+            timeRecordedForAssignment.Should().Be(new TimeSpan(0, 0, 150, 0));
+        }
+
+        [Fact]
+        public void ServiceShouldFailToRegisterMoreThan24HoursADayPerUser()
+        {
+            //Arrange
+            _mockAssignmentRepository.Setup(ar => ar.GetAll()).Returns(DummyData);
+            _mockAssignmentRepository.Setup(ar => ar.GetbyId(0)).Returns(DummyData[0]);
             
-            Customer google = new() {Name = "Google"};
-            Customer microsoft = new() {Name = "Microsoft"};
+            //Act
+            TimeRecord tooBigToRegister = new TimeRecord() {Date = DateTime.Now, TimeRecorded = new TimeSpan(25, 0, 0)};
+            var register25Hours = _timeRegistrationService.RegisterTime(tooBigToRegister, 0);
+            
+            //Assert
+            register25Hours.Should().Be(false);
+        }
 
-            List<Assignment> DummyData = new List<Assignment>()
-            {
-                new() {Amount = 10, Customer = (new Customer()), Date = DateTime.Now, Id = 0, AssignmentType = (new AssignmentType()), TimeSpent = }
-            }; */
+        [Fact]
+        public void ServiceShouldReturnRegisteredTimeOnAssignmentBetween2Dates()
+        {
+            //Arrange
+            _mockAssignmentRepository.Setup(ar => ar.GetbyId(0)).Returns(DummyData[0]);
 
-        
+            //Act
+            TimeSpan registeredTime1 =
+                _timeRegistrationService.GetTimeRegisteredBetweenDates(0,DateTime.Now.AddDays(-2), DateTime.Now);
+            TimeSpan registeredTime2 = _timeRegistrationService.GetTimeRegisteredBetweenDates(0, DateTime.Now.AddDays(-4), DateTime.Now);
+
+            //Assert
+            registeredTime1.Should().Be(new TimeSpan(1, 35, 0));
+            registeredTime2.Should().Be(new TimeSpan(2, 30, 0));
+
+            registeredTime1.Should().Be(95.Minutes());
+            registeredTime2.Should().Be(150.Minutes());
+
+            registeredTime1.Should().BePositive();
+            registeredTime2.Should().BePositive();
+        }
     }
 }
