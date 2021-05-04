@@ -2,10 +2,13 @@
 {
     public class AddressAggregate : BaseEntity
     {
-        public City City { get; set; }
-        public Country Country { get; set; }
         public string Street { get; set; }
-        public string StreetNumber { get; set; }
+        public int CityId { get; set; }
+        public City City { get; set; }
+        public int CountryId { get; set; }
+        public Country Country { get; set; }
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
         
     }
 }
