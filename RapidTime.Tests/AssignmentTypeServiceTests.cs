@@ -36,7 +36,7 @@ namespace RapidTime.Tests
         {
             //Arrange 
             _mockAssignmentTypeRepository.Setup(cr 
-                => cr.getAll()).Returns(DummyData);
+                => cr.GetAll()).Returns(DummyData);
             //Act 
             var assignmentTypes = _assignmentTypeService.GetAll();
             //Assert
@@ -86,7 +86,7 @@ namespace RapidTime.Tests
         public void ServiceShouldGetByNameOrNumber(string input)
         {
             //Arramge
-            _mockAssignmentTypeRepository.Setup(_ => _.getAll()).Returns(DummyData);
+            _mockAssignmentTypeRepository.Setup(_ => _.GetAll()).Returns(DummyData);
             //Act
             var result = _assignmentTypeService.GetByNameOrNumber(input);
             

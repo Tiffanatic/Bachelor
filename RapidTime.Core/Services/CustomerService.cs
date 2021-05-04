@@ -21,7 +21,7 @@ namespace RapidTime.Core.Services
         {
             try
             {
-                return _unitofWork.CustomerRepository.getAll();
+                return _unitofWork.CustomerRepository.GetAll();
 
             }
             catch (Exception e)

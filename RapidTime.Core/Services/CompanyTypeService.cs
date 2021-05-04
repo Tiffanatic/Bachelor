@@ -16,7 +16,7 @@ namespace RapidTime.Core.Services
 
         public IEnumerable<CompanyType> GetAll()
         {
-            return _unitofWork.CompanyTypeRepository.getAll();
+            return _unitofWork.CompanyTypeRepository.GetAll();
         }
 
         public void Delete(int companyTypeId)

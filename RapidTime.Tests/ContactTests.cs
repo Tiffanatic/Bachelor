@@ -42,7 +42,7 @@ namespace RapidTime.Tests
         public void ServiceShouldReturnAllContacts()
         {
             //Arrange
-            _mockContactRepository.Setup(cr => cr.getAll())
+            _mockContactRepository.Setup(cr => cr.GetAll())
                 .Returns(DummyData);
 
             //Act

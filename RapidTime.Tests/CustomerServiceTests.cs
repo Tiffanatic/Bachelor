@@ -77,7 +77,7 @@ namespace RapidTime.Tests
         {
             //Arrange 
             _mockCustomerReposity.Setup(cr
-                => cr.getAll()).Returns(DummyData);
+                => cr.GetAll()).Returns(DummyData);
             
             //Act 
 
@@ -177,7 +177,7 @@ namespace RapidTime.Tests
         {
             //Arrange
             _mockCustomerReposity.Setup(cr
-                => cr.getAll()).Returns(DummyData);
+                => cr.GetAll()).Returns(DummyData);
             
             //Act
             Customer[] customers = _customerService.FindByName(input);

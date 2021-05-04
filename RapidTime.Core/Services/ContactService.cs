@@ -14,7 +14,7 @@ namespace RapidTime.Core.Services
 
         public IEnumerable<Contact> GetAll()
         {
-            return _unitofWork.ContactRepository.getAll();
+            return _unitofWork.ContactRepository.GetAll();
         }
 
         public void Delete(int contactId)

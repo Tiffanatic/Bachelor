@@ -7,7 +7,7 @@ namespace RapidTime.Core
     {
 
         
-        IEnumerable<T> getAll();
+        IEnumerable<T> GetAll();
         T GetbyId(int id);
         void Insert(T entity);
         void Update(T entity);

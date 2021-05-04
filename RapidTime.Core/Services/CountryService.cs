@@ -21,7 +21,7 @@ namespace RapidTime.Core.Services
         public IEnumerable<Country> GetAllCountries()
         {
             
-        return _unitofWork.CountryRepository.getAll();
+        return _unitofWork.CountryRepository.GetAll();
         
         }
 

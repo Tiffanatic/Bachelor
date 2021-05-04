@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using FluentAssertions.Execution;
 using Microsoft.Extensions.Logging;
 using Moq;
 using RapidTime.Core;
@@ -63,7 +62,7 @@ namespace RapidTime.Tests
         public void ServiceShouldReturnAllPrices()
         {
             //Arrange
-            _mockPriceRepository.Setup(pr => pr.getAll()).Returns(DummyData);
+            _mockPriceRepository.Setup(pr => pr.GetAll()).Returns(DummyData);
 
             //Act
             var prices = _priceService.GetAll();
@@ -116,7 +115,7 @@ namespace RapidTime.Tests
             //Act
             _priceService.Delete(DummyData[3].Id);
 
-            //Arrange
+            //Assert
             _mockUnitOfWork.Verify(x => x.Commit(), Times.Once);
             _mockPriceRepository.Verify(x => x.Delete(It.IsAny<int>()), Times.Once);
         }
