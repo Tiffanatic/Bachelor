@@ -31,10 +31,15 @@
     <ItemGroup>
       <ProjectReference Include="..\RapidTime.Core\RapidTime.Core.csproj" />
       <ProjectReference Include="..\RapidTime.Data\RapidTime.Data.csproj" />
+      <ProjectReference Include="..\RapidTime.Services\RapidTime.Services.csproj" />
     </ItemGroup>
 
     <ItemGroup>
         <Protobuf Include="**\*.proto" GrpcServices="Server" />
+    </ItemGroup>
+
+    <ItemGroup>
+     
     </ItemGroup>
 
 </Project>

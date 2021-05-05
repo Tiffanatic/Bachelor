@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using RapidTime.Core;
 using RapidTime.Core.Models;
-using RapidTime.Core.Services;
+using RapidTime.Services;
 using Xunit;
 
 namespace RapidTime.Tests

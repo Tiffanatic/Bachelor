@@ -1,8 +1,10 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
+using RapidTime.Core;
 using RapidTime.Core.Models;
+using RapidTime.Core.Services;
 
-namespace RapidTime.Core.Services
+namespace RapidTime.Services
 {
     public class TimeRegistrationService : ITimeRegistrationService
     {
@@ -20,7 +22,7 @@ namespace RapidTime.Core.Services
         public TimeSpan GetTimeRecordedForAssignment(int i)
         {
             var assignment = _unitOfWork.AssignmentRepository.GetbyId(i);
-            TimeSpan timeRecordedTotal;
+            TimeSpan timeRecordedTotal = default;
             
             foreach (var timeRecord in assignment.TimeRecords)
             {
@@ -65,7 +67,7 @@ namespace RapidTime.Core.Services
 
         public TimeSpan GetTimeRegisteredBetweenDates(int assignmentId, DateTime startDate, DateTime endDate)
         {
-            TimeSpan registeredTime;
+            TimeSpan registeredTime = default;
             var assignment = _assignmentService.GetById(assignmentId);
 
             foreach (var record in assignment.TimeRecords)

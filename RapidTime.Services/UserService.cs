@@ -1,4 +1,4 @@
-﻿namespace RapidTime.Core.Services
+﻿namespace RapidTime.Services
 {
     public class UserService 
     {

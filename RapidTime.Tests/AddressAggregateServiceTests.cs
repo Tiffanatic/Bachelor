@@ -1,13 +1,11 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Moq;
 using RapidTime.Core;
 using RapidTime.Core.Models.Address;
-using RapidTime.Core.Services;
+using RapidTime.Services;
 using Xunit;
 
 namespace RapidTime.Tests
