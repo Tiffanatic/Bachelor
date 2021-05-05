@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace RapidTime.Core.Models.Auth
@@ -12,8 +13,10 @@ namespace RapidTime.Core.Models.Auth
 
         public DateTime? DeleteDate { get; set; } = null;
         
+        public IList<Price> Prices { get; set; }
         
-        
+        public IList<Assignment> Assignments { get; set; }
+            
         //Following fields are being inherited from IdentityUser
         /*
          * Email

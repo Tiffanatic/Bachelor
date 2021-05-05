@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RapidTime.Core;
@@ -17,14 +18,25 @@ namespace RapidTime.Api
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
 
-            services.AddDbContext<RapidTimeDbContext>(opts => 
-                opts.UseInMemoryDatabase("database"));
+            services.AddDbContext<RapidTimeDbContext>(opts =>
+                opts.UseNpgsql(
+                    Configuration.GetConnectionString("Default"),
+                    x => x.MigrationsAssembly("RapidTime.Data")));
+                    
 
-            services.AddScoped<RapidTimeDbContext>();
+                services.AddScoped<RapidTimeDbContext>();
             // User changed to full path to avoid conflicts with generated classes from GRPC
             services.AddIdentity<RapidTime.Core.Models.Auth.User, Role>()
                 .AddEntityFrameworkStores<RapidTimeDbContext>()
