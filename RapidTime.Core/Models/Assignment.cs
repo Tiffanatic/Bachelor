@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RapidTime.Core.Models.Auth;
 
 namespace RapidTime.Core.Models
 {
@@ -13,5 +14,8 @@ namespace RapidTime.Core.Models
         public Customer Customer { get; set; }
         public int CustomerId { get; set; }
         public List<TimeRecord> TimeRecords { get; set; }
+        
+        public Guid UserId { get; set; }
+        public User User { get; set; }
     }
 }

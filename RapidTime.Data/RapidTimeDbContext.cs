@@ -53,18 +53,36 @@ namespace RapidTime.Data
 
             builder.Entity<CustomerContact>().HasKey(cc => new {cc.ContactId, cc.CustomerId});
 
-            builder.Entity<Assignment>()
-                .HasOne<Customer>()
-                .WithMany(a => a.Assignments)
+            builder.Entity<AssignmentType>()
+                .HasMany<Assignment>(at => at.Assignments)
+                .WithOne(a => a.AssignmentType)
+                .HasForeignKey(a => a.AssignmentTypeId);
+            
+            builder.Entity<Customer>()
+                .HasMany<Assignment>(a => a.Assignments)
+                .WithOne(c => c.Customer)
                 .HasForeignKey(a => a.CustomerId);
 
-            builder.Entity<Assignment>()
-                .HasOne<AssignmentType>()
-                .WithMany(at => at.Assignments)
-                .HasForeignKey(a => a.AssignmentTypeId);
-                
-            
 
+            builder.Entity<Price>()
+                .HasOne<AssignmentType>()
+                .WithMany(at => at.Prices)
+                .HasForeignKey(a => a.AssignmentId);
+
+            builder.Entity<User>()
+                .HasMany<Price>(a => a.Prices)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserId);
+
+            builder.Entity<User>()
+                .HasMany<Assignment>(a => a.Assignments)
+                .WithOne(a => a.User)
+                .HasForeignKey(a => a.UserId);
+
+            builder.Entity<TimeRecord>()
+                .HasOne<Assignment>(a => a.Assignment)
+                .WithMany(a => a.TimeRecords)
+                .HasForeignKey(a => a.AssignmentId);
 
             base.OnModelCreating(builder);
         }

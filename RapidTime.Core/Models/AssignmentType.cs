@@ -8,5 +8,6 @@ namespace RapidTime.Core.Models
         public string Number { get; set; }
         public bool InvoiceAble { get; set; }
         public IList<Assignment> Assignments { get; set; }
+        public IList<Price> Prices { get; set; }
     }
 }

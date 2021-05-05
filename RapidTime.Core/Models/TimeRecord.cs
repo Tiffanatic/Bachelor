@@ -6,5 +6,7 @@ namespace RapidTime.Core.Models
     {
         public TimeSpan TimeRecorded { get; set; }
         public DateTime Date { get; set; }
+        public int AssignmentId { get; set; }
+        public Assignment Assignment { get; set; }
     }
 }
