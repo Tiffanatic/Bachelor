@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using RapidTime.Core;
 using RapidTime.Core.Models;
 using RapidTime.Core.Models.Address;
+using RapidTime.Core.Services;
 
-namespace RapidTime.Core.Services
+namespace RapidTime.Services
 {
     public class AssignmentService : IAssignmentService
     {

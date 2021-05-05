@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RapidTime.Core;
 using RapidTime.Core.Models;
+using RapidTime.Core.Services;
 
-namespace RapidTime.Core.Services
+namespace RapidTime.Services
 {
     public class AssignmentTypeService : IAssignmentType
     {
