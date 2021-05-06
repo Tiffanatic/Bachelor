@@ -11,6 +11,7 @@ service City {
   rpc MultiCity (GetCityRequest) returns (MultiCityResponse);
   rpc CreateCity (CreateCityRequest) returns (google.protobuf.Empty);
   rpc FindCity (stream FindCityRequest) returns (stream MultiCityResponse);
+  rpc FindCitySingular (FindCityRequest) returns (MultiCityResponse);
 }
 
 message GetCityRequest {

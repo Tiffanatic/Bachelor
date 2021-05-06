@@ -23,7 +23,7 @@ namespace RapidTime.Services
         public IEnumerable<CountryEntity> GetAllCountries()
         {
             
-        return _unitofWork.CountryRepository.GetAll();
+            return _unitofWork.CountryRepository.GetAll();
         
         }
 
@@ -37,7 +37,7 @@ namespace RapidTime.Services
             catch (Exception ex)
             {
                 _unitofWork.Rollback();
-                _logger.LogError("{Message}, {StackTrace}", ex.Message, ex.StackTrace);
+                _logger.LogError("{Message}, {StackTrace}, {Source}", ex.Message, ex.StackTrace, ex.Source);
             }
 
             
