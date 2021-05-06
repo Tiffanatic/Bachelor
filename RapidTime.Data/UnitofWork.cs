@@ -77,7 +77,7 @@ namespace RapidTime.Data
 
         public void Commit()
         {
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public void Rollback()
