@@ -22,6 +22,7 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<Empty> CreateCountry(CreateCountryRequest request, ServerCallContext context)
         {
+            _logger.LogInformation("Create Country Called");
             _countryService.Insert(new CountryEntity()
             {
                 CountryName = request.CountryName,
@@ -33,12 +34,14 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<Empty> DeleteCountry(DeleteCountryRequest request, ServerCallContext context)
         {
+            _logger.LogInformation("Delete Country called on Id: {Id}", request.Id);
             _countryService.DeleteCountry(request.Id);
             return Task.FromResult(new Empty());
         }
 
         public override Task<CountryResponse> GetCountry(GetCountryRequest request, ServerCallContext context)
         {
+            _logger.LogInformation("Get Country Called with Id: {Id}", request.Id);
             var countryEntity = _countryService.FindById(request.Id);
             return Task.FromResult(new CountryResponse()
             {
@@ -53,6 +56,7 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<CountryResponse> UpdateCountry(UpdateCountryRequest request, ServerCallContext context)
         {
+            _logger.LogInformation("Update Country called with Id: {Id}", request.Request.Id);
             var countryEntity = _countryService.FindById(request.Request.Id);
             countryEntity.CountryCode = request.Request.CountryCode;
             countryEntity.CountryName = request.Request.CountryName;
