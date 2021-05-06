@@ -16,7 +16,7 @@ namespace RapidTime.Services
             _unitofWork = unitofWork;
         }
 
-        public IEnumerable<City> GetAllCities()
+        public IEnumerable<CityEntity> GetAllCities()
         {
             return _unitofWork.CityRepository.GetAll();
         }
@@ -27,11 +27,11 @@ namespace RapidTime.Services
             _unitofWork.Commit();
         }
 
-        public City[] FindCityByNameOrPostalCode(string NameOrPostalCode)
+        public CityEntity[] FindCityByNameOrPostalCode(string NameOrPostalCode)
         {
-            List<City> cities = GetAllCities().ToList();
+            List<CityEntity> cities = GetAllCities().ToList();
             int postalCode;
-            City[] city;
+            CityEntity[] city;
             if (int.TryParse(NameOrPostalCode, out postalCode))
             {
                 city = cities.FindAll(x => x.PostalCode == postalCode.ToString()).ToArray();
@@ -42,20 +42,20 @@ namespace RapidTime.Services
             return city;
         }
 
-        public City FindById(int id)
+        public CityEntity FindById(int id)
         {
             return _unitofWork.CityRepository.GetbyId(id);
         }
 
-        public void Insert(City city)
+        public void Insert(CityEntity cityEntity)
         {
-            _unitofWork.CityRepository.Insert(city);
+            _unitofWork.CityRepository.Insert(cityEntity);
             _unitofWork.Commit();
         }
 
-        public void Update(City city)
+        public void Update(CityEntity cityEntity)
         {
-            _unitofWork.CityRepository.Update(city);
+            _unitofWork.CityRepository.Update(cityEntity);
             _unitofWork.Commit();
         }
     }

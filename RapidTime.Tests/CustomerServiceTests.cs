@@ -14,7 +14,7 @@ namespace RapidTime.Tests
     public class CustomerServiceTests
     {
 
-        public List<Customer> DummyData = new List<Customer>()
+        public List<CustomerEntity> DummyData = new List<CustomerEntity>()
         {
             new()
             {
@@ -22,16 +22,16 @@ namespace RapidTime.Tests
                 Address = new()
                 {
                     Id = 1,
-                    City = new()
+                    CityEntity = new()
                     {
                         CityName = "Vejle",
                         Id = 1,
                         PostalCode = "7100"
                     }
                 },
-                CompanyType = new CompanyType() {Id = 1, CompanyTypeName = "A/S"},
+                CompanyTypeEntity = new CompanyTypeEntity() {Id = 1, CompanyTypeName = "A/S"},
                 
-                InvoiceCurrency = Customer.InvoiceCurrencyEnum.DKK,
+                InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK,
                 InvoiceMail = "Economy@test.com",
                 Name = "Test company",
                 YearlyReview = new DateTime(1970, 1, 1)
@@ -42,16 +42,16 @@ namespace RapidTime.Tests
                 Address = new()
                 {
                     Id = 1,
-                    City = new()
+                    CityEntity = new()
                     {
                         CityName = "Vejle",
                         Id = 1,
                         PostalCode = "7100"
                     }
                 },
-                CompanyType = new CompanyType() {Id = 1, CompanyTypeName = "A/S"},
+                CompanyTypeEntity = new CompanyTypeEntity() {Id = 1, CompanyTypeName = "A/S"},
                 
-                InvoiceCurrency = Customer.InvoiceCurrencyEnum.DKK,
+                InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK,
                 InvoiceMail = "Economy@test.com",
                 Name = "Test holding company",
                 YearlyReview = new DateTime(1970, 1, 1)
@@ -59,14 +59,14 @@ namespace RapidTime.Tests
         };
 
         private Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<IRepository<Customer>> _mockCustomerReposity;
+        private Mock<IRepository<CustomerEntity>> _mockCustomerReposity;
         private CustomerService _customerService;
         
         
         public CustomerServiceTests()
         {
             _mockUnitOfWork = new Mock<IUnitofWork>();
-            _mockCustomerReposity = new Mock<IRepository<Customer>>();
+            _mockCustomerReposity = new Mock<IRepository<CustomerEntity>>();
             _mockUnitOfWork.Setup(_ => _.CustomerRepository).Returns(
                 _mockCustomerReposity.Object);
             _customerService = new CustomerService(_mockUnitOfWork.Object, new Mock<ILogger>().Object);
@@ -100,9 +100,9 @@ namespace RapidTime.Tests
             //Arrange
             _mockCustomerReposity.Setup(cr
                 => cr.Delete(It.IsAny<int>()));
-            Customer customer = new Customer() {Id = 1};
+            CustomerEntity customerEntity = new CustomerEntity() {Id = 1};
             //Act
-            _customerService.Delete(customer.Id);
+            _customerService.Delete(customerEntity.Id);
             
             //Assert
             _mockCustomerReposity.Verify(_ => _.Delete(It.IsAny<int>()), Times.Once);
@@ -114,9 +114,9 @@ namespace RapidTime.Tests
         {
             _mockCustomerReposity.Setup(cr
                 => cr.Delete(It.IsAny<int>()));
-            Customer customer = null;
+            CustomerEntity customerEntity = null;
             //Act
-            _customerService.Invoking(x => x.Delete(customer.Id)).Should().Throw<NullReferenceException>();
+            _customerService.Invoking(x => x.Delete(customerEntity.Id)).Should().Throw<NullReferenceException>();
             
         }
 
@@ -125,15 +125,15 @@ namespace RapidTime.Tests
         {
             //Arrange
             _mockCustomerReposity.Setup(cr
-                => cr.Insert(It.IsAny<Customer>()));
+                => cr.Insert(It.IsAny<CustomerEntity>()));
 
-            Customer customer = new Customer() {Id = 3};
+            CustomerEntity customerEntity = new CustomerEntity() {Id = 3};
             
             //Act
-            _customerService.Insert(customer);
+            _customerService.Insert(customerEntity);
 
             //Assert
-            _mockCustomerReposity.Verify(_ => _.Insert(It.IsAny<Customer>()), Times.Once);
+            _mockCustomerReposity.Verify(_ => _.Insert(It.IsAny<CustomerEntity>()), Times.Once);
             _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
         }
 
@@ -142,15 +142,15 @@ namespace RapidTime.Tests
         {
             //Arrange
             _mockCustomerReposity.Setup(cr
-                => cr.Update(It.IsAny<Customer>()));
+                => cr.Update(It.IsAny<CustomerEntity>()));
 
-            Customer customer = new() {Id = 1};
+            CustomerEntity customerEntity = new() {Id = 1};
             
             //Act
-            _customerService.Update(customer);
+            _customerService.Update(customerEntity);
             
             //Assert
-            _mockCustomerReposity.Verify(_ => _.Update(It.IsAny<Customer>()), Times.Once);
+            _mockCustomerReposity.Verify(_ => _.Update(It.IsAny<CustomerEntity>()), Times.Once);
             _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
         }
 
@@ -162,10 +162,10 @@ namespace RapidTime.Tests
                 => cr.GetbyId(It.IsAny<int>())).Returns(DummyData[0]);
 
             //Act
-            Customer customer = _customerService.GetById(1);
+            CustomerEntity customerEntity = _customerService.GetById(1);
             
             //Assert
-            customer.Should().BeEquivalentTo(DummyData[0]);
+            customerEntity.Should().BeEquivalentTo(DummyData[0]);
 
         }
 
@@ -180,7 +180,7 @@ namespace RapidTime.Tests
                 => cr.GetAll()).Returns(DummyData);
             
             //Act
-            Customer[] customers = _customerService.FindByName(input);
+            CustomerEntity[] customers = _customerService.FindByName(input);
             
             //Assert
             customers.Should().HaveCount(amountExpectedReturn);

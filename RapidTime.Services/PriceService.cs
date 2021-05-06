@@ -18,21 +18,21 @@ namespace RapidTime.Services
             _logger = logger;
         }
 
-        public Price GetById(int i)
+        public PriceEntity GetById(int i)
         {
             return _unitofWork.PriceRepository.GetbyId(i);
         }
 
-        public IEnumerable<Price> GetAll()
+        public IEnumerable<PriceEntity> GetAll()
         {
             return _unitofWork.PriceRepository.GetAll();
         }
 
-        public void Insert(Price price)
+        public void Insert(PriceEntity priceEntity)
         {
             try
             {
-                _unitofWork.PriceRepository.Insert(price);
+                _unitofWork.PriceRepository.Insert(priceEntity);
                 _unitofWork.Commit();
             }
             catch (Exception e)
@@ -42,11 +42,11 @@ namespace RapidTime.Services
             }
         }
 
-        public void Update(Price price)
+        public void Update(PriceEntity priceEntity)
         {
             try
             {
-                _unitofWork.PriceRepository.Update(price);
+                _unitofWork.PriceRepository.Update(priceEntity);
                 _unitofWork.Commit();
             }
             catch (Exception e)

@@ -5,10 +5,10 @@ namespace RapidTime.Core.Services
 {
     public interface IContactService
     {
-        IEnumerable<Contact> GetAll();
+        IEnumerable<ContactEntity> GetAll();
         void Delete(int contactId);
-        Contact FindById(int i);
-        void Update(Contact contact);
-        void Insert(Contact contact);
+        ContactEntity FindById(int i);
+        void Update(ContactEntity contactEntity);
+        void Insert(ContactEntity contactEntity);
     }
 }

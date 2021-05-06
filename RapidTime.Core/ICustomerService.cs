@@ -5,10 +5,10 @@ namespace RapidTime.Core.Services
 {
     public interface ICustomerService
     {
-        Customer GetById(int i);
-        IEnumerable<Customer> GetAllCustomers();
+        CustomerEntity GetById(int i);
+        IEnumerable<CustomerEntity> GetAllCustomers();
         void Delete(int customerId);
-        void Insert(Customer customer);
-        void Update(Customer customer);
+        void Insert(CustomerEntity customerEntity);
+        void Update(CustomerEntity customerEntity);
     }
 }

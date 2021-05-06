@@ -8,8 +8,9 @@ package city;
 
 service City {
   rpc GetCity (GetCityRequest) returns (CityResponse);
-  rpc MultiCity (stream GetCityRequest) returns (MultiCityResponse);
-  rpc CreateCity (CreateCityRequest) returns (CityResponse);
+  rpc MultiCity (GetCityRequest) returns (MultiCityResponse);
+  rpc CreateCity (CreateCityRequest) returns (google.protobuf.Empty);
+  rpc FindCity (stream FindCityRequest) returns (stream MultiCityResponse);
 }
 
 message GetCityRequest {
@@ -17,7 +18,7 @@ message GetCityRequest {
 }
 
 message CityResponse {
-  CityBase response = 1;
+  CityBase citybase = 1;
 }
 
 message MultiCityResponse {
@@ -27,6 +28,11 @@ message MultiCityResponse {
 message CreateCityRequest {
   string postalCode = 1;
   string cityName = 2;
+  string country = 3;
+}
+
+message FindCityRequest {
+  string input = 1;
 }
 
 message CityBase {

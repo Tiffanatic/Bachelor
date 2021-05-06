@@ -13,9 +13,9 @@ namespace RapidTime.Core.Models.Auth
 
         public DateTime? DeleteDate { get; set; } = null;
         
-        public IList<Price> Prices { get; set; }
+        public IList<PriceEntity> Prices { get; set; }
         
-        public IList<Assignment> Assignments { get; set; }
+        public IList<AssignmentEntity> Assignments { get; set; }
             
         //Following fields are being inherited from IdentityUser
         /*

@@ -19,7 +19,7 @@ namespace RapidTime.Services
             _logger = logger;
         }
 
-        public IEnumerable<Customer> GetAllCustomers()
+        public IEnumerable<CustomerEntity> GetAllCustomers()
         {
             try
             {
@@ -51,11 +51,11 @@ namespace RapidTime.Services
             }
         }
 
-        public void Insert(Customer customer)
+        public void Insert(CustomerEntity customerEntity)
         {
             try
             {
-            _unitofWork.CustomerRepository.Insert(customer);
+            _unitofWork.CustomerRepository.Insert(customerEntity);
             _unitofWork.Commit();
                 
             }catch (Exception e)
@@ -65,11 +65,11 @@ namespace RapidTime.Services
             }
         }
 
-        public void Update(Customer customer)
+        public void Update(CustomerEntity customerEntity)
         {
             try
             {
-                _unitofWork.CustomerRepository.Update(customer);
+                _unitofWork.CustomerRepository.Update(customerEntity);
                 _unitofWork.Commit();
 
             }
@@ -80,7 +80,7 @@ namespace RapidTime.Services
             }
         }
 
-        public Customer GetById(int i)
+        public CustomerEntity GetById(int i)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace RapidTime.Services
             }
         }
 
-        public Customer[] FindByName(string input)
+        public CustomerEntity[] FindByName(string input)
         {
             try
             {

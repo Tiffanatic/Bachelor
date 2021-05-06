@@ -5,11 +5,11 @@ namespace RapidTime.Core.Services
 {
     public interface ICityService
     {
-        IEnumerable<City> GetAllCities();
-        City[] FindCityByNameOrPostalCode(string NameOrPostalCode);
+        IEnumerable<CityEntity> GetAllCities();
+        CityEntity[] FindCityByNameOrPostalCode(string NameOrPostalCode);
         void DeleteCity(int id);
-        void Insert(City city);
-        City FindById(int id);
-        void Update(City city);
+        void Insert(CityEntity cityEntity);
+        CityEntity FindById(int id);
+        void Update(CityEntity cityEntity);
     }
 }

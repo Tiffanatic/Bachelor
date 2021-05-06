@@ -5,12 +5,12 @@ namespace RapidTime.Core.Services
 {
     public interface IAssignmentType
     {
-        IEnumerable<AssignmentType> GetAll();
+        IEnumerable<AssignmentTypeEntity> GetAll();
         void Delete(int assignmentTypeId);
-        AssignmentType[] GetByNameOrNumber(string input);
-        void Insert(AssignmentType assignmentType);
-        AssignmentType GetById(int i);
+        AssignmentTypeEntity[] GetByNameOrNumber(string input);
+        void Insert(AssignmentTypeEntity assignmentTypeEntity);
+        AssignmentTypeEntity GetById(int i);
 
-        void Update(AssignmentType assignmentType);
+        void Update(AssignmentTypeEntity assignmentTypeEntity);
     }
 }

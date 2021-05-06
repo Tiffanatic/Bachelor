@@ -5,12 +5,12 @@ namespace RapidTime.Core.Services
 {
     public interface ICountryService
     {
-        IEnumerable<Country> GetAllCountries();
+        IEnumerable<CountryEntity> GetAllCountries();
         void DeleteCountry(int countryId);
-        Country[] GetCountryByNameOrCountryCode(string input);
-        Country FindById(int id);
-        void Insert(Country country);
-        void Update(Country country);
+        CountryEntity[] GetCountryByNameOrCountryCode(string input);
+        CountryEntity FindById(int id);
+        void Insert(CountryEntity countryEntity);
+        void Update(CountryEntity countryEntity);
         
     }
 }

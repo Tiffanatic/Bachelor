@@ -3,9 +3,9 @@
     public class CustomerContact
     {
         public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public CustomerEntity CustomerEntity { get; set; }
         
         public int ContactId { get; set; }
-        public Contact Contact { get; set; }
+        public ContactEntity ContactEntity { get; set; }
     }
 }

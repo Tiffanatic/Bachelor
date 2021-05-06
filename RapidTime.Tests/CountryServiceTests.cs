@@ -17,15 +17,15 @@ namespace RapidTime.Tests
         public void ServiceShouldGetAllCountries()
         {
             //Arrange
-            List<Country> DummyData = new List<Country>()
+            List<CountryEntity> DummyData = new List<CountryEntity>()
             {
                 new() {Id = 1, CountryName = "Danmark", CountryCode = "DEN"},
                 new() {Id = 2, CountryName = "Sverige", CountryCode = "SWE"}
             };
 
             var mockUnitofWork = new Mock<IUnitofWork>();
-            var mockCountryRepository = new Mock<IRepository<Country>>();
-            var mockLogger = new Mock<ILogger>();
+            var mockCountryRepository = new Mock<IRepository<CountryEntity>>();
+            var mockLogger = new Mock<ILogger<CountryService>>();
             mockCountryRepository.Setup(cr => cr.GetAll())
                 .Returns(DummyData);
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
@@ -52,15 +52,15 @@ namespace RapidTime.Tests
         public void ServiceShouldDeleteCountry()
         {
             var mockUnitofWork = new Mock<IUnitofWork>();
-            var mockCountryRepository = new Mock<IRepository<Country>>();
-            var mockLogger = new Mock<ILogger>();
+            var mockCountryRepository = new Mock<IRepository<CountryEntity>>();
+            var mockLogger = new Mock<ILogger<CountryService>>();
             mockCountryRepository.Setup(cr => cr.Delete(It.IsAny<int>()));
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
 
-            Country country = new Country() {Id = 1};
+            CountryEntity countryEntity = new CountryEntity() {Id = 1};
             CountryService countryService = new CountryService(mockUnitofWork.Object, mockLogger.Object);
             //act
-            countryService.DeleteCountry(country.Id);
+            countryService.DeleteCountry(countryEntity.Id);
             //assert
             mockUnitofWork.Verify(_ => _.Commit(), Times.Once);
             mockCountryRepository.Verify(_ => _.Delete(It.IsAny<int>()), Times.Once);
@@ -73,15 +73,15 @@ namespace RapidTime.Tests
         public void ServiceShouldGetCountryByNameOrCode(string input)
         {
             //Arrange
-            List<Country> DummyData = new List<Country>()
+            List<CountryEntity> DummyData = new List<CountryEntity>()
             {
                 new() {Id = 1, CountryName = "Danmark", CountryCode = "DK"},
                 new() {Id = 2, CountryName = "Sverige", CountryCode = "SE"}
             };
 
             var mockUnitofWork = new Mock<IUnitofWork>();
-            var mockCountryRepository = new Mock<IRepository<Country>>();
-            var mockLogger = new Mock<ILogger>();
+            var mockCountryRepository = new Mock<IRepository<CountryEntity>>();
+            var mockLogger = new Mock<ILogger<CountryService>>();
             mockCountryRepository.Setup(cr => cr.GetAll())
                 .Returns(DummyData);
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
@@ -89,7 +89,7 @@ namespace RapidTime.Tests
             CountryService countryService = new CountryService(mockUnitofWork.Object, mockLogger.Object);
             
             //act
-            Country[] countries = countryService.GetCountryByNameOrCountryCode(input);
+            CountryEntity[] countries = countryService.GetCountryByNameOrCountryCode(input);
             //assert
             countries.Should().HaveCount(1);
             countries.Should().NotBeNull();
@@ -99,15 +99,15 @@ namespace RapidTime.Tests
         [Fact]
         public void ServiceShouldFindById()
         {
-            List<Country> DummyData = new List<Country>()
+            List<CountryEntity> DummyData = new List<CountryEntity>()
             {
                 new() {Id = 1, CountryName = "Danmark", CountryCode = "DEN"},
                 new() {Id = 2, CountryName = "Sverige", CountryCode = "SWE"}
             };
 
             var mockUnitofWork = new Mock<IUnitofWork>();
-            var mockCountryRepository = new Mock<IRepository<Country>>();
-            var mockLogger = new Mock<ILogger>();
+            var mockCountryRepository = new Mock<IRepository<CountryEntity>>();
+            var mockLogger = new Mock<ILogger<CountryService>>();
             mockCountryRepository.Setup(cr => cr.GetAll())
                 .Returns(DummyData);
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
@@ -125,17 +125,17 @@ namespace RapidTime.Tests
         {
             //Arrange
             var mockUnitofWork = new Mock<IUnitofWork>();
-            var mockCountryRepository = new Mock<IRepository<Country>>();
-            var mockLogger = new Mock<ILogger>();
+            var mockCountryRepository = new Mock<IRepository<CountryEntity>>();
+            var mockLogger = new Mock<ILogger<CountryService>>();
             
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
 
             CountryService countryService = new CountryService(mockUnitofWork.Object, mockLogger.Object);
-            Country country = new() {Id = 3, CountryName = "Norge", CountryCode = "NO"};
+            CountryEntity countryEntity = new() {Id = 3, CountryName = "Norge", CountryCode = "NO"};
             //act
-            countryService.Insert(country);
+            countryService.Insert(countryEntity);
             //Assert
-            mockCountryRepository.Verify(_ => _.Insert(country), Times.Once);
+            mockCountryRepository.Verify(_ => _.Insert(countryEntity), Times.Once);
             mockUnitofWork.Verify(_ => _.Commit(), Times.Once);
         }
 
@@ -143,18 +143,18 @@ namespace RapidTime.Tests
         public void ServiceShouldUpdateCountry()
         {
             var mockUnitofWork = new Mock<IUnitofWork>();
-            var mockCountryRepository = new Mock<IRepository<Country>>();
-            var mockLogger = new Mock<ILogger>();
+            var mockCountryRepository = new Mock<IRepository<CountryEntity>>();
+            var mockLogger = new Mock<ILogger<CountryService>>();
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
 
             CountryService countryService = new CountryService(mockUnitofWork.Object, mockLogger.Object);
-            Country country = new() {Id = 1, CountryCode = "DK", CountryName = "Danmark"};
+            CountryEntity countryEntity = new() {Id = 1, CountryCode = "DK", CountryName = "Danmark"};
             
             //act
-            countryService.Update(country);
+            countryService.Update(countryEntity);
             
             //assert
-            mockCountryRepository.Verify(_ => _.Update(country), Times.Once);
+            mockCountryRepository.Verify(_ => _.Update(countryEntity), Times.Once);
             mockUnitofWork.Verify(_ => _.Commit(), Times.Once);
         }
 
@@ -162,14 +162,14 @@ namespace RapidTime.Tests
         public void ServiceShouldFailOnUpdate()
         {
             var mockUnitofWork = new Mock<IUnitofWork>();
-            var mockCountryRepository = new Mock<IRepository<Country>>();
-            var mockLogger = new Mock<ILogger>();
+            var mockCountryRepository = new Mock<IRepository<CountryEntity>>();
+            var mockLogger = new Mock<ILogger<CountryService>>();
             mockUnitofWork.Setup(_ => _.CountryRepository).Returns(mockCountryRepository.Object);
 
             CountryService countryService = new CountryService(mockUnitofWork.Object, mockLogger.Object);
-            Country country = null;
+            CountryEntity countryEntity = null;
             //act
-            countryService.Update(country);
+            countryService.Update(countryEntity);
             //assert
             
         }

@@ -4,18 +4,18 @@ using RapidTime.Core.Models.Address;
 
 namespace RapidTime.Core.Models
 {
-    public class Customer : BaseEntity
+    public class CustomerEntity : BaseEntity
     {
         public string Name { get; set; }
         public int? CVRNumber { get; set; }
-        public AddressAggregate Address { get; set; }
+        public AddressAggregateEntity Address { get; set; }
         public int CompanyTypeId { get; set; }
-        public CompanyType CompanyType { get; set; }
+        public CompanyTypeEntity CompanyTypeEntity { get; set; }
         public DateTime YearlyReview { get; set; }
         public InvoiceCurrencyEnum InvoiceCurrency { get; set; }
         public string InvoiceMail { get; set; }
         public IList<CustomerContact> CustomerContacts { get; set; }
-        public IList<Assignment> Assignments { get; set; }
+        public IList<AssignmentEntity> Assignments { get; set; }
 
         public enum InvoiceCurrencyEnum
         {

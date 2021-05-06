@@ -5,10 +5,10 @@ namespace RapidTime.Core.Services
 {
     public interface ICompanyTypeService
     {
-        IEnumerable<CompanyType> GetAll();
+        IEnumerable<CompanyTypeEntity> GetAll();
         void Delete(int companyTypeId);
-        CompanyType findById(int i);
-        void Update(CompanyType companyType);
-        void Insert(CompanyType companyType);
+        CompanyTypeEntity findById(int i);
+        void Update(CompanyTypeEntity companyTypeEntity);
+        void Insert(CompanyTypeEntity companyTypeEntity);
     }
 }

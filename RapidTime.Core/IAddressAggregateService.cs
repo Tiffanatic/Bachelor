@@ -5,10 +5,10 @@ namespace RapidTime.Core.Services
 {
     public interface IAddressAggregateService
     {
-        IEnumerable<AddressAggregate> GetAll();
+        IEnumerable<AddressAggregateEntity> GetAll();
         void Delete(int id);
-        AddressAggregate FindById(int id);
-        void Update(AddressAggregate addressAggregate);
-        void Insert(AddressAggregate addressAggregate);
+        AddressAggregateEntity FindById(int id);
+        void Update(AddressAggregateEntity addressAggregateEntity);
+        void Insert(AddressAggregateEntity addressAggregateEntity);
     }
 }

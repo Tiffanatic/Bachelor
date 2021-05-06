@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RapidTime.Core.Models
 {
-    public class Contact : BaseEntity
+    public class ContactEntity : BaseEntity
     {
         
         public string Firstname { get; set; }

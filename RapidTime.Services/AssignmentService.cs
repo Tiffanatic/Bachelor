@@ -20,12 +20,12 @@ namespace RapidTime.Services
             _logger = logger;
         }
         
-        public IEnumerable<Assignment> GetAll()
+        public IEnumerable<AssignmentEntity> GetAll()
         {
             return _unitOfWork.AssignmentRepository.GetAll();
         }
 
-        public Assignment[] FindAssignmentByNameOrNumber(string nameOrNumber)
+        public AssignmentEntity[] FindAssignmentByNameOrNumber(string nameOrNumber)
         {
             // List<Assignment> assignments = GetAll().ToList();
             // var returnAssignment;
@@ -56,11 +56,11 @@ namespace RapidTime.Services
             }
         }
 
-        public void Insert(Assignment assignment)
+        public void Insert(AssignmentEntity assignmentEntity)
         {
             try
             {
-                _unitOfWork.AssignmentRepository.Insert(assignment);
+                _unitOfWork.AssignmentRepository.Insert(assignmentEntity);
                 _unitOfWork.Commit();
             }
             catch (Exception e)
@@ -72,16 +72,16 @@ namespace RapidTime.Services
             
         }
 
-        public Assignment GetById(int id)
+        public AssignmentEntity GetById(int id)
         {
             return _unitOfWork.AssignmentRepository.GetbyId(id);
         }
 
-        public void Update(Assignment assignment)
+        public void Update(AssignmentEntity assignmentEntity)
         {
             try
             {
-                _unitOfWork.AssignmentRepository.Update(assignment);
+                _unitOfWork.AssignmentRepository.Update(assignmentEntity);
                 _unitOfWork.Commit();
             }
             catch (Exception e)

@@ -12,45 +12,45 @@ namespace RapidTime.Tests
 {
     public class PriceServiceTest
     {
-        public List<Price> DummyData = new()
+        public List<PriceEntity> DummyData = new()
         {
-            new Price()
+            new PriceEntity()
             {
                 Id = 0,
-                AssignmentType =
-                    new AssignmentType() {Id = 0, Name = "Revision", Number = "100101", InvoiceAble = true},
+                AssignmentTypeEntity =
+                    new AssignmentTypeEntity() {Id = 0, Name = "Revision", Number = "100101", InvoiceAble = true},
                 HourlyRate = 1600
             },
-            new Price()
+            new PriceEntity()
             {
                 Id = 1,
-                AssignmentType = new AssignmentType()
+                AssignmentTypeEntity = new AssignmentTypeEntity()
                     {Id = 1, Name = "Assistance", Number = "100104", InvoiceAble = true},
                 HourlyRate = 1500
             },
-            new Price()
+            new PriceEntity()
             {
                 Id = 2,
-                AssignmentType = new AssignmentType() {Id = 2, Name = "Kontor", Number = "100101", InvoiceAble = false},
+                AssignmentTypeEntity = new AssignmentTypeEntity() {Id = 2, Name = "Kontor", Number = "100101", InvoiceAble = false},
                 HourlyRate = 0
             },
-            new Price()
+            new PriceEntity()
             {
                 Id = 3,
-                AssignmentType = new AssignmentType() {Id = 3, Name = "Kurser", Number = "100101", InvoiceAble = false},
+                AssignmentTypeEntity = new AssignmentTypeEntity() {Id = 3, Name = "Kurser", Number = "100101", InvoiceAble = false},
                 HourlyRate = 0
             }
         };
 
         private readonly Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<IRepository<Price>> _mockPriceRepository;
+        private Mock<IRepository<PriceEntity>> _mockPriceRepository;
         private PriceService _priceService;
         private Mock<ILogger> _logger;
 
         public PriceServiceTest()
         {
             _mockUnitOfWork = new Mock<IUnitofWork>();
-            _mockPriceRepository = new Mock<IRepository<Price>>();
+            _mockPriceRepository = new Mock<IRepository<PriceEntity>>();
             _logger = new Mock<ILogger>();
             _priceService = new PriceService(_mockUnitOfWork.Object, _logger.Object);
 
@@ -125,31 +125,31 @@ namespace RapidTime.Tests
         {
             //Arrange
             _mockUnitOfWork.Setup(x => x.PriceRepository).Returns(_mockPriceRepository.Object);
-            Price price = null;
+            PriceEntity priceEntity = null;
 
             //Act & Assert
-            _priceService.Invoking(ps => ps.Delete(price.Id)).Should().Throw<NullReferenceException>();
+            _priceService.Invoking(ps => ps.Delete(priceEntity.Id)).Should().Throw<NullReferenceException>();
         }
 
         [Fact]
         public void ServiceShouldUpdatePrice()
         {
             //Arrange
-            _mockPriceRepository.Setup(pr => pr.Update(It.IsAny<Price>()));
-            Price price = new Price()
+            _mockPriceRepository.Setup(pr => pr.Update(It.IsAny<PriceEntity>()));
+            PriceEntity priceEntity = new PriceEntity()
             {
                 Id = 0,
-                AssignmentType =
-                    new AssignmentType() {Id = 0, Name = "Revision", Number = "100101", InvoiceAble = true},
+                AssignmentTypeEntity =
+                    new AssignmentTypeEntity() {Id = 0, Name = "Revision", Number = "100101", InvoiceAble = true},
                 HourlyRate = 2000
             };
             
             //Act
-            _priceService.Update(price);
+            _priceService.Update(priceEntity);
             
             //Assert
             _mockUnitOfWork.Verify(x => x.Commit(), Times.Once);
-            _mockPriceRepository.Verify(x => x.Update(price), Times.Once);
+            _mockPriceRepository.Verify(x => x.Update(priceEntity), Times.Once);
         }
 
         [Fact]
@@ -158,31 +158,31 @@ namespace RapidTime.Tests
             //Arrange
             _mockPriceRepository.Setup(pr => pr.Delete(It.IsAny<int>()));
 
-            Price price = null;
+            PriceEntity priceEntity = null;
             
             //Act & Assert
-            _priceService.Invoking(ps => ps.Delete(price.Id)).Should().Throw<NullReferenceException>();
+            _priceService.Invoking(ps => ps.Delete(priceEntity.Id)).Should().Throw<NullReferenceException>();
         }
 
         [Fact]
         public void ServiceShouldInsertNewPrice()
         {
             //Arrange
-            _mockPriceRepository.Setup(pr => pr.Insert(It.IsAny<Price>()));
+            _mockPriceRepository.Setup(pr => pr.Insert(It.IsAny<PriceEntity>()));
             
             
             //Act
-            Price price = new Price()
+            PriceEntity priceEntity = new PriceEntity()
             {
                 Id = 5,
-                AssignmentType = null,
+                AssignmentTypeEntity = null,
                 HourlyRate = 100
             };
             
-            _priceService.Insert(price);
+            _priceService.Insert(priceEntity);
             
             //Assert
-            _mockPriceRepository.Verify(x => x.Insert(price), Times.Once);
+            _mockPriceRepository.Verify(x => x.Insert(priceEntity), Times.Once);
             _mockUnitOfWork.Verify(x => x.Commit(), Times.Once);
         }
     }

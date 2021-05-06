@@ -32,31 +32,31 @@ namespace RapidTime.Services
             return timeRecordedTotal;
         }
 
-        public bool RegisterTime(TimeRecord timeRecord, int assignmentId)
+        public bool RegisterTime(TimeRecordEntity timeRecordEntity, int assignmentId)
         {
-            Assignment assignment = _assignmentService.GetById(assignmentId);
+            AssignmentEntity assignmentEntity = _assignmentService.GetById(assignmentId);
             
-            if (assignment.DateStarted <= timeRecord.Date) return false;
+            if (assignmentEntity.DateStarted <= timeRecordEntity.Date) return false;
             
-            if (timeRecord.TimeRecorded.Hours > 24)
+            if (timeRecordEntity.TimeRecorded.Hours > 24)
             {
                 throw new Exception("Unable to register more than 24 hours a day.");
             }
 
-            if (LimitTimeRecordToHoursOfTheDay(timeRecord, assignment))
+            if (LimitTimeRecordToHoursOfTheDay(timeRecordEntity, assignmentEntity))
             {
-                assignment.TimeRecords.Add(timeRecord);    
+                assignmentEntity.TimeRecords.Add(timeRecordEntity);    
             }
 
             return false;
         }
 
         // Helper methods
-        private bool LimitTimeRecordToHoursOfTheDay(TimeRecord timeRecord, Assignment assignment)
+        private bool LimitTimeRecordToHoursOfTheDay(TimeRecordEntity timeRecordEntity, AssignmentEntity assignmentEntity)
         {
             var sum = 0;
 
-            foreach (var existingTimeRecord in assignment.TimeRecords)
+            foreach (var existingTimeRecord in assignmentEntity.TimeRecords)
             {
                 sum += existingTimeRecord.TimeRecorded.Hours;
             }

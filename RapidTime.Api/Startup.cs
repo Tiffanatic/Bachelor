@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RapidTime.Api.GRPCServices;
 using RapidTime.Core;
 using RapidTime.Core.Models;
 using RapidTime.Core.Models.Auth;
@@ -44,6 +45,7 @@ namespace RapidTime.Api
                 .AddDefaultTokenProviders();
 
             services.AddTransient<IUnitofWork, UnitofWork>();
+            services.AddTransient<ICountryService, CountryService>();
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<IRepository<BaseEntity>, Repository<BaseEntity>>();
         }
@@ -60,7 +62,7 @@ namespace RapidTime.Api
             app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
-                
+                endpoints.MapGrpcService<CityGrpcService>();
 
                 endpoints.MapGet("/",
                     async context =>

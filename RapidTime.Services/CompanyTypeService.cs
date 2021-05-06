@@ -16,7 +16,7 @@ namespace RapidTime.Services
             _unitofWork = unitofWork;
         }
 
-        public IEnumerable<CompanyType> GetAll()
+        public IEnumerable<CompanyTypeEntity> GetAll()
         {
             return _unitofWork.CompanyTypeRepository.GetAll();
         }
@@ -35,16 +35,16 @@ namespace RapidTime.Services
             }
         }
 
-        public CompanyType findById(int i)
+        public CompanyTypeEntity findById(int i)
         {
             return _unitofWork.CompanyTypeRepository.GetbyId(i);
         }
 
-        public void Update(CompanyType companyType)
+        public void Update(CompanyTypeEntity companyTypeEntity)
         {
             try
             {
-                _unitofWork.CompanyTypeRepository.Update(companyType);
+                _unitofWork.CompanyTypeRepository.Update(companyTypeEntity);
                 _unitofWork.Commit();
             }
             catch (Exception e)
@@ -53,11 +53,11 @@ namespace RapidTime.Services
             }
         }
 
-        public void Insert(CompanyType companyType)
+        public void Insert(CompanyTypeEntity companyTypeEntity)
         {
             try
             {
-                _unitofWork.CompanyTypeRepository.Insert(companyType);
+                _unitofWork.CompanyTypeRepository.Insert(companyTypeEntity);
                 _unitofWork.Commit();
             }
             catch (Exception e)

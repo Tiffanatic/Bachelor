@@ -8,9 +8,9 @@ namespace RapidTime.Api
     {
         public static void Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.Http("http://localhost:9601/")
-                .CreateLogger();
+            // Log.Logger = new LoggerConfiguration()
+            //     .WriteTo.Http("http://localhost:9601/")
+            //     .CreateLogger();
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -18,7 +18,7 @@ namespace RapidTime.Api
         // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog()
+                // .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
 }

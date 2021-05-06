@@ -5,10 +5,10 @@ namespace RapidTime.Core.Services
 {
     public interface IPriceService
     {
-        Price GetById(int i);
-        IEnumerable<Price> GetAll();
-        void Insert(Price price);
-        void Update(Price price);
+        PriceEntity GetById(int i);
+        IEnumerable<PriceEntity> GetAll();
+        void Insert(PriceEntity priceEntity);
+        void Update(PriceEntity priceEntity);
         void Delete(int priceId);
     }
 }

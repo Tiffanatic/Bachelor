@@ -2,13 +2,13 @@
 
 namespace RapidTime.Core.Models.Address
 {
-    public class Country : BaseEntity
+    public class CountryEntity : BaseEntity
     {
         public string CountryName { get; set; }
         public string CountryCode { get; set; }
         
-        public IList<City> Cities { get; set; }
+        public IList<CityEntity> Cities { get; set; }
         
-        public IList<AddressAggregate> AddressAggregates { get; set; }
+        public IList<AddressAggregateEntity> AddressAggregates { get; set; }
     }
 }

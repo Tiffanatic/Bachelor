@@ -11,20 +11,20 @@ namespace RapidTime.Tests
 {
     public class AssignmentTypeServiceTests
     {
-        public List<AssignmentType> DummyData = new()
+        public List<AssignmentTypeEntity> DummyData = new()
         {
             new() {Id = 1, Name = "Revision", Number = "001", InvoiceAble = true},
             new() {Id = 2, Name = "Consulting", Number = "002", InvoiceAble = true}
         };
 
         private Mock<IUnitofWork> _mockUnitWork;
-        private Mock<IRepository<AssignmentType>> _mockAssignmentTypeRepository;
+        private Mock<IRepository<AssignmentTypeEntity>> _mockAssignmentTypeRepository;
         private AssignmentTypeService _assignmentTypeService;
         
         public AssignmentTypeServiceTests()
         {
             _mockUnitWork = new Mock<IUnitofWork>();
-            _mockAssignmentTypeRepository = new Mock<IRepository<AssignmentType>>();
+            _mockAssignmentTypeRepository = new Mock<IRepository<AssignmentTypeEntity>>();
             _mockUnitWork.Setup(_ => _.AssignmentTypeRepository).Returns(
                 _mockAssignmentTypeRepository.Object);
 
@@ -53,13 +53,13 @@ namespace RapidTime.Tests
             //Arrange
             _mockAssignmentTypeRepository.Setup(cr
                 => cr.Delete(It.IsAny<int>()));
-            AssignmentType assignmentType = new()
+            AssignmentTypeEntity assignmentTypeEntity = new()
             {
                 Id = 1
             };
             
             //Act
-            _assignmentTypeService.Delete(assignmentType.Id);
+            _assignmentTypeService.Delete(assignmentTypeEntity.Id);
             
             //Assert
             _mockUnitWork.Verify(_ => _.Commit(), Times.Once);
@@ -71,10 +71,10 @@ namespace RapidTime.Tests
             //Arrange
             _mockAssignmentTypeRepository.Setup(cr
                 => cr.Delete(It.IsAny<int>()));
-            AssignmentType assignmentType = null;
+            AssignmentTypeEntity assignmentTypeEntity = null;
             
             //Act
-            _assignmentTypeService.Invoking(_ => _.Delete(assignmentType.Id))
+            _assignmentTypeService.Invoking(_ => _.Delete(assignmentTypeEntity.Id))
                 .Should().Throw<NullReferenceException>();
         }
 
@@ -101,19 +101,19 @@ namespace RapidTime.Tests
         {
             //Arrange
             _mockAssignmentTypeRepository.Setup(cr =>
-                cr.Insert(It.IsAny<AssignmentType>()));
+                cr.Insert(It.IsAny<AssignmentTypeEntity>()));
 
-            AssignmentType assignmentType = new()
+            AssignmentTypeEntity assignmentTypeEntity = new()
             {
                 Id = 3
             };
             
             //Act
-            _assignmentTypeService.Insert(assignmentType);
+            _assignmentTypeService.Insert(assignmentTypeEntity);
             
             //Assert
             _mockUnitWork.Verify(_ => _.Commit(), Times.Once);
-            _mockAssignmentTypeRepository.Verify(_ => _.Insert(assignmentType), Times.Once);
+            _mockAssignmentTypeRepository.Verify(_ => _.Insert(assignmentTypeEntity), Times.Once);
         }
 
         [Fact]
@@ -131,18 +131,18 @@ namespace RapidTime.Tests
         [Fact]
         public void ServiceShouldUpdateAssignmentType()
         {
-            AssignmentType assignmentType = new() {Id = 1, Name = "Bookkeeping"};
+            AssignmentTypeEntity assignmentTypeEntity = new() {Id = 1, Name = "Bookkeeping"};
 
-            _assignmentTypeService.Update(assignmentType);
+            _assignmentTypeService.Update(assignmentTypeEntity);
         }
 
         [Fact]
         public void ServiceShouldFailOnUpdate()
         {
-            AssignmentType assignmentType = null; 
+            AssignmentTypeEntity assignmentTypeEntity = null; 
             
             _assignmentTypeService.Invoking(_ 
-                => _.Update(assignmentType)).Should().Throw<NullReferenceException>();
+                => _.Update(assignmentTypeEntity)).Should().Throw<NullReferenceException>();
         }
 
         [Fact]

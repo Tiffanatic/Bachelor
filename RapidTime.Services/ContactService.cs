@@ -14,7 +14,7 @@ namespace RapidTime.Services
             _unitofWork = unitofWork;
         }
 
-        public IEnumerable<Contact> GetAll()
+        public IEnumerable<ContactEntity> GetAll()
         {
             return _unitofWork.ContactRepository.GetAll();
         }
@@ -33,16 +33,16 @@ namespace RapidTime.Services
             }
         }
 
-        public Contact FindById(int i)
+        public ContactEntity FindById(int i)
         {
             return _unitofWork.ContactRepository.GetbyId(i);
         }
 
-        public void Update(Contact contact)
+        public void Update(ContactEntity contactEntity)
         {
             try
             {
-                _unitofWork.ContactRepository.Update(contact);
+                _unitofWork.ContactRepository.Update(contactEntity);
                 _unitofWork.Commit();
             }
             catch (Exception e)
@@ -51,11 +51,11 @@ namespace RapidTime.Services
             }
         }
 
-        public void Insert(Contact contact)
+        public void Insert(ContactEntity contactEntity)
         {
             try
             {
-                _unitofWork.ContactRepository.Insert(contact);
+                _unitofWork.ContactRepository.Insert(contactEntity);
                 _unitofWork.Commit();
             }
             catch (Exception e)
