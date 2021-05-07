@@ -70,15 +70,23 @@ namespace RapidTime.Services
 
         public CustomerContact AddContactToCustomer(ContactEntity contactEntity, int Id)
         {
-            var customer = _customerService.GetById(Id);
-            var customerContact = new CustomerContact()
+            try
             {
-                ContactId = contactEntity.Id,
-                CustomerId = customer.Id
-            };
-            var id = _unitofWork.CustomerContactRepository.Insert(customerContact);
-            _unitofWork.Commit();
-            return _unitofWork.CustomerContactRepository.GetbyId(id);
+
+                var customer = _customerService.GetById(Id);
+                var customerContact = new CustomerContact()
+                {
+                    ContactId = contactEntity.Id,
+                    CustomerId = customer.Id
+                };
+                var id = _unitofWork.CustomerContactRepository.Insert(customerContact);
+                _unitofWork.Commit();
+                return _unitofWork.CustomerContactRepository.GetbyId(id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         } 
     }
 }

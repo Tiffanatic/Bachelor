@@ -85,6 +85,7 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<Empty> UpdateContact(UpdateContactRequest request, ServerCallContext context)
         {
+            _logger.LogInformation("UpdateContact Called with Id: {Id}", request);
             var contact = _contactService.FindById(request.Id);
             contact.Email = request.UpdatedContact.Email;
             contact.Firstname = request.UpdatedContact.FirstName;
