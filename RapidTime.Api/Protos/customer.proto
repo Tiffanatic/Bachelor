@@ -13,7 +13,7 @@ package customer;
 service Customer {
   rpc GetCustomer (GetCustomerRequest) returns (CustomerResponse);
   rpc CreateCustomer (CreateCustomerRequest) returns (CustomerResponse);
-  rpc UpdateCustomer (UpdateCustomerRequest) returns (CustomerResponse);
+  rpc UpdateCustomer (UpdateCustomerRequest) returns (google.protobuf.Empty);
   rpc DeleteCustomer (DeleteCustomerRequest) returns (google.protobuf.Empty);
 }
 
