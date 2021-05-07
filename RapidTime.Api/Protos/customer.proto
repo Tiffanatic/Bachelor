@@ -26,13 +26,13 @@ message CustomerResponse {
 }
 
 message CreateCustomerRequest {
-  string name = 2;
-  addressAggregate.AddressAggregateBase address = 3;
-  companyType.CompanyTypeBase companyType = 4;
-  google.protobuf.Timestamp yearlyReview = 5;
-  InvoiceCurrencyEnum invoiceCurrency = 6;
-  string invoiceEmail = 7;
-  repeated contact.ContactBase contact = 8;
+  string name = 1;
+  int32 CVRNummer = 2;
+  companyType.CompanyTypeBase companyType = 3;
+  google.protobuf.Timestamp yearlyReview = 4;
+  InvoiceCurrencyEnum invoiceCurrency = 5;
+  string invoiceEmail = 6;
+  repeated contact.ContactBase contact = 7;
 }
 
 message UpdateCustomerRequest {
@@ -46,12 +46,11 @@ message DeleteCustomerRequest {
 message CustomerBase {
   int32 id = 1;
   string name = 2;
-  addressAggregate.AddressAggregateBase address = 3;
-  companyType.CompanyTypeBase companyType = 4;
-  google.protobuf.Timestamp yearlyReview = 5;
-  InvoiceCurrencyEnum invoiceCurrency = 6;
-  string invoiceEmail = 7;
-  repeated contact.ContactBase contact = 8;
+  companyType.CompanyTypeBase companyType = 3;
+  google.protobuf.Timestamp yearlyReview = 4;
+  InvoiceCurrencyEnum invoiceCurrency = 5;
+  string invoiceEmail = 6;
+  repeated contact.ContactBase contact = 7;
 }
 
 enum InvoiceCurrencyEnum {

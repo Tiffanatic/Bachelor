@@ -8,7 +8,6 @@ namespace RapidTime.Core.Models
     {
         public string Name { get; set; }
         public int? CVRNumber { get; set; }
-        public AddressAggregateEntity Address { get; set; }
         public int CompanyTypeId { get; set; }
         public CompanyTypeEntity CompanyTypeEntity { get; set; }
         public DateTime YearlyReview { get; set; }
@@ -16,6 +15,7 @@ namespace RapidTime.Core.Models
         public string InvoiceMail { get; set; }
         public IList<CustomerContact> CustomerContacts { get; set; }
         public IList<AssignmentEntity> Assignments { get; set; }
+        public IList<AddressAggregateEntity> AddressAggregates { get; set; }
 
         public enum InvoiceCurrencyEnum
         {

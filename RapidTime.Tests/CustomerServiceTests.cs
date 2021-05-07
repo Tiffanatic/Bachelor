@@ -19,16 +19,7 @@ namespace RapidTime.Tests
             new()
             {
                 Id = 1,
-                Address = new()
-                {
-                    Id = 1,
-                    CityEntity = new()
-                    {
-                        CityName = "Vejle",
-                        Id = 1,
-                        PostalCode = "7100"
-                    }
-                },
+                
                 CompanyTypeEntity = new CompanyTypeEntity() {Id = 1, CompanyTypeName = "A/S"},
                 
                 InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK,
@@ -39,16 +30,7 @@ namespace RapidTime.Tests
             new()
             {
                 Id = 2,
-                Address = new()
-                {
-                    Id = 1,
-                    CityEntity = new()
-                    {
-                        CityName = "Vejle",
-                        Id = 1,
-                        PostalCode = "7100"
-                    }
-                },
+                
                 CompanyTypeEntity = new CompanyTypeEntity() {Id = 1, CompanyTypeName = "A/S"},
                 
                 InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK,

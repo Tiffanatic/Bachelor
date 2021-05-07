@@ -41,10 +41,10 @@ namespace RapidTime.Data
                 .WithMany(c => c.AddressAggregates)
                 .HasForeignKey(c => c.CityId);
 
-            builder.Entity<CustomerEntity>()
-                .HasOne<AddressAggregateEntity>(c => c.Address)
-                .WithOne(c => c.CustomerEntity)
-                .HasForeignKey<AddressAggregateEntity>(a => a.CustomerId);
+            builder.Entity<AddressAggregateEntity>()
+                .HasOne<CustomerEntity>(c => c.CustomerEntity)
+                .WithMany(c => c.AddressAggregates)
+                .HasForeignKey(a => a.CustomerId);
 
             builder.Entity<CustomerEntity>()
                 .HasOne<CompanyTypeEntity>(c => c.CompanyTypeEntity)
