@@ -9,9 +9,9 @@ package price;
 
 service Price {
   rpc GetPrice (GetPriceRequest) returns (PriceResponse);
-  rpc MultiPrice (stream GetPriceRequest) returns (MultiPriceResponse);
+  rpc UserPrices (GetUserPriceListRequest) returns (MultiPriceResponse);
   rpc CreatePrice (CreatePriceRequest) returns (PriceResponse);
-  rpc UpdatePrice (UpdatePriceRequest) returns (PriceResponse);
+  rpc UpdateHourlyRate (UpdatePriceRequest) returns (PriceResponse);
   rpc DeletePrice (DeletePriceRequest) returns (google.protobuf.Empty);
 }
 
@@ -25,12 +25,18 @@ message GetPriceRequest{
   int32 id = 1;
 }
 
+message GetUserPriceListRequest {
+  string Id = 1;
+}
+
 message PriceResponse {
   PriceBase response = 1;
 }
 
 message CreatePriceRequest{
-  PriceBase request = 1;
+  double hourlyRate = 1;
+  string UserId = 2;
+  assignmentType.AssignmentTypeBase assignmentType = 3;
 }
 
 message UpdatePriceRequest{

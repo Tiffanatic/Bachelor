@@ -68,7 +68,7 @@ namespace RapidTime.Data
             builder.Entity<PriceEntity>()
                 .HasOne<AssignmentTypeEntity>()
                 .WithMany(at => at.Prices)
-                .HasForeignKey(a => a.AssignmentId);
+                .HasForeignKey(a => a.AssignmentTypeId);
 
             builder.Entity<User>()
                 .HasMany<PriceEntity>(a => a.Prices)

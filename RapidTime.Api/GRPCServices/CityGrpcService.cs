@@ -117,22 +117,6 @@ namespace RapidTime.Api.GRPCServices
             await Task.Delay(1000);
         }
 
-        //mapping from _cityService.GetAllCities to City.Proto.CityResponse for the FindAllCities Unary Call
-        //Can also map 1 item from city to CityResponse 
-
-        // private CityResponse CityResponseFromEntity(CityEntity cityEntity)
-        // {
-        //     return new CityResponse()
-        //     {
-        //         Citybase =
-        //         {
-        //             CityName = cityEntity.CityName,
-        //             PostalCode = cityEntity.PostalCode,
-        //             Id = cityEntity.Id
-        //         }
-        //     };
-        // }
-        
         private IEnumerable<CityResponse> cityEntitiesToCityResponse(IEnumerable<CityEntity> cities)
         {
             List<CityResponse> cityResponses = new List<CityResponse>();
