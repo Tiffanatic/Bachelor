@@ -47,6 +47,7 @@ namespace RapidTime.Api
             services.AddTransient<IUnitofWork, UnitofWork>();
             services.AddTransient<ICountryService, CountryService>();
             services.AddTransient<ICityService, CityService>();
+            services.AddTransient<IAddressAggregateService, AddressAggregateService>();
             services.AddTransient<IRepository<BaseEntity>, Repository<BaseEntity>>();
         }
 
@@ -63,7 +64,9 @@ namespace RapidTime.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<CityGrpcService>();
-
+                endpoints.MapGrpcService<CountryGrpcService>();
+                endpoints.MapGrpcService<AddressAggregateGrpcService>();
+                
                 endpoints.MapGet("/",
                     async context =>
                     {
