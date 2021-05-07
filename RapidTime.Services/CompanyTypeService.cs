@@ -53,12 +53,13 @@ namespace RapidTime.Services
             }
         }
 
-        public void Insert(CompanyTypeEntity companyTypeEntity)
+        public int Insert(CompanyTypeEntity companyTypeEntity)
         {
             try
             {
-                _unitofWork.CompanyTypeRepository.Insert(companyTypeEntity);
+                var id =_unitofWork.CompanyTypeRepository.Insert(companyTypeEntity);
                 _unitofWork.Commit();
+                return id;
             }
             catch (Exception e)
             {

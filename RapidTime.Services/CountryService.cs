@@ -78,18 +78,21 @@ namespace RapidTime.Services
             return null;
         }
 
-        public void Insert(CountryEntity countryEntity)
+        public int Insert(CountryEntity countryEntity)
         {
             try
             {
-                _unitofWork.CountryRepository.Insert(countryEntity);
+                var id =_unitofWork.CountryRepository.Insert(countryEntity);
                 _unitofWork.Commit();
+                return id;
             } 
             catch (Exception ex)
             {
                 _unitofWork.Rollback();
                 _logger.LogError("{Message}, {StackTrace}", ex.Message, ex.StackTrace);
             }
+
+            return -1;
         }
 
         public void Update(CountryEntity countryEntity)

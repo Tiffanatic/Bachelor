@@ -8,7 +8,7 @@ namespace RapidTime.Core.Services
         IEnumerable<AssignmentTypeEntity> GetAll();
         void Delete(int assignmentTypeId);
         AssignmentTypeEntity[] GetByNameOrNumber(string input);
-        void Insert(AssignmentTypeEntity assignmentTypeEntity);
+        int Insert(AssignmentTypeEntity assignmentTypeEntity);
         AssignmentTypeEntity GetById(int i);
 
         void Update(AssignmentTypeEntity assignmentTypeEntity);

@@ -9,6 +9,6 @@ namespace RapidTime.Core.Services
         void Delete(int companyTypeId);
         CompanyTypeEntity findById(int i);
         void Update(CompanyTypeEntity companyTypeEntity);
-        void Insert(CompanyTypeEntity companyTypeEntity);
+        int Insert(CompanyTypeEntity companyTypeEntity);
     }
 }

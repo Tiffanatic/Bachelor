@@ -51,13 +51,15 @@ namespace RapidTime.Services
             }
         }
 
-        public void Insert(CustomerEntity customerEntity)
+        public int Insert(CustomerEntity customerEntity)
         {
             try
             {
-            _unitofWork.CustomerRepository.Insert(customerEntity);
-            _unitofWork.Commit();
                 
+                var id =_unitofWork.CustomerRepository.Insert(customerEntity);
+                _unitofWork.Commit();
+                return id;
+
             }catch (Exception e)
             {
                 _logger.LogInformation(e.Message);

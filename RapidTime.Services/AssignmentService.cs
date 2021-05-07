@@ -56,12 +56,13 @@ namespace RapidTime.Services
             }
         }
 
-        public void Insert(AssignmentEntity assignmentEntity)
+        public int Insert(AssignmentEntity assignmentEntity)
         {
             try
             {
-                _unitOfWork.AssignmentRepository.Insert(assignmentEntity);
+                var id = _unitOfWork.AssignmentRepository.Insert(assignmentEntity);
                 _unitOfWork.Commit();
+                return id;
             }
             catch (Exception e)
             {

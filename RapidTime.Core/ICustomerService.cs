@@ -8,7 +8,7 @@ namespace RapidTime.Core.Services
         CustomerEntity GetById(int i);
         IEnumerable<CustomerEntity> GetAllCustomers();
         void Delete(int customerId);
-        void Insert(CustomerEntity customerEntity);
+        int Insert(CustomerEntity customerEntity);
         void Update(CustomerEntity customerEntity);
     }
 }

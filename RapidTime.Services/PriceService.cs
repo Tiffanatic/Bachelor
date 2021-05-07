@@ -28,12 +28,13 @@ namespace RapidTime.Services
             return _unitofWork.PriceRepository.GetAll();
         }
 
-        public void Insert(PriceEntity priceEntity)
+        public int Insert(PriceEntity priceEntity)
         {
             try
             {
-                _unitofWork.PriceRepository.Insert(priceEntity);
+                var id =_unitofWork.PriceRepository.Insert(priceEntity);
                 _unitofWork.Commit();
+                return id;
             }
             catch (Exception e)
             {

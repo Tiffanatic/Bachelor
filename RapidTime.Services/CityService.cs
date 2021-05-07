@@ -47,10 +47,12 @@ namespace RapidTime.Services
             return _unitofWork.CityRepository.GetbyId(id);
         }
 
-        public void Insert(CityEntity cityEntity)
+        public int Insert(CityEntity cityEntity)
         {
-            _unitofWork.CityRepository.Insert(cityEntity);
+            
+            var id = _unitofWork.CityRepository.Insert(cityEntity);
             _unitofWork.Commit();
+            return id;
         }
 
         public void Update(CityEntity cityEntity)

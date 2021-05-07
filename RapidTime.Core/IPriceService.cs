@@ -7,7 +7,7 @@ namespace RapidTime.Core.Services
     {
         PriceEntity GetById(int i);
         IEnumerable<PriceEntity> GetAll();
-        void Insert(PriceEntity priceEntity);
+        int Insert(PriceEntity priceEntity);
         void Update(PriceEntity priceEntity);
         void Delete(int priceId);
     }

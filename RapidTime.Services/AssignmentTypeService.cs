@@ -48,12 +48,13 @@ namespace RapidTime.Services
                 => c.Name.Contains(input)).ToArray();
         }
 
-        public void Insert(AssignmentTypeEntity assignmentTypeEntity)
+        public int Insert(AssignmentTypeEntity assignmentTypeEntity)
         {
             try
             {
-                _unitofWork.AssignmentTypeRepository.Insert(assignmentTypeEntity);
+                var id =_unitofWork.AssignmentTypeRepository.Insert(assignmentTypeEntity);
                 _unitofWork.Commit();
+                return id;
             }
             catch (Exception e)
             {

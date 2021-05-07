@@ -9,6 +9,6 @@ namespace RapidTime.Core.Services
         void Delete(int id);
         AddressAggregateEntity FindById(int id);
         void Update(AddressAggregateEntity addressAggregateEntity);
-        void Insert(AddressAggregateEntity addressAggregateEntity);
+        int Insert(AddressAggregateEntity addressAggregateEntity);
     }
 }

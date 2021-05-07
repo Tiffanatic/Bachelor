@@ -9,6 +9,6 @@ namespace RapidTime.Core.Services
         void Delete(int contactId);
         ContactEntity FindById(int i);
         void Update(ContactEntity contactEntity);
-        void Insert(ContactEntity contactEntity);
+        int Insert(ContactEntity contactEntity);
     }
 }

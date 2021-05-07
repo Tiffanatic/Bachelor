@@ -9,7 +9,7 @@ namespace RapidTime.Core.Services
         void DeleteCountry(int countryId);
         CountryEntity[] GetCountryByNameOrCountryCode(string input);
         CountryEntity FindById(int id);
-        void Insert(CountryEntity countryEntity);
+        int Insert(CountryEntity countryEntity);
         void Update(CountryEntity countryEntity);
         
     }
