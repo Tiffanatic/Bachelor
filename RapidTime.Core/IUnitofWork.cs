@@ -1,5 +1,7 @@
-﻿using RapidTime.Core.Models;
+﻿using System;
+using RapidTime.Core.Models;
 using RapidTime.Core.Models.Address;
+using RapidTime.Core.Models.Auth;
 
 namespace RapidTime.Core
 {
@@ -14,6 +16,7 @@ namespace RapidTime.Core
         IRepository<CountryEntity> CountryRepository { get; }
         IRepository<CityEntity> CityRepository { get; }
         IRepository<AddressAggregateEntity> AddressAggregateRepository { get; }
+        IRepository<CustomerContact> CustomerContactRepository { get; }
         IRepository<TimeRecordEntity> TimeRecordRepository { get; }
         
         void Commit();

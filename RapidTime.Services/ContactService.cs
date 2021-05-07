@@ -9,9 +9,11 @@ namespace RapidTime.Services
     public class ContactService : IContactService
     {
         private IUnitofWork _unitofWork;
-        public ContactService(IUnitofWork unitofWork)
+        private ICustomerService _customerService;
+        public ContactService(IUnitofWork unitofWork, ICustomerService customerService)
         {
             _unitofWork = unitofWork;
+            _customerService = customerService;
         }
 
         public IEnumerable<ContactEntity> GetAll()
@@ -65,5 +67,18 @@ namespace RapidTime.Services
                 throw new Exception(e.Message);
             }
         }
+
+        public CustomerContact AddContactToCustomer(ContactEntity contactEntity, int Id)
+        {
+            var customer = _customerService.GetById(Id);
+            var customerContact = new CustomerContact()
+            {
+                ContactId = contactEntity.Id,
+                CustomerId = customer.Id
+            };
+            var id = _unitofWork.CustomerContactRepository.Insert(customerContact);
+            _unitofWork.Commit();
+            return _unitofWork.CustomerContactRepository.GetbyId(id);
+        } 
     }
 }

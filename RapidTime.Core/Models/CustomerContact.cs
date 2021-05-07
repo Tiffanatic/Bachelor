@@ -1,6 +1,6 @@
 ﻿namespace RapidTime.Core.Models
 {
-    public class CustomerContact
+    public class CustomerContact : BaseEntity
     {
         public int CustomerId { get; set; }
         public CustomerEntity CustomerEntity { get; set; }

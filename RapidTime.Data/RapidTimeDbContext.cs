@@ -17,6 +17,7 @@ namespace RapidTime.Data
         public DbSet<PriceEntity>Prices { get; set; }
         public DbSet<CustomerEntity> Customers { get; set; }
         public DbSet<ContactEntity> Contacts { get; set; }
+        public DbSet<CustomerContact> CustomerContacts { get; set; }
         public DbSet<CompanyTypeEntity> CompanyTypes { get; set; }
         public DbSet<AssignmentTypeEntity> AssignmentTypes { get; set; }
         public DbSet<AssignmentEntity> Assignments { get; set; }

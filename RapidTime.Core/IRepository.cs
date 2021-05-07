@@ -3,7 +3,7 @@ using RapidTime.Core.Models;
 
 namespace RapidTime.Core
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IRepository<T>
     {
 
         

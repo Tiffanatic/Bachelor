@@ -66,6 +66,8 @@ namespace RapidTime.Api
                 endpoints.MapGrpcService<CityGrpcService>();
                 endpoints.MapGrpcService<CountryGrpcService>();
                 endpoints.MapGrpcService<AddressAggregateGrpcService>();
+                endpoints.MapGrpcService<CustomerGrpcService>();
+                endpoints.MapGrpcService<ContactGrpcService>();
                 
                 endpoints.MapGet("/",
                     async context =>

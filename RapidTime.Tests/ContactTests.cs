@@ -5,6 +5,7 @@ using FluentAssertions.Execution;
 using Moq;
 using RapidTime.Core;
 using RapidTime.Core.Models;
+using RapidTime.Core.Services;
 using RapidTime.Services;
 using Xunit;
 
@@ -28,6 +29,7 @@ namespace RapidTime.Tests
         private Mock<IUnitofWork> _mockUnitOfWork;
         private Mock<IRepository<ContactEntity>> _mockContactRepository;
         private ContactService _contactService;
+        private Mock<ICustomerService> _customerService;
 
         public ContactTests()
         {
@@ -35,7 +37,8 @@ namespace RapidTime.Tests
             _mockContactRepository = new Mock<IRepository<ContactEntity>>();
             _mockUnitOfWork.Setup(_ => _.ContactRepository).Returns(
                 _mockContactRepository.Object);
-            _contactService = new ContactService(_mockUnitOfWork.Object);
+            _customerService = new Mock<ICustomerService>();
+            _contactService = new ContactService(_mockUnitOfWork.Object, _customerService.Object);
         }
 
         [Fact]

@@ -6,7 +6,7 @@ namespace RapidTime.Data
 {
     public class UnitofWork : IUnitofWork
     {
-        private readonly RapidTimeDbContext _context;
+        private RapidTimeDbContext _context;
         private IRepository<PriceEntity> _priceRepository;
         private IRepository<ContactEntity> _contactRepository;
         private IRepository<CustomerEntity> _customerRepository;
@@ -17,6 +17,7 @@ namespace RapidTime.Data
         private IRepository<CityEntity> _cityRepository;
         private IRepository<AddressAggregateEntity> _addressAggregateRepository;
         private Repository<TimeRecordEntity> _timeRecordRepository;
+        private IRepository<CustomerContact> _customerContactRepository;
 
         public UnitofWork(RapidTimeDbContext context)
         {
@@ -26,6 +27,14 @@ namespace RapidTime.Data
         public IRepository<AddressAggregateEntity> AddressAggregateRepository
         {
             get { return _addressAggregateRepository ??= new Repository<AddressAggregateEntity>(_context); }
+        }
+
+        public IRepository<CustomerContact> CustomerContactRepository
+        {
+            get
+            {
+                return _customerContactRepository ??= new Repository<CustomerContact>(_context);
+            }
         }
 
         public IRepository<TimeRecordEntity> TimeRecordRepository
@@ -75,6 +84,8 @@ namespace RapidTime.Data
             get { return _priceRepository ??= new Repository<PriceEntity>(_context); }
         }
 
+        
+        
         public void Commit()
         {
             _context.SaveChanges();

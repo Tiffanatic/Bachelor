@@ -15,6 +15,7 @@ service Customer {
   rpc CreateCustomer (CreateCustomerRequest) returns (CustomerResponse);
   rpc UpdateCustomer (UpdateCustomerRequest) returns (google.protobuf.Empty);
   rpc DeleteCustomer (DeleteCustomerRequest) returns (google.protobuf.Empty);
+  rpc RequestDeletion (RequestDeleteCustomerRequest) returns (google.protobuf.Empty);
 }
 
 message GetCustomerRequest {
@@ -42,6 +43,11 @@ message UpdateCustomerRequest {
 message DeleteCustomerRequest {
   int32 id = 1;
 }
+message RequestDeleteCustomerRequest {
+  google.protobuf.Timestamp DateForDeletion = 1;
+  int32 IdToDelete = 2;
+}
+
 
 message CustomerBase {
   int32 id = 1;
@@ -50,7 +56,8 @@ message CustomerBase {
   google.protobuf.Timestamp yearlyReview = 4;
   InvoiceCurrencyEnum invoiceCurrency = 5;
   string invoiceEmail = 6;
-  repeated contact.ContactBase contact = 7;
+  google.protobuf.Timestamp RequestDeletionDate= 7;
+  repeated contact.ContactBase contact = 8;
 }
 
 enum InvoiceCurrencyEnum {
