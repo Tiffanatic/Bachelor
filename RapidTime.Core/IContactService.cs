@@ -10,5 +10,6 @@ namespace RapidTime.Core.Services
         ContactEntity FindById(int i);
         void Update(ContactEntity contactEntity);
         int Insert(ContactEntity contactEntity);
+        CustomerContact AddContactToCustomer(ContactEntity contact, int requestCustomerId);
     }
 }

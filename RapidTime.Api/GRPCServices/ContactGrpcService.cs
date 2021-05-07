@@ -3,6 +3,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core.Models;
+using RapidTime.Core.Services;
 using RapidTime.Services;
 
 namespace RapidTime.Api.GRPCServices
@@ -10,9 +11,9 @@ namespace RapidTime.Api.GRPCServices
     public class ContactGrpcService : Contact.ContactBase
     {
         private ILogger<ContactGrpcService> _logger;
-        private ContactService _contactService;
+        private IContactService _contactService;
 
-        public ContactGrpcService(ILogger<ContactGrpcService> logger, ContactService contactService)
+        public ContactGrpcService(ILogger<ContactGrpcService> logger, IContactService contactService)
         {
             _logger = logger;
             _contactService = contactService;
