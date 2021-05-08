@@ -10,7 +10,7 @@ service AssignmentType {
   rpc GetAssignmentType (GetAssignmentTypeRequest) returns (AssignmentTypeResponse);
   rpc CreateAssignmentType (CreateAssignmentTypeRequest) returns (AssignmentTypeResponse);
   rpc UpdateAssignmentType (UpdateAssignmentTypeRequest) returns (AssignmentTypeResponse);
-  rpc MultiAssignmentType (stream GetAssignmentTypeRequest) returns (MultiAssignmentTypeResponse);
+  rpc MultiAssignmentType (stream GetMultiAssignmentTypeRequest) returns (stream MultiAssignmentTypeResponse);
   rpc DeleteAssignmentType (DeleteAssignmentTypeRequest) returns (google.protobuf.Empty);
 }
 
@@ -34,6 +34,10 @@ message UpdateAssignmentTypeRequest {
 
 message GetAssignmentTypeRequest {
   int32 id = 1;
+}
+
+message GetMultiAssignmentTypeRequest {
+  string input = 1;
 }
 
 message AssignmentTypeResponse {

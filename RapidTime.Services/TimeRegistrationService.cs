@@ -10,9 +10,9 @@ namespace RapidTime.Services
     {
         private readonly IUnitofWork _unitOfWork;
         private readonly AssignmentService _assignmentService;
-        private readonly ILogger _logger;
+        private readonly ILogger<TimeRegistrationService> _logger;
 
-        public TimeRegistrationService(IUnitofWork unitOfWork, AssignmentService assignmentService, ILogger logger)
+        public TimeRegistrationService(IUnitofWork unitOfWork, AssignmentService assignmentService, ILogger<TimeRegistrationService> logger)
         {
             _unitOfWork = unitOfWork;
             _assignmentService = assignmentService;

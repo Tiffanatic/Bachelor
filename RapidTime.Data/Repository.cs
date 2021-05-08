@@ -29,12 +29,12 @@ namespace RapidTime.Data
             return entities.SingleOrDefault(s => s.Id == id);
         }
 
-        public int Insert(T entity)
+        public T Insert(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
 
             var entityEntry = entities.Add(entity);
-            return entityEntry.Entity.Id;
+            return entityEntry.Entity;
 
         }
 

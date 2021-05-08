@@ -3,7 +3,7 @@ using RapidTime.Core.Models;
 
 namespace RapidTime.Core.Services
 {
-    public interface IAssignmentType
+    public interface IAssignmentTypeService
     {
         IEnumerable<AssignmentTypeEntity> GetAll();
         void Delete(int assignmentTypeId);

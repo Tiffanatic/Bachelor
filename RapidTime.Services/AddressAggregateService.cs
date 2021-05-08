@@ -39,9 +39,9 @@ namespace RapidTime.Services
 
         public int Insert(AddressAggregateEntity addressAggregateEntity)
         {
-            var id = _unitOfWork.AddressAggregateRepository.Insert(addressAggregateEntity);
+            var entity = _unitOfWork.AddressAggregateRepository.Insert(addressAggregateEntity);
             _unitOfWork.Commit();
-            return id;
+            return entity.Id;
         }
     }
 }

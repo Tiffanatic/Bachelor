@@ -12,9 +12,9 @@ namespace RapidTime.Services
     public class AssignmentService : IAssignmentService
     {
         private IUnitofWork _unitOfWork;
-        private ILogger _logger;
+        private ILogger<AssignmentService> _logger;
 
-        public AssignmentService(IUnitofWork unitOfWork, ILogger logger)
+        public AssignmentService(IUnitofWork unitOfWork, ILogger<AssignmentService> logger)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
@@ -60,9 +60,9 @@ namespace RapidTime.Services
         {
             try
             {
-                var id = _unitOfWork.AssignmentRepository.Insert(assignmentEntity);
+                var assignment = _unitOfWork.AssignmentRepository.Insert(assignmentEntity);
                 _unitOfWork.Commit();
-                return id;
+                return assignment.Id;
             }
             catch (Exception e)
             {

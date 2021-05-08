@@ -84,7 +84,7 @@ namespace RapidTime.Services
             {
                 var id =_unitofWork.CountryRepository.Insert(countryEntity);
                 _unitofWork.Commit();
-                return id;
+                return id.Id;
             } 
             catch (Exception ex)
             {

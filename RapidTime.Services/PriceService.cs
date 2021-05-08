@@ -10,9 +10,9 @@ namespace RapidTime.Services
     public class PriceService : IPriceService
     {
         private readonly IUnitofWork _unitofWork;
-        private ILogger _logger;
+        private ILogger<PriceService> _logger;
 
-        public PriceService(IUnitofWork unitofWork, ILogger logger)
+        public PriceService(IUnitofWork unitofWork, ILogger<PriceService> logger)
         {
             _unitofWork = unitofWork;
             _logger = logger;
@@ -34,7 +34,7 @@ namespace RapidTime.Services
             {
                 var id =_unitofWork.PriceRepository.Insert(priceEntity);
                 _unitofWork.Commit();
-                return id;
+                return id.Id;
             }
             catch (Exception e)
             {

@@ -60,7 +60,7 @@ namespace RapidTime.Services
                 
                 var id =_unitofWork.ContactRepository.Insert(contactEntity);
                 _unitofWork.Commit();
-                return id;
+                return id.Id;
             }
             catch (Exception e)
             {
@@ -81,7 +81,7 @@ namespace RapidTime.Services
                 };
                 var id = _unitofWork.CustomerContactRepository.Insert(customerContact);
                 _unitofWork.Commit();
-                return _unitofWork.CustomerContactRepository.GetbyId(id);
+                return _unitofWork.CustomerContactRepository.GetbyId(id.Id);
             }
             catch (Exception e)
             {

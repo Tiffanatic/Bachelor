@@ -50,9 +50,9 @@ namespace RapidTime.Services
         public int Insert(CityEntity cityEntity)
         {
             
-            var id = _unitofWork.CityRepository.Insert(cityEntity);
+            var city = _unitofWork.CityRepository.Insert(cityEntity);
             _unitofWork.Commit();
-            return id;
+            return city.Id;
         }
 
         public void Update(CityEntity cityEntity)

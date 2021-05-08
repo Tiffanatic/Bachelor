@@ -51,7 +51,7 @@ namespace RapidTime.Tests
             _mockCustomerReposity = new Mock<IRepository<CustomerEntity>>();
             _mockUnitOfWork.Setup(_ => _.CustomerRepository).Returns(
                 _mockCustomerReposity.Object);
-            _customerService = new CustomerService(_mockUnitOfWork.Object, new Mock<ILogger>().Object);
+            _customerService = new CustomerService(_mockUnitOfWork.Object, new Mock<ILogger<CustomerService>>().Object);
         }
 
         [Fact]

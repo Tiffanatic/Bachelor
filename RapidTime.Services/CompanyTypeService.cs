@@ -59,7 +59,7 @@ namespace RapidTime.Services
             {
                 var id =_unitofWork.CompanyTypeRepository.Insert(companyTypeEntity);
                 _unitofWork.Commit();
-                return id;
+                return id.Id;
             }
             catch (Exception e)
             {

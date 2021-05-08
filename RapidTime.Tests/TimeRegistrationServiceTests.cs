@@ -47,19 +47,21 @@ namespace RapidTime.Tests
         };
         
         private Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<ILogger> _logger;
+        private Mock<ILogger<TimeRegistrationService>> _logger;
         private Mock<IRepository<AssignmentEntity>> _mockAssignmentRepository;
         private TimeRegistrationService _timeRegistrationService;
         private Mock<IRepository<TimeRecordEntity>> _mockTimeRecordRepository;
         private  AssignmentService _assignmentService;
+        private readonly Mock<ILogger<AssignmentService>> _assignmentServiceLogger;
 
         public TimeRegistrationServiceTests()
         {
-            _logger = new Mock<ILogger>();
+            _logger = new Mock<ILogger<TimeRegistrationService>>();
+            _assignmentServiceLogger = new Mock<ILogger<AssignmentService>>();
             _mockUnitOfWork = new Mock<IUnitofWork>();
             _mockAssignmentRepository = new Mock<IRepository<AssignmentEntity>>();
             _mockTimeRecordRepository = new Mock<IRepository<TimeRecordEntity>>();
-            _assignmentService = new AssignmentService(_mockUnitOfWork.Object, _logger.Object);
+            _assignmentService = new AssignmentService(_mockUnitOfWork.Object, _assignmentServiceLogger.Object);
             _timeRegistrationService = new TimeRegistrationService(_mockUnitOfWork.Object, _assignmentService, _logger.Object);
 
             _mockUnitOfWork.Setup(_ => _.AssignmentRepository).Returns(_mockAssignmentRepository.Object);

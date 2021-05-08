@@ -7,7 +7,7 @@ using RapidTime.Core.Services;
 
 namespace RapidTime.Services
 {
-    public class AssignmentTypeService : IAssignmentType
+    public class AssignmentTypeService : IAssignmentTypeService
     {
         private IUnitofWork _unitofWork;
         public AssignmentTypeService(IUnitofWork unitofWork)
@@ -52,9 +52,9 @@ namespace RapidTime.Services
         {
             try
             {
-                var id =_unitofWork.AssignmentTypeRepository.Insert(assignmentTypeEntity);
+                var assignmentType =_unitofWork.AssignmentTypeRepository.Insert(assignmentTypeEntity);
                 _unitofWork.Commit();
-                return id;
+                return assignmentType.Id;
             }
             catch (Exception e)
             {

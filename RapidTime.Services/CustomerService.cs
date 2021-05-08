@@ -11,9 +11,9 @@ namespace RapidTime.Services
     public class CustomerService : ICustomerService
     {
         private IUnitofWork _unitofWork;
-        private ILogger _logger;
+        private ILogger<CustomerService> _logger;
 
-        public CustomerService(IUnitofWork unitofWork, ILogger logger)
+        public CustomerService(IUnitofWork unitofWork, ILogger<CustomerService> logger)
         {
             _unitofWork = unitofWork;
             _logger = logger;
@@ -58,7 +58,7 @@ namespace RapidTime.Services
                 
                 var id =_unitofWork.CustomerRepository.Insert(customerEntity);
                 _unitofWork.Commit();
-                return id;
+                return id.Id;
 
             }catch (Exception e)
             {
