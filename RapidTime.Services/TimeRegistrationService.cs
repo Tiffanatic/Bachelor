@@ -45,14 +45,15 @@ namespace RapidTime.Services
 
             if (LimitTimeRecordToHoursOfTheDay(timeRecordEntity, assignmentEntity))
             {
-                assignmentEntity.TimeRecords.Add(timeRecordEntity);    
+                assignmentEntity.TimeRecords.Add(timeRecordEntity);
+                _unitOfWork.Commit();
             }
 
             return false;
         }
 
         // Helper methods
-        private bool LimitTimeRecordToHoursOfTheDay(TimeRecordEntity timeRecordEntity, AssignmentEntity assignmentEntity)
+        public bool LimitTimeRecordToHoursOfTheDay(TimeRecordEntity timeRecordEntity, AssignmentEntity assignmentEntity)
         {
             var sum = 0;
 
