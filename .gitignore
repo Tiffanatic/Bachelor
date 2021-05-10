@@ -445,3 +445,4 @@ $RECYCLE.BIN/
 # AppSettings.json
 appsettings.json
 appsettings.*.json
+/RapidTime.Data/Migrations/
