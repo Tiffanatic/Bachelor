@@ -107,7 +107,8 @@ namespace RapidTime.Tests
             {
                 Id = 3
             };
-            
+            _mockAssignmentTypeRepository.Setup(_ => _.Insert(It.IsAny<AssignmentTypeEntity>()))
+                .Returns(assignmentTypeEntity);
             //Act
             _assignmentTypeService.Insert(assignmentTypeEntity);
             

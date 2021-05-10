@@ -106,10 +106,10 @@ namespace RapidTime.Tests
         public void ServiceShouldInsert()
         {
             //Arrange
-            _mockCustomerReposity.Setup(cr
-                => cr.Insert(It.IsAny<CustomerEntity>()));
 
             CustomerEntity customerEntity = new CustomerEntity() {Id = 3};
+            _mockCustomerReposity.Setup(cr
+                => cr.Insert(It.IsAny<CustomerEntity>())).Returns(customerEntity);
             
             //Act
             _customerService.Insert(customerEntity);

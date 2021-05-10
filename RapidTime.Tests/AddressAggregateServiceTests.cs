@@ -40,6 +40,7 @@ namespace RapidTime.Tests
         {
             _mockUnitOfWork = new Mock<IUnitofWork>();
             _mockAddressAggregateRepository = new Mock<IRepository<AddressAggregateEntity>>();
+            
             _mockUnitOfWork.Setup(_ => _.AddressAggregateRepository).Returns(
                 _mockAddressAggregateRepository.Object);
             _addressAggregateService = new AddressAggregateService(_mockUnitOfWork.Object);
@@ -143,7 +144,9 @@ namespace RapidTime.Tests
                 Street = "Langelinje 6",
                 
             };
+            _mockAddressAggregateRepository.Setup(_ => _.Insert(It.IsAny<AddressAggregateEntity>())).Returns(addressAggregateEntity);
             //act
+            
             _addressAggregateService.Insert(addressAggregateEntity);
             
             //assert

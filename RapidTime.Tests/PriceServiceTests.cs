@@ -169,16 +169,16 @@ namespace RapidTime.Tests
         public void ServiceShouldInsertNewPrice()
         {
             //Arrange
-            _mockPriceRepository.Setup(pr => pr.Insert(It.IsAny<PriceEntity>()));
             
-            
-            //Act
             PriceEntity priceEntity = new PriceEntity()
             {
                 Id = 5,
                 AssignmentTypeEntity = null,
                 HourlyRate = 100
             };
+            _mockPriceRepository.Setup(pr => pr.Insert(It.IsAny<PriceEntity>())).Returns(priceEntity);
+            
+            //Act
             
             _priceService.Insert(priceEntity);
             

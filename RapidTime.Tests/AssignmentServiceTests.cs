@@ -233,7 +233,6 @@ namespace RapidTime.Tests
             //Arrange
             _mockAssignmentRepository.Setup(ar => ar.Insert(It.IsAny<AssignmentEntity>()));
             
-            //Act
             AssignmentEntity assignmentEntity = new AssignmentEntity()
             {
                 Amount = 10000,
@@ -256,6 +255,9 @@ namespace RapidTime.Tests
                     }
                 }
             };
+
+            _mockAssignmentRepository.Setup(_ => _.Insert(It.IsAny<AssignmentEntity>())).Returns(assignmentEntity);
+            //Act
             
             _assignmentService.Insert(assignmentEntity);
             

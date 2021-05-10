@@ -158,14 +158,14 @@ namespace RapidTime.Tests
         public void ServiceShouldInsertCity()
         {
             //arrange 
+            CityEntity cityEntity = new() {Id = 4};
             var mockCityRepository = new Mock<IRepository<CityEntity>>();
-            mockCityRepository.Setup(cr => cr.Insert(It.IsAny<CityEntity>()));
+            mockCityRepository.Setup(cr => cr.Insert(It.IsAny<CityEntity>())).Returns(cityEntity);
             
             var mockUnitofWork = new Mock<IUnitofWork>();
             mockUnitofWork.Setup(_ => _.CityRepository).Returns(mockCityRepository.Object);
             
             CityService cityService = new CityService(mockUnitofWork.Object);
-            CityEntity cityEntity = new() {Id = 4};
             //act
             cityService.Insert(cityEntity);
             //assert

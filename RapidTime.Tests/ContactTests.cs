@@ -122,7 +122,7 @@ namespace RapidTime.Tests
                 Lastname = "Fowler",
                 TelephoneNumber = "12345678"
             };
-
+            _mockContactRepository.Setup(_ => _.Insert(It.IsAny<ContactEntity>())).Returns(contactEntity);
             _contactService.Insert(contactEntity);
             
             _mockContactRepository.Verify(_ => _.Insert(contactEntity), Times.Once);
