@@ -24,6 +24,7 @@ namespace RapidTime.Data
         public DbSet<CountryEntity> Countries { get; set; }
         public DbSet<CityEntity> Cities { get; set; }
         public DbSet<AddressAggregateEntity> AddressAggregates { get; set; }
+        public DbSet<TimeRecordEntity> TimeRecords { get; set; }
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
