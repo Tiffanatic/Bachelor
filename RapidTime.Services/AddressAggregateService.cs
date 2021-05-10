@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using RapidTime.Core;
 using RapidTime.Core.Models.Address;
-using RapidTime.Core.Services;
 
 namespace RapidTime.Services
 {

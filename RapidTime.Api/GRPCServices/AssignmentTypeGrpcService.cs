@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using RapidTime.Core;
 using RapidTime.Core.Models;
-using RapidTime.Core.Services;
 
 namespace RapidTime.Api.GRPCServices
 {

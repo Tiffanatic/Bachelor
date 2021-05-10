@@ -7,8 +7,8 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Core.Utils;
 using Microsoft.Extensions.Logging;
+using RapidTime.Core;
 using RapidTime.Core.Models.Address;
-using RapidTime.Core.Services;
 using RapidTime.Services;
 
 namespace RapidTime.Api.GRPCServices

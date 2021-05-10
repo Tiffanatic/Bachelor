@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using RapidTime.Core;
 using RapidTime.Core.Models.Address;
-using RapidTime.Core.Services;
 
 namespace RapidTime.Services
 {

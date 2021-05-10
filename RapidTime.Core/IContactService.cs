@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using RapidTime.Core.Models;
 
-namespace RapidTime.Core.Services
+namespace RapidTime.Core
 {
     public interface IContactService
     {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models;
-using RapidTime.Core.Services;
 
 namespace RapidTime.Services
 {

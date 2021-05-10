@@ -5,7 +5,7 @@ using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using RapidTime.Core.Services;
+using RapidTime.Core;
 using RapidTime.Core.Models;
 
 namespace RapidTime.Api.GRPCServices
