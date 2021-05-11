@@ -14,73 +14,75 @@ namespace RapidTime.Data
             
         }
 
-        public DbSet<Price>Prices { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Contact> Contacts { get; set; }
-        public DbSet<CompanyType> CompanyTypes { get; set; }
-        public DbSet<AssignmentType> AssignmentTypes { get; set; }
-        public DbSet<Assignment> Assignments { get; set; }
-        public DbSet<Country> Countries { get; set; }
-        public DbSet<City> Cities { get; set; }
-        public DbSet<AddressAggregate> AddressAggregates { get; set; }
+        public DbSet<PriceEntity>Prices { get; set; }
+        public DbSet<CustomerEntity> Customers { get; set; }
+        public DbSet<ContactEntity> Contacts { get; set; }
+        public DbSet<CustomerContact> CustomerContacts { get; set; }
+        public DbSet<CompanyTypeEntity> CompanyTypes { get; set; }
+        public DbSet<AssignmentTypeEntity> AssignmentTypes { get; set; }
+        public DbSet<AssignmentEntity> Assignments { get; set; }
+        public DbSet<CountryEntity> Countries { get; set; }
+        public DbSet<CityEntity> Cities { get; set; }
+        public DbSet<AddressAggregateEntity> AddressAggregates { get; set; }
+        public DbSet<TimeRecordEntity> TimeRecords { get; set; }
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<City>()
-                .HasOne<Country>(c => c.Country)
+            builder.Entity<CityEntity>()
+                .HasOne<CountryEntity>(c => c.CountryEntity)
                 .WithMany(c => c.Cities)
                 .HasForeignKey(c => c.CountryId);
 
-            builder.Entity<AddressAggregate>()
-                .HasOne<Country>(a => a.Country)
+            builder.Entity<AddressAggregateEntity>()
+                .HasOne<CountryEntity>(a => a.CountryEntity)
                 .WithMany(c => c.AddressAggregates)
                 .HasForeignKey(c => c.CountryId);
             
-            builder.Entity<AddressAggregate>()
-                .HasOne<City>(a => a.City)
+            builder.Entity<AddressAggregateEntity>()
+                .HasOne<CityEntity>(a => a.CityEntity)
                 .WithMany(c => c.AddressAggregates)
                 .HasForeignKey(c => c.CityId);
 
-            builder.Entity<Customer>()
-                .HasOne<AddressAggregate>(c => c.Address)
-                .WithOne(c => c.Customer)
-                .HasForeignKey<AddressAggregate>(a => a.CustomerId);
+            builder.Entity<AddressAggregateEntity>()
+                .HasOne<CustomerEntity>(c => c.CustomerEntity)
+                .WithMany(c => c.AddressAggregates)
+                .HasForeignKey(a => a.CustomerId);
 
-            builder.Entity<Customer>()
-                .HasOne<CompanyType>(c => c.CompanyType)
+            builder.Entity<CustomerEntity>()
+                .HasOne<CompanyTypeEntity>(c => c.CompanyTypeEntity)
                 .WithMany(ct => ct.Customers)
                 .HasForeignKey(c => c.CompanyTypeId);
 
             builder.Entity<CustomerContact>().HasKey(cc => new {cc.ContactId, cc.CustomerId});
 
-            builder.Entity<AssignmentType>()
-                .HasMany<Assignment>(at => at.Assignments)
-                .WithOne(a => a.AssignmentType)
+            builder.Entity<AssignmentTypeEntity>()
+                .HasMany<AssignmentEntity>(at => at.Assignments)
+                .WithOne(a => a.AssignmentTypeEntity)
                 .HasForeignKey(a => a.AssignmentTypeId);
             
-            builder.Entity<Customer>()
-                .HasMany<Assignment>(a => a.Assignments)
-                .WithOne(c => c.Customer)
+            builder.Entity<CustomerEntity>()
+                .HasMany<AssignmentEntity>(a => a.Assignments)
+                .WithOne(c => c.CustomerEntity)
                 .HasForeignKey(a => a.CustomerId);
 
 
-            builder.Entity<Price>()
-                .HasOne<AssignmentType>()
+            builder.Entity<PriceEntity>()
+                .HasOne<AssignmentTypeEntity>()
                 .WithMany(at => at.Prices)
-                .HasForeignKey(a => a.AssignmentId);
+                .HasForeignKey(a => a.AssignmentTypeId);
 
             builder.Entity<User>()
-                .HasMany<Price>(a => a.Prices)
+                .HasMany<PriceEntity>(a => a.Prices)
                 .WithOne(p => p.User)
                 .HasForeignKey(p => p.UserId);
 
             builder.Entity<User>()
-                .HasMany<Assignment>(a => a.Assignments)
+                .HasMany<AssignmentEntity>(a => a.Assignments)
                 .WithOne(a => a.User)
                 .HasForeignKey(a => a.UserId);
 
-            builder.Entity<TimeRecord>()
-                .HasOne<Assignment>(a => a.Assignment)
+            builder.Entity<TimeRecordEntity>()
+                .HasOne<AssignmentEntity>(a => a.AssignmentEntity)
                 .WithMany(a => a.TimeRecords)
                 .HasForeignKey(a => a.AssignmentId);
 

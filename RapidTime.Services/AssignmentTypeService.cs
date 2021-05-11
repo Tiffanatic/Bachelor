@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using RapidTime.Core;
 using RapidTime.Core.Models;
-using RapidTime.Core.Services;
 
 namespace RapidTime.Services
 {
-    public class AssignmentTypeService : IAssignmentType
+    public class AssignmentTypeService : IAssignmentTypeService
     {
         private IUnitofWork _unitofWork;
         public AssignmentTypeService(IUnitofWork unitofWork)
@@ -15,7 +14,7 @@ namespace RapidTime.Services
             _unitofWork = unitofWork;
         }
 
-        public IEnumerable<AssignmentType> GetAll()
+        public IEnumerable<AssignmentTypeEntity> GetAll()
         {
             return _unitofWork.AssignmentTypeRepository.GetAll();
         }
@@ -33,9 +32,9 @@ namespace RapidTime.Services
             }
         }
 
-        public AssignmentType[] GetByNameOrNumber(string input)
+        public AssignmentTypeEntity[] GetByNameOrNumber(string input)
         {
-            if (input == "") return new AssignmentType[0];
+            if (input == "") return new AssignmentTypeEntity[0];
             var assignmentTypes = _unitofWork.AssignmentTypeRepository.GetAll();
             
             if (int.TryParse(input, out var number))
@@ -48,12 +47,13 @@ namespace RapidTime.Services
                 => c.Name.Contains(input)).ToArray();
         }
 
-        public void Insert(AssignmentType assignmentType)
+        public int Insert(AssignmentTypeEntity assignmentTypeEntity)
         {
             try
             {
-                _unitofWork.AssignmentTypeRepository.Insert(assignmentType);
+                var assignmentType =_unitofWork.AssignmentTypeRepository.Insert(assignmentTypeEntity);
                 _unitofWork.Commit();
+                return assignmentType.Id;
             }
             catch (Exception e)
             {
@@ -62,17 +62,17 @@ namespace RapidTime.Services
             }
         }
         
-        public AssignmentType GetById(int i)
+        public AssignmentTypeEntity GetById(int i)
         {
             return _unitofWork.AssignmentTypeRepository.GetbyId(i);
         }
 
-        public void Update(AssignmentType assignmentType)
+        public void Update(AssignmentTypeEntity assignmentTypeEntity)
         {
-            if (assignmentType == null) throw new NullReferenceException();
+            if (assignmentTypeEntity == null) throw new NullReferenceException();
             try
             {
-                _unitofWork.AssignmentTypeRepository.Update(assignmentType);
+                _unitofWork.AssignmentTypeRepository.Update(assignmentTypeEntity);
                 _unitofWork.Commit();
             }
             catch (Exception e)

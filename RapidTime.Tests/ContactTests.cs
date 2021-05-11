@@ -12,13 +12,13 @@ namespace RapidTime.Tests
 {
     public class ContactTests
     {
-        public List<Contact> DummyData = new()
+        public List<ContactEntity> DummyData = new()
         {
-            new Contact()
+            new ContactEntity()
             {
                 Id = 1, Firstname = "Mads", Lastname = "Rynord", Email = "test@test.com", TelephoneNumber = "24757727"
             },
-            new Contact()
+            new ContactEntity()
             {
                 Id = 2, Firstname = "Jesper", Lastname = "Henriksen", Email = "jenriksen@gmail.com",
                 TelephoneNumber = "12345678"
@@ -26,16 +26,18 @@ namespace RapidTime.Tests
         };
 
         private Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<IRepository<Contact>> _mockContactRepository;
+        private Mock<IRepository<ContactEntity>> _mockContactRepository;
         private ContactService _contactService;
+        private Mock<ICustomerService> _customerService;
 
         public ContactTests()
         {
             _mockUnitOfWork = new Mock<IUnitofWork>();
-            _mockContactRepository = new Mock<IRepository<Contact>>();
+            _mockContactRepository = new Mock<IRepository<ContactEntity>>();
             _mockUnitOfWork.Setup(_ => _.ContactRepository).Returns(
                 _mockContactRepository.Object);
-            _contactService = new ContactService(_mockUnitOfWork.Object);
+            _customerService = new Mock<ICustomerService>();
+            _contactService = new ContactService(_mockUnitOfWork.Object, _customerService.Object);
         }
 
         [Fact]
@@ -64,9 +66,9 @@ namespace RapidTime.Tests
         {
             //Arrange 
             _mockContactRepository.Setup(cr => cr.Delete(It.IsAny<int>()));
-            Contact contact = new() {Id = 1};
+            ContactEntity contactEntity = new() {Id = 1};
             //Act 
-            _contactService.Delete(contact.Id);
+            _contactService.Delete(contactEntity.Id);
 
             //Assert
             _mockContactRepository.Verify(_ => _.Delete(It.IsAny<int>()), Times.Once);
@@ -77,9 +79,9 @@ namespace RapidTime.Tests
         public void ServiceShouldFailOnDelete()
         {
             _mockContactRepository.Setup(cr => cr.Delete(It.IsAny<int>()));
-            Contact contact = null;
+            ContactEntity contactEntity = null;
 
-            _contactService.Invoking(a => a.Delete(contact.Id)).Should().Throw<NullReferenceException>();
+            _contactService.Invoking(a => a.Delete(contactEntity.Id)).Should().Throw<NullReferenceException>();
         }
 
         [Fact]
@@ -99,19 +101,19 @@ namespace RapidTime.Tests
         public void ServiceShouldUpdateContact()
         {
             //Arrange
-            _mockContactRepository.Setup(cr => cr.Update(It.IsAny<Contact>()));
-            Contact contact = new Contact() {Id = 1, Firstname = "Jens"};
+            _mockContactRepository.Setup(cr => cr.Update(It.IsAny<ContactEntity>()));
+            ContactEntity contactEntity = new ContactEntity() {Id = 1, Firstname = "Jens"};
             //Act
-            _contactService.Update(contact);
+            _contactService.Update(contactEntity);
             //Assert
             _mockUnitOfWork.Verify(_ =>_.Commit(), Times.Once);
-            _mockContactRepository.Verify(_ => _.Update(contact), Times.Once);
+            _mockContactRepository.Verify(_ => _.Update(contactEntity), Times.Once);
         }
 
         [Fact]
         public void ServiceShouldInsertContact()
         {
-            Contact contact = new()
+            ContactEntity contactEntity = new()
             {
                 Id = 3,
                 Email = "Test2@test.com",
@@ -119,10 +121,10 @@ namespace RapidTime.Tests
                 Lastname = "Fowler",
                 TelephoneNumber = "12345678"
             };
-
-            _contactService.Insert(contact);
+            _mockContactRepository.Setup(_ => _.Insert(It.IsAny<ContactEntity>())).Returns(contactEntity);
+            _contactService.Insert(contactEntity);
             
-            _mockContactRepository.Verify(_ => _.Insert(contact), Times.Once);
+            _mockContactRepository.Verify(_ => _.Insert(contactEntity), Times.Once);
             _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
         }
         

@@ -8,7 +8,7 @@ package country;
 
 service Country {
   rpc GetCountry (GetCountryRequest) returns (CountryResponse);
-  rpc CreateCountry (CreateCountryRequest) returns (CountryResponse);
+  rpc CreateCountry (CreateCountryRequest) returns (google.protobuf.Empty);
   rpc DeleteCountry (DeleteCountryRequest) returns (google.protobuf.Empty);
   rpc UpdateCountry (UpdateCountryRequest) returns (CountryResponse);
 }

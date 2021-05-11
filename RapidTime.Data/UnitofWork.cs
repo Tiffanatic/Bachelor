@@ -6,78 +6,89 @@ namespace RapidTime.Data
 {
     public class UnitofWork : IUnitofWork
     {
-        private readonly RapidTimeDbContext _context;
-        private IRepository<Price> _priceRepository;
-        private IRepository<Contact> _contactRepository;
-        private IRepository<Customer> _customerRepository;
-        private IRepository<CompanyType> _companyTypeRepository;
-        private IRepository<AssignmentType> _assignmentTypeRepository;
-        private IRepository<Assignment> _assignmentRepository;
-        private IRepository<Country> _countryRepository;
-        private IRepository<City> _cityRepository;
-        private IRepository<AddressAggregate> _addressAggregateRepository;
-        private Repository<TimeRecord> _timeRecordRepository;
+        private RapidTimeDbContext _context;
+        private IRepository<PriceEntity> _priceRepository;
+        private IRepository<ContactEntity> _contactRepository;
+        private IRepository<CustomerEntity> _customerRepository;
+        private IRepository<CompanyTypeEntity> _companyTypeRepository;
+        private IRepository<AssignmentTypeEntity> _assignmentTypeRepository;
+        private IRepository<AssignmentEntity> _assignmentRepository;
+        private IRepository<CountryEntity> _countryRepository;
+        private IRepository<CityEntity> _cityRepository;
+        private IRepository<AddressAggregateEntity> _addressAggregateRepository;
+        private Repository<TimeRecordEntity> _timeRecordRepository;
+        private IRepository<CustomerContact> _customerContactRepository;
 
         public UnitofWork(RapidTimeDbContext context)
         {
             _context = context;
         }
 
-        public IRepository<AddressAggregate> AddressAggregateRepository
+        public IRepository<AddressAggregateEntity> AddressAggregateRepository
         {
-            get { return _addressAggregateRepository ??= new Repository<AddressAggregate>(_context); }
+            get { return _addressAggregateRepository ??= new Repository<AddressAggregateEntity>(_context); }
         }
 
-        public IRepository<TimeRecord> TimeRecordRepository
+        public IRepository<CustomerContact> CustomerContactRepository
         {
             get
             {
-                return _timeRecordRepository ??= new Repository<TimeRecord>(_context);
+                return _customerContactRepository ??= new Repository<CustomerContact>(_context);
             }
         }
 
-        public IRepository<City> CityRepository
-        {
-            get { return _cityRepository ??= new Repository<City>(_context); }
-        }
-        public IRepository<Country> CountryRepository
-        {
-            get { return _countryRepository ??= new Repository<Country>(_context); }
-        }
-        public IRepository<Assignment> AssignmentRepository
+        public IRepository<TimeRecordEntity> TimeRecordRepository
         {
             get
-            { return _assignmentRepository ??= new Repository<Assignment>(_context); }
+            {
+                return _timeRecordRepository ??= new Repository<TimeRecordEntity>(_context);
+            }
         }
 
-        public IRepository<AssignmentType> AssignmentTypeRepository
+        public IRepository<CityEntity> CityRepository
         {
-            get { return _assignmentTypeRepository ??= new Repository<AssignmentType>(_context); }
+            get { return _cityRepository ??= new Repository<CityEntity>(_context); }
+        }
+        public IRepository<CountryEntity> CountryRepository
+        {
+            get { return _countryRepository ??= new Repository<CountryEntity>(_context); }
+        }
+        public IRepository<AssignmentEntity> AssignmentRepository
+        {
+            get
+            { return _assignmentRepository ??= new Repository<AssignmentEntity>(_context); }
+        }
+
+        public IRepository<AssignmentTypeEntity> AssignmentTypeRepository
+        {
+            get { return _assignmentTypeRepository ??= new Repository<AssignmentTypeEntity>(_context); }
         }
         
-        public IRepository<CompanyType> CompanyTypeRepository
+        public IRepository<CompanyTypeEntity> CompanyTypeRepository
         {
-            get { return _companyTypeRepository ??= new Repository<CompanyType>(_context); }
+            get { return _companyTypeRepository ??= new Repository<CompanyTypeEntity>(_context); }
         }
 
-        public IRepository<Contact> ContactRepository
+        public IRepository<ContactEntity> ContactRepository
         {
-            get { return _contactRepository ??= new Repository<Contact>(_context); }
+            get { return _contactRepository ??= new Repository<ContactEntity>(_context); }
         }
 
-        public IRepository<Customer> CustomerRepository
+        public IRepository<CustomerEntity> CustomerRepository
         {
-            get { return _customerRepository ??= new Repository<Customer>(_context); }
+            get { return _customerRepository ??= new Repository<CustomerEntity>(_context); }
         }
 
-        public IRepository<Price> PriceRepository
+        public IRepository<PriceEntity> PriceRepository
         {
-            get { return _priceRepository ??= new Repository<Price>(_context); }
+            get { return _priceRepository ??= new Repository<PriceEntity>(_context); }
         }
 
+        
+        
         public void Commit()
         {
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public void Rollback()

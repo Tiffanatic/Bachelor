@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using RapidTime.Core;
 using RapidTime.Core.Models.Address;
-using RapidTime.Core.Services;
 
 namespace RapidTime.Services
 {
@@ -15,7 +14,7 @@ namespace RapidTime.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<AddressAggregate> GetAll()
+        public IEnumerable<AddressAggregateEntity> GetAll()
         {
             return _unitOfWork.AddressAggregateRepository.GetAll();
         }
@@ -26,21 +25,22 @@ namespace RapidTime.Services
             _unitOfWork.Commit();
         }
 
-        public AddressAggregate FindById(int id)
+        public AddressAggregateEntity FindById(int id)
         {
             return _unitOfWork.AddressAggregateRepository.GetbyId(id);
         }
 
-        public void Update(AddressAggregate addressAggregate)
+        public void Update(AddressAggregateEntity addressAggregateEntity)
         {
-            _unitOfWork.AddressAggregateRepository.Update(addressAggregate);
+            _unitOfWork.AddressAggregateRepository.Update(addressAggregateEntity);
             _unitOfWork.Commit();
         }
 
-        public void Insert(AddressAggregate addressAggregate)
+        public int Insert(AddressAggregateEntity addressAggregateEntity)
         {
-            _unitOfWork.AddressAggregateRepository.Insert(addressAggregate);
+            var entity = _unitOfWork.AddressAggregateRepository.Insert(addressAggregateEntity);
             _unitOfWork.Commit();
+            return entity.Id;
         }
     }
 }

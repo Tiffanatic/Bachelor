@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using RapidTime.Core.Models;
 
-namespace RapidTime.Core.Services
+namespace RapidTime.Core
 {
     public interface ICompanyTypeService
     {
-        IEnumerable<CompanyType> GetAll();
+        IEnumerable<CompanyTypeEntity> GetAll();
         void Delete(int companyTypeId);
-        CompanyType findById(int i);
-        void Update(CompanyType companyType);
-        void Insert(CompanyType companyType);
+        CompanyTypeEntity findById(int i);
+        void Update(CompanyTypeEntity companyTypeEntity);
+        int Insert(CompanyTypeEntity companyTypeEntity);
     }
 }

@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using RapidTime.Core.Models;
 
-namespace RapidTime.Core.Services
+namespace RapidTime.Core
 {
     public interface ICustomerService
     {
-        Customer GetById(int i);
-        IEnumerable<Customer> GetAllCustomers();
+        CustomerEntity GetById(int i);
+        IEnumerable<CustomerEntity> GetAllCustomers();
         void Delete(int customerId);
-        void Insert(Customer customer);
-        void Update(Customer customer);
+        int Insert(CustomerEntity customerEntity);
+        void Update(CustomerEntity customerEntity);
     }
 }

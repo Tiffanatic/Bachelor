@@ -14,30 +14,30 @@ namespace RapidTime.Tests
 {
     public class TimeRegistrationServiceTests
     {
-        public List<Assignment> DummyData = new()
+        public List<AssignmentEntity> DummyData = new()
         {
-            new Assignment()
+            new AssignmentEntity()
             {
                 Id = 0,
                 DateStarted = DateTime.Now.AddDays(-4),
                 TimeRecords = new()
                 {
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now,
                         TimeRecorded = new TimeSpan(0, 20, 0)
                     },
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now,
                         TimeRecorded = new TimeSpan(0, 20, 0)
                     },
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Today.AddDays(-1),
                         TimeRecorded = new TimeSpan(0, 55, 0)
                     },
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Today.AddDays(-3),
                         TimeRecorded = new TimeSpan(0, 55, 0)
@@ -47,19 +47,21 @@ namespace RapidTime.Tests
         };
         
         private Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<ILogger> _logger;
-        private Mock<IRepository<Assignment>> _mockAssignmentRepository;
+        private Mock<ILogger<TimeRegistrationService>> _logger;
+        private Mock<IRepository<AssignmentEntity>> _mockAssignmentRepository;
         private TimeRegistrationService _timeRegistrationService;
-        private Mock<IRepository<TimeRecord>> _mockTimeRecordRepository;
+        private Mock<IRepository<TimeRecordEntity>> _mockTimeRecordRepository;
         private  AssignmentService _assignmentService;
+        private readonly Mock<ILogger<AssignmentService>> _assignmentServiceLogger;
 
         public TimeRegistrationServiceTests()
         {
-            _logger = new Mock<ILogger>();
+            _logger = new Mock<ILogger<TimeRegistrationService>>();
+            _assignmentServiceLogger = new Mock<ILogger<AssignmentService>>();
             _mockUnitOfWork = new Mock<IUnitofWork>();
-            _mockAssignmentRepository = new Mock<IRepository<Assignment>>();
-            _mockTimeRecordRepository = new Mock<IRepository<TimeRecord>>();
-            _assignmentService = new AssignmentService(_mockUnitOfWork.Object, _logger.Object);
+            _mockAssignmentRepository = new Mock<IRepository<AssignmentEntity>>();
+            _mockTimeRecordRepository = new Mock<IRepository<TimeRecordEntity>>();
+            _assignmentService = new AssignmentService(_mockUnitOfWork.Object, _assignmentServiceLogger.Object);
             _timeRegistrationService = new TimeRegistrationService(_mockUnitOfWork.Object, _assignmentService, _logger.Object);
 
             _mockUnitOfWork.Setup(_ => _.AssignmentRepository).Returns(_mockAssignmentRepository.Object);
@@ -88,7 +90,7 @@ namespace RapidTime.Tests
             _mockAssignmentRepository.Setup(ar => ar.GetbyId(0)).Returns(DummyData[0]);
             
             //Act
-            TimeRecord tooBigToRegister = new TimeRecord() {Date = DateTime.Now, TimeRecorded = new TimeSpan(25, 0, 0)};
+            TimeRecordEntity tooBigToRegister = new TimeRecordEntity() {Date = DateTime.Now, TimeRecorded = new TimeSpan(25, 0, 0)};
             var register25Hours = _timeRegistrationService.RegisterTime(tooBigToRegister, 0);
             
             //Assert
@@ -115,6 +117,22 @@ namespace RapidTime.Tests
 
             registeredTime1.Should().BePositive();
             registeredTime2.Should().BePositive();
+        }
+
+        [Fact]
+        public void ServiceShouldReturnTimeRecordObjectsOnASpecificAssignment()
+        {
+            //Arrange
+            _mockAssignmentRepository.Setup(ar => ar.GetbyId(0)).Returns(DummyData[0]);
+            
+            //Act
+            var timeRecordsForAssignment = _timeRegistrationService.GetTimeRecordsForAssignment(0);
+
+            //Assert
+            timeRecordsForAssignment.Should().HaveCount(4);
+            timeRecordsForAssignment.Should().NotContainNulls();
+            
+
         }
     }
 }

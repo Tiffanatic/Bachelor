@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using RapidTime.Core.Models;
 
-namespace RapidTime.Core.Services
+namespace RapidTime.Core
 {
     public interface IAssignmentService
     {
-        IEnumerable<Assignment> GetAll();
-        Assignment[] FindAssignmentByNameOrNumber(string nameOrNumber);
+        IEnumerable<AssignmentEntity> GetAll();
+        AssignmentEntity[] FindAssignmentByNameOrNumber(string nameOrNumber);
         void Delete(int id);
-        void Insert(Assignment assignment);
-        Assignment GetById(int id);
-        void Update(Assignment assignment);
+        int Insert(AssignmentEntity assignmentEntity);
+        AssignmentEntity GetById(int id);
+        void Update(AssignmentEntity assignmentEntity);
     }
 }

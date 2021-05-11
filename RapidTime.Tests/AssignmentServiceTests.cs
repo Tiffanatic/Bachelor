@@ -6,30 +6,29 @@ using Moq;
 using RapidTime.Core;
 using RapidTime.Core.Models;
 using RapidTime.Services;
-using RapidTime.Services;
 using Xunit;
 
 namespace RapidTime.Tests
 {
     public class AssignmentServiceTest
     {
-        public List<Assignment> DummyData = new()
+        public List<AssignmentEntity> DummyData = new()
         {
-            new Assignment()
+            new AssignmentEntity()
             {
                 Amount = 10000,
-                Customer = new Customer() {InvoiceCurrency = Customer.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
                 Id = 0,
-                AssignmentType = new AssignmentType() {Name = "Revision", InvoiceAble = true},
+                AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Revision", InvoiceAble = true},
                 DateStarted = DateTime.Now,
-                TimeRecords = new List<TimeRecord>()
+                TimeRecords = new List<TimeRecordEntity>()
                 {
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now,
                         TimeRecorded = TimeSpan.FromMinutes(100)
                     },
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now.AddDays(-1),
                         TimeRecorded = TimeSpan.FromMinutes(100)
@@ -37,21 +36,21 @@ namespace RapidTime.Tests
                     }
                 }
             },
-            new Assignment()
+            new AssignmentEntity()
             {
                 Amount = 10000,
-                Customer = new Customer() {InvoiceCurrency = Customer.InvoiceCurrencyEnum.SEK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.SEK},
                 Id = 1,
-                AssignmentType = new AssignmentType() {Name = "Assistance", InvoiceAble = true},
+                AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Assistance", InvoiceAble = true},
                 DateStarted = DateTime.Now,
-                TimeRecords = new List<TimeRecord>()
+                TimeRecords = new List<TimeRecordEntity>()
                 {
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now,
                         TimeRecorded = TimeSpan.FromMinutes(100)
                     },
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now.AddDays(-1),
                         TimeRecorded = TimeSpan.FromMinutes(100)
@@ -59,21 +58,21 @@ namespace RapidTime.Tests
                     }
                 }
             },
-            new Assignment()
+            new AssignmentEntity()
             {
                 Amount = 10000,
-                Customer = new Customer() {InvoiceCurrency = Customer.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
                 Id = 2,
-                AssignmentType = new AssignmentType() {Name = "Kontor", InvoiceAble = false},
+                AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Kontor", InvoiceAble = false},
                 DateStarted = DateTime.Now,
-                TimeRecords = new List<TimeRecord>()
+                TimeRecords = new List<TimeRecordEntity>()
                 {
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now,
                         TimeRecorded = TimeSpan.FromMinutes(100)
                     },
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now.AddDays(-1),
                         TimeRecorded = TimeSpan.FromMinutes(100)
@@ -81,21 +80,21 @@ namespace RapidTime.Tests
                     }
                 }
             },
-            new Assignment()
+            new AssignmentEntity()
             {
                 Amount = 10000,
-                Customer = new Customer() {InvoiceCurrency = Customer.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
                 Id = 3,
-                AssignmentType = new AssignmentType() {Name = "Revision", InvoiceAble = true},
+                AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Revision", InvoiceAble = true},
                 DateStarted = DateTime.Now.AddYears(-2),
-                TimeRecords = new List<TimeRecord>()
+                TimeRecords = new List<TimeRecordEntity>()
                 {
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now.AddYears(-2).AddDays(1),
                         TimeRecorded = TimeSpan.FromMinutes(100)
                     },
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now.AddYears(-2).AddDays(2),
                         TimeRecorded = TimeSpan.FromMinutes(100)
@@ -103,21 +102,21 @@ namespace RapidTime.Tests
                     }
                 }
             },
-            new Assignment()
+            new AssignmentEntity()
             {
                 Amount = 10000,
-                Customer = new Customer() {InvoiceCurrency = Customer.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
                 Id = 4,
-                AssignmentType = new AssignmentType() {Name = "Assistance", InvoiceAble = true},
+                AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Assistance", InvoiceAble = true},
                 DateStarted = DateTime.Now.AddYears(-2),
-                TimeRecords = new List<TimeRecord>()
+                TimeRecords = new List<TimeRecordEntity>()
                 {
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now.AddYears(-2).AddDays(1),
                         TimeRecorded = TimeSpan.FromMinutes(100)
                     },
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now.AddYears(-2).AddDays(2),
                         TimeRecorded = TimeSpan.FromMinutes(100)
@@ -125,21 +124,21 @@ namespace RapidTime.Tests
                     }
                 }
             },
-            new Assignment()
+            new AssignmentEntity()
             {
                 Amount = 10000,
-                Customer = new Customer() {InvoiceCurrency = Customer.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
                 Id = 5,
-                AssignmentType = new AssignmentType() {Name = "Kontor", InvoiceAble = false},
+                AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Kontor", InvoiceAble = false},
                 DateStarted = DateTime.Now.AddYears(-2),
-                TimeRecords = new List<TimeRecord>()
+                TimeRecords = new List<TimeRecordEntity>()
                 {
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now.AddYears(-2).AddDays(1),
                         TimeRecorded = TimeSpan.FromMinutes(100)
                     },
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now.AddYears(-2).AddDays(2),
                         TimeRecorded = TimeSpan.FromMinutes(100)
@@ -150,17 +149,17 @@ namespace RapidTime.Tests
         };
         
         private readonly Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<IRepository<Assignment>> _mockAssignmentRepository;
+        private Mock<IRepository<AssignmentEntity>> _mockAssignmentRepository;
         private AssignmentService _assignmentService;
-        private Mock<ILogger> _logger;
+        private Mock<ILogger<AssignmentService>> _mocklogger;
         
         
         public AssignmentServiceTest()
         {
-            _mockAssignmentRepository = new Mock<IRepository<Assignment>>();
-            _logger = new Mock<ILogger>();
+            _mockAssignmentRepository = new Mock<IRepository<AssignmentEntity>>();
+            _mocklogger = new Mock<ILogger<AssignmentService>>();
             _mockUnitOfWork = new Mock<IUnitofWork>();
-            _assignmentService = new AssignmentService(_mockUnitOfWork.Object, _logger.Object);
+            _assignmentService = new AssignmentService(_mockUnitOfWork.Object, _mocklogger.Object);
 
             _mockUnitOfWork.Setup(x => x.AssignmentRepository).Returns(_mockAssignmentRepository.Object);
         }
@@ -221,34 +220,33 @@ namespace RapidTime.Tests
             //Arrange
             _mockAssignmentRepository.Setup(ar => ar.Delete(It.IsAny<int>()));
 
-            Assignment assignment = null;
+            AssignmentEntity assignmentEntity = null;
             
             //Act & Assert
-            _assignmentService.Invoking(ar => ar.Delete(assignment.Id)).Should().Throw<NullReferenceException>();
+            _assignmentService.Invoking(ar => ar.Delete(assignmentEntity.Id)).Should().Throw<NullReferenceException>();
         }
 
         [Fact]
         public void ServiceShouldInsertAssignment()
         {
             //Arrange
-            _mockAssignmentRepository.Setup(ar => ar.Insert(It.IsAny<Assignment>()));
+            _mockAssignmentRepository.Setup(ar => ar.Insert(It.IsAny<AssignmentEntity>()));
             
-            //Act
-            Assignment assignment = new Assignment()
+            AssignmentEntity assignmentEntity = new AssignmentEntity()
             {
                 Amount = 10000,
-                Customer = new Customer() {InvoiceCurrency = Customer.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
                 Id = 6,
-                AssignmentType = new AssignmentType() {Name = "Kontor", InvoiceAble = false},
+                AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Kontor", InvoiceAble = false},
                 DateStarted = DateTime.Now.AddYears(-2),
-                TimeRecords = new List<TimeRecord>()
+                TimeRecords = new List<TimeRecordEntity>()
                 {
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now.AddYears(-2).AddDays(1),
                         TimeRecorded = TimeSpan.FromMinutes(100)
                     },
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now.AddYears(-2).AddDays(2),
                         TimeRecorded = TimeSpan.FromMinutes(100)
@@ -256,11 +254,14 @@ namespace RapidTime.Tests
                     }
                 }
             };
+
+            _mockAssignmentRepository.Setup(_ => _.Insert(It.IsAny<AssignmentEntity>())).Returns(assignmentEntity);
+            //Act
             
-            _assignmentService.Insert(assignment);
+            _assignmentService.Insert(assignmentEntity);
             
             //Assert
-            _mockAssignmentRepository.Verify(x => x.Insert(assignment), Times.Once);
+            _mockAssignmentRepository.Verify(x => x.Insert(assignmentEntity), Times.Once);
             _mockUnitOfWork.Verify(x => x.Commit(), Times.Once);
         }
 
@@ -268,24 +269,24 @@ namespace RapidTime.Tests
         public void ServiceShouldUpdateAssignment()
         {
             //Arrange
-            _mockAssignmentRepository.Setup(ar => ar.Update(It.IsAny<Assignment>()));
+            _mockAssignmentRepository.Setup(ar => ar.Update(It.IsAny<AssignmentEntity>()));
             
             //Act
-            Assignment assignment = new Assignment()
+            AssignmentEntity assignmentEntity = new AssignmentEntity()
             {
                 Amount = 10000,
-                Customer = new Customer() {InvoiceCurrency = Customer.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
                 Id = 5,
-                AssignmentType = new AssignmentType() {Name = "Kontor", InvoiceAble = false},
+                AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Kontor", InvoiceAble = false},
                 DateStarted = DateTime.Now.AddYears(-2),
-                TimeRecords = new List<TimeRecord>()
+                TimeRecords = new List<TimeRecordEntity>()
                 {
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now.AddYears(-2).AddDays(1),
                         TimeRecorded = TimeSpan.FromMinutes(100)
                     },
-                    new TimeRecord()
+                    new TimeRecordEntity()
                     {
                         Date = DateTime.Now.AddYears(-2).AddDays(2),
                         TimeRecorded = TimeSpan.FromMinutes(100)
@@ -294,10 +295,10 @@ namespace RapidTime.Tests
                 }
             };
             
-            _assignmentService.Update(assignment);
+            _assignmentService.Update(assignmentEntity);
             
             //Assert
-            _mockAssignmentRepository.Verify(x => x.Update(assignment), Times.Once);
+            _mockAssignmentRepository.Verify(x => x.Update(assignmentEntity), Times.Once);
             _mockUnitOfWork.Verify(x => x.Commit(), Times.Once);
         }
     }

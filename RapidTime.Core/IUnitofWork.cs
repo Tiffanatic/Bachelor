@@ -1,20 +1,23 @@
-﻿using RapidTime.Core.Models;
+﻿using System;
+using RapidTime.Core.Models;
 using RapidTime.Core.Models.Address;
+using RapidTime.Core.Models.Auth;
 
 namespace RapidTime.Core
 {
     public interface IUnitofWork
     {
-        IRepository<Contact> ContactRepository { get; }
-        IRepository<Price> PriceRepository { get; }
-        IRepository<Customer> CustomerRepository { get; }
-        IRepository<CompanyType> CompanyTypeRepository { get; }
-        IRepository<AssignmentType> AssignmentTypeRepository { get; }
-        IRepository<Assignment> AssignmentRepository { get; }
-        IRepository<Country> CountryRepository { get; }
-        IRepository<City> CityRepository { get; }
-        IRepository<AddressAggregate> AddressAggregateRepository { get; }
-        IRepository<TimeRecord> TimeRecordRepository { get; }
+        IRepository<ContactEntity> ContactRepository { get; }
+        IRepository<PriceEntity> PriceRepository { get; }
+        IRepository<CustomerEntity> CustomerRepository { get; }
+        IRepository<CompanyTypeEntity> CompanyTypeRepository { get; }
+        IRepository<AssignmentTypeEntity> AssignmentTypeRepository { get; }
+        IRepository<AssignmentEntity> AssignmentRepository { get; }
+        IRepository<CountryEntity> CountryRepository { get; }
+        IRepository<CityEntity> CityRepository { get; }
+        IRepository<AddressAggregateEntity> AddressAggregateRepository { get; }
+        IRepository<CustomerContact> CustomerContactRepository { get; }
+        IRepository<TimeRecordEntity> TimeRecordRepository { get; }
         
         void Commit();
         void Rollback();

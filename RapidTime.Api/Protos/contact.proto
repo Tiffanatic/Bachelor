@@ -8,9 +8,10 @@ package contact;
 
 service Contact{
   rpc GetContact (GetContactRequest) returns (ContactResponse);
-  rpc UpdateContact (UpdateContactRequest) returns (ContactResponse);
+  rpc UpdateContact (UpdateContactRequest) returns (google.protobuf.Empty);
   rpc CreateContact (CreateContactRequest) returns (ContactResponse);
   rpc DeleteContact (DeleteContactRequest) returns(google.protobuf.Empty);
+  rpc AddContactToCustomer (AddContactToCustomerRequest) returns (ContactResponse);
 }
 
 message ContactBase{
@@ -35,8 +36,14 @@ message UpdateContactRequest{
 
 message CreateContactRequest{
   ContactBase CreateContact = 1;
+  int32 CustomerId = 2;
 }
 
 message DeleteContactRequest{
   int32 id = 1;
+}
+
+message AddContactToCustomerRequest {
+  int32 ContactId = 1;
+  int32 CustomerId = 2;
 }

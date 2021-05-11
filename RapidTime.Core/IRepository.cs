@@ -3,13 +3,13 @@ using RapidTime.Core.Models;
 
 namespace RapidTime.Core
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IRepository<T>
     {
 
         
         IEnumerable<T> GetAll();
         T GetbyId(int id);
-        void Insert(T entity);
+        T Insert(T entity);
         void Update(T entity);
         void Delete(int id);
     }

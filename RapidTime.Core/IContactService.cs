@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using RapidTime.Core.Models;
 
-namespace RapidTime.Core.Services
+namespace RapidTime.Core
 {
     public interface IContactService
     {
-        IEnumerable<Contact> GetAll();
+        IEnumerable<ContactEntity> GetAll();
         void Delete(int contactId);
-        Contact FindById(int i);
-        void Update(Contact contact);
-        void Insert(Contact contact);
+        ContactEntity FindById(int i);
+        void Update(ContactEntity contactEntity);
+        int Insert(ContactEntity contactEntity);
+        CustomerContact AddContactToCustomer(ContactEntity contact, int requestCustomerId);
     }
 }

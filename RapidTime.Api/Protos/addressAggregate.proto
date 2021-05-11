@@ -10,7 +10,7 @@ package addressAggregate;
 
 service AddressAggregate {
   rpc GetAddressAggregate (GetAddressAggregateRequest) returns (AddressAggregateResponse);
-  rpc UpdateAddressAggregate (UpdateAddressAggregateRequest) returns (AddressAggregateResponse);
+  rpc UpdateAddressAggregate (UpdateAddressAggregateRequest) returns (google.protobuf.Empty);
   rpc DeleteAddressAggregate (DeleteAddressAggregateRequest) returns (google.protobuf.Empty);
   rpc CreateAddressAggregate (CreateAddressAggregateRequest) returns (AddressAggregateResponse);
 }
@@ -24,6 +24,7 @@ message AddressAggregateResponse{
 
 message UpdateAddressAggregateRequest{
   AddressAggregateBase response = 1;
+  int32 Id = 2;
 }
 
 message DeleteAddressAggregateRequest{
@@ -32,11 +33,11 @@ message DeleteAddressAggregateRequest{
 
 message CreateAddressAggregateRequest{
   AddressAggregateBase request = 1;
+  int32 customerId = 2;
 }
 
 message AddressAggregateBase {
   city.CityBase city = 1;
   country.CountryBase country = 2;
   string street = 3;
-  string streetNumber = 4;
 }

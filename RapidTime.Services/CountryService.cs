@@ -5,25 +5,24 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models.Address;
-using RapidTime.Core.Services;
 
 namespace RapidTime.Services
 {
     public class CountryService : ICountryService
     {
         private readonly IUnitofWork _unitofWork;
-        private ILogger _logger;
+        private readonly ILogger<CountryService> _logger;
 
-        public CountryService(IUnitofWork unitofWork, ILogger logger)
+        public CountryService(IUnitofWork unitofWork, ILogger<CountryService> logger)
         {
             _unitofWork = unitofWork;
             _logger = logger;
         }
 
-        public IEnumerable<Country> GetAllCountries()
+        public IEnumerable<CountryEntity> GetAllCountries()
         {
             
-        return _unitofWork.CountryRepository.GetAll();
+            return _unitofWork.CountryRepository.GetAll();
         
         }
 
@@ -37,13 +36,13 @@ namespace RapidTime.Services
             catch (Exception ex)
             {
                 _unitofWork.Rollback();
-                _logger.LogError("{Message}, {StackTrace}", ex.Message, ex.StackTrace);
+                _logger.LogError("{Message}, {StackTrace}, {Source}", ex.Message, ex.StackTrace, ex.Source);
             }
 
             
         }
 
-        public Country[] GetCountryByNameOrCountryCode(string input)
+        public CountryEntity[] GetCountryByNameOrCountryCode(string input)
         {
             try
             {
@@ -63,7 +62,7 @@ namespace RapidTime.Services
             return null;
         }
 
-        public Country FindById(int id)
+        public CountryEntity FindById(int id)
         {
             try
             {
@@ -78,25 +77,28 @@ namespace RapidTime.Services
             return null;
         }
 
-        public void Insert(Country country)
+        public int Insert(CountryEntity countryEntity)
         {
             try
             {
-                _unitofWork.CountryRepository.Insert(country);
+                var id =_unitofWork.CountryRepository.Insert(countryEntity);
                 _unitofWork.Commit();
+                return id.Id;
             } 
             catch (Exception ex)
             {
                 _unitofWork.Rollback();
                 _logger.LogError("{Message}, {StackTrace}", ex.Message, ex.StackTrace);
             }
+
+            return -1;
         }
 
-        public void Update(Country country)
+        public void Update(CountryEntity countryEntity)
         {
             try
             {
-                _unitofWork.CountryRepository.Update(country);
+                _unitofWork.CountryRepository.Update(countryEntity);
                 _unitofWork.Commit();
             } catch (Exception ex)
             {

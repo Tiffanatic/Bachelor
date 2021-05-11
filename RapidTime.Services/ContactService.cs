@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using RapidTime.Core;
 using RapidTime.Core.Models;
-using RapidTime.Core.Services;
 
 namespace RapidTime.Services
 {
     public class ContactService : IContactService
     {
         private IUnitofWork _unitofWork;
-        public ContactService(IUnitofWork unitofWork)
+        private ICustomerService _customerService;
+        public ContactService(IUnitofWork unitofWork, ICustomerService customerService)
         {
             _unitofWork = unitofWork;
+            _customerService = customerService;
         }
 
-        public IEnumerable<Contact> GetAll()
+        public IEnumerable<ContactEntity> GetAll()
         {
             return _unitofWork.ContactRepository.GetAll();
         }
@@ -33,16 +34,16 @@ namespace RapidTime.Services
             }
         }
 
-        public Contact FindById(int i)
+        public ContactEntity FindById(int i)
         {
             return _unitofWork.ContactRepository.GetbyId(i);
         }
 
-        public void Update(Contact contact)
+        public void Update(ContactEntity contactEntity)
         {
             try
             {
-                _unitofWork.ContactRepository.Update(contact);
+                _unitofWork.ContactRepository.Update(contactEntity);
                 _unitofWork.Commit();
             }
             catch (Exception e)
@@ -51,17 +52,40 @@ namespace RapidTime.Services
             }
         }
 
-        public void Insert(Contact contact)
+        public int Insert(ContactEntity contactEntity)
         {
             try
             {
-                _unitofWork.ContactRepository.Insert(contact);
+                
+                var id =_unitofWork.ContactRepository.Insert(contactEntity);
                 _unitofWork.Commit();
+                return id.Id;
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
         }
+
+        public CustomerContact AddContactToCustomer(ContactEntity contactEntity, int Id)
+        {
+            try
+            {
+
+                var customer = _customerService.GetById(Id);
+                var customerContact = new CustomerContact()
+                {
+                    ContactId = contactEntity.Id,
+                    CustomerId = customer.Id
+                };
+                var id = _unitofWork.CustomerContactRepository.Insert(customerContact);
+                _unitofWork.Commit();
+                return _unitofWork.CustomerContactRepository.GetbyId(id.Id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        } 
     }
 }

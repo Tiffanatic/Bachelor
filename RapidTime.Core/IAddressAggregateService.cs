@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using RapidTime.Core.Models.Address;
 
-namespace RapidTime.Core.Services
+namespace RapidTime.Core
 {
     public interface IAddressAggregateService
     {
-        IEnumerable<AddressAggregate> GetAll();
+        IEnumerable<AddressAggregateEntity> GetAll();
         void Delete(int id);
-        AddressAggregate FindById(int id);
-        void Update(AddressAggregate addressAggregate);
-        void Insert(AddressAggregate addressAggregate);
+        AddressAggregateEntity FindById(int id);
+        void Update(AddressAggregateEntity addressAggregateEntity);
+        int Insert(AddressAggregateEntity addressAggregateEntity);
     }
 }

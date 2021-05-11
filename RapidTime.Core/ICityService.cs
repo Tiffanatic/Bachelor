@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using RapidTime.Core.Models.Address;
 
-namespace RapidTime.Core.Services
+namespace RapidTime.Core
 {
     public interface ICityService
     {
-        IEnumerable<City> GetAllCities();
-        City[] FindCityByNameOrPostalCode(string NameOrPostalCode);
+        IEnumerable<CityEntity> GetAllCities();
+        CityEntity[] FindCityByNameOrPostalCode(string NameOrPostalCode);
         void DeleteCity(int id);
-        void Insert(City city);
-        City FindById(int id);
-        void Update(City city);
+        int Insert(CityEntity cityEntity);
+        CityEntity FindById(int id);
+        void Update(CityEntity cityEntity);
     }
 }

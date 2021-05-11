@@ -12,34 +12,35 @@ namespace RapidTime.Tests
 {
     public class AddressAggregateTests
     {
-        public List<AddressAggregate> DummyData = new()
+        public List<AddressAggregateEntity> DummyData = new()
         {
-            new AddressAggregate()
+            new AddressAggregateEntity()
             {
                 Id= 1, 
-                City = new City() {Id = 1, PostalCode = "7100", CityName = "Vejle"}, 
-                Country = new Country() {Id = 1, CountryCode = "DK", CountryName = "Danmark"},
+                CityEntity = new CityEntity() {Id = 1, PostalCode = "7100", CityName = "Vejle"}, 
+                CountryEntity = new CountryEntity() {Id = 1, CountryCode = "DK", CountryName = "Danmark"},
                 Street = "Skovgade 21, 2, 2",
                 
             },
-            new AddressAggregate()
+            new AddressAggregateEntity()
             {
                 Id= 2, 
-                City = new City() {Id = 1, PostalCode = "7100", CityName = "Vejle"}, 
-                Country = new Country() {Id = 1, CountryCode = "DK", CountryName = "Danmark"},
+                CityEntity = new CityEntity() {Id = 1, PostalCode = "7100", CityName = "Vejle"}, 
+                CountryEntity = new CountryEntity() {Id = 1, CountryCode = "DK", CountryName = "Danmark"},
                 Street = "Thulevej 13",
                 
             }
         };
 
         private Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<IRepository<AddressAggregate>> _mockAddressAggregateRepository;
+        private Mock<IRepository<AddressAggregateEntity>> _mockAddressAggregateRepository;
         private AddressAggregateService _addressAggregateService;
         
         public AddressAggregateTests()
         {
             _mockUnitOfWork = new Mock<IUnitofWork>();
-            _mockAddressAggregateRepository = new Mock<IRepository<AddressAggregate>>();
+            _mockAddressAggregateRepository = new Mock<IRepository<AddressAggregateEntity>>();
+            
             _mockUnitOfWork.Setup(_ => _.AddressAggregateRepository).Returns(
                 _mockAddressAggregateRepository.Object);
             _addressAggregateService = new AddressAggregateService(_mockUnitOfWork.Object);
@@ -70,9 +71,9 @@ namespace RapidTime.Tests
         {
             //Arrange
             _mockAddressAggregateRepository.Setup(cr => cr.Delete(It.IsAny<int>()));
-            AddressAggregate aggregate = new() {Id = 1};
+            AddressAggregateEntity aggregateEntity = new() {Id = 1};
             //Act
-            _addressAggregateService.Delete(aggregate.Id);
+            _addressAggregateService.Delete(aggregateEntity.Id);
             //Assert
             _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
             _mockAddressAggregateRepository.Verify(_ => _.Delete(It.IsAny<int>()), Times.Once);
@@ -83,10 +84,10 @@ namespace RapidTime.Tests
         {
             //Arrange
             _mockAddressAggregateRepository.Setup(cr => cr.Delete(It.IsAny<int>()));
-            AddressAggregate aggregate = null;
+            AddressAggregateEntity aggregateEntity = null;
             
             _addressAggregateService.Invoking(a =>
-                a.Delete(aggregate.Id)).Should().Throw<NullReferenceException>();
+                a.Delete(aggregateEntity.Id)).Should().Throw<NullReferenceException>();
         }
 
         [Fact]
@@ -108,33 +109,33 @@ namespace RapidTime.Tests
         {
             //Arrange 
             _mockAddressAggregateRepository.Setup(cr
-                => cr.Update(It.IsAny<AddressAggregate>()));
-            AddressAggregate addressAggregate = new AddressAggregate()
+                => cr.Update(It.IsAny<AddressAggregateEntity>()));
+            AddressAggregateEntity addressAggregateEntity = new AddressAggregateEntity()
                 {Id = 1, Street = "Vardevej 6" };
             
             //Act 
-            _addressAggregateService.Update(addressAggregate);
+            _addressAggregateService.Update(addressAggregateEntity);
             
             //Assert
             using (new AssertionScope())
             {
                 _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
-                _mockAddressAggregateRepository.Verify(_ => _.Update(addressAggregate), Times.Once);
+                _mockAddressAggregateRepository.Verify(_ => _.Update(addressAggregateEntity), Times.Once);
             }
         }
         [Fact]
         public void ServiceShouldInsertAddressAggregate()
         {
-            AddressAggregate addressAggregate = new AddressAggregate()
+            AddressAggregateEntity addressAggregateEntity = new AddressAggregateEntity()
             {
                 Id = 3,
-                City = new()
+                CityEntity = new()
                 {
                     CityName = "Vejle",
                     Id = 1,
                     PostalCode = "7100"
                 },
-                Country = new Country()
+                CountryEntity = new CountryEntity()
                 {
                     CountryCode = "DK",
                     CountryName = "Danmark",
@@ -143,14 +144,16 @@ namespace RapidTime.Tests
                 Street = "Langelinje 6",
                 
             };
+            _mockAddressAggregateRepository.Setup(_ => _.Insert(It.IsAny<AddressAggregateEntity>())).Returns(addressAggregateEntity);
             //act
-            _addressAggregateService.Insert(addressAggregate);
+            
+            _addressAggregateService.Insert(addressAggregateEntity);
             
             //assert
             using (new AssertionScope())
             {
                 _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
-                _mockAddressAggregateRepository.Verify(_ => _.Insert(addressAggregate), Times.Once);
+                _mockAddressAggregateRepository.Verify(_ => _.Insert(addressAggregateEntity), Times.Once);
             }
         }
         

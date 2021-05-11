@@ -4,22 +4,21 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models;
-using RapidTime.Core.Services;
 
 namespace RapidTime.Services
 {
     public class CustomerService : ICustomerService
     {
         private IUnitofWork _unitofWork;
-        private ILogger _logger;
+        private ILogger<CustomerService> _logger;
 
-        public CustomerService(IUnitofWork unitofWork, ILogger logger)
+        public CustomerService(IUnitofWork unitofWork, ILogger<CustomerService> logger)
         {
             _unitofWork = unitofWork;
             _logger = logger;
         }
 
-        public IEnumerable<Customer> GetAllCustomers()
+        public IEnumerable<CustomerEntity> GetAllCustomers()
         {
             try
             {
@@ -51,13 +50,15 @@ namespace RapidTime.Services
             }
         }
 
-        public void Insert(Customer customer)
+        public int Insert(CustomerEntity customerEntity)
         {
             try
             {
-            _unitofWork.CustomerRepository.Insert(customer);
-            _unitofWork.Commit();
                 
+                var id =_unitofWork.CustomerRepository.Insert(customerEntity);
+                _unitofWork.Commit();
+                return id.Id;
+
             }catch (Exception e)
             {
                 _logger.LogInformation(e.Message);
@@ -65,11 +66,11 @@ namespace RapidTime.Services
             }
         }
 
-        public void Update(Customer customer)
+        public void Update(CustomerEntity customerEntity)
         {
             try
             {
-                _unitofWork.CustomerRepository.Update(customer);
+                _unitofWork.CustomerRepository.Update(customerEntity);
                 _unitofWork.Commit();
 
             }
@@ -80,7 +81,7 @@ namespace RapidTime.Services
             }
         }
 
-        public Customer GetById(int i)
+        public CustomerEntity GetById(int i)
         {
             try
             {
@@ -94,7 +95,7 @@ namespace RapidTime.Services
             }
         }
 
-        public Customer[] FindByName(string input)
+        public CustomerEntity[] FindByName(string input)
         {
             try
             {

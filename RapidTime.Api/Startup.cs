@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RapidTime.Api.GRPCServices;
 using RapidTime.Core;
 using RapidTime.Core.Models;
 using RapidTime.Core.Models.Auth;
-using RapidTime.Core.Services;
 using RapidTime.Data;
 using RapidTime.Services;
 
@@ -44,8 +44,17 @@ namespace RapidTime.Api
                 .AddDefaultTokenProviders();
 
             services.AddTransient<IUnitofWork, UnitofWork>();
+            services.AddTransient<ICountryService, CountryService>();
             services.AddTransient<ICityService, CityService>();
+            services.AddTransient<IAddressAggregateService, AddressAggregateService>();
+            services.AddTransient<IAssignmentTypeService, AssignmentTypeService>();
+            services.AddTransient<IAssignmentService, AssignmentService>();
+            services.AddTransient<ICompanyTypeService, CompanyTypeService>();
+            services.AddTransient<IContactService, ContactService>();
+            services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<IPriceService, PriceService>();
             services.AddTransient<IRepository<BaseEntity>, Repository<BaseEntity>>();
+            services.AddTransient<ITimeRegistrationService, TimeRegistrationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +69,15 @@ namespace RapidTime.Api
             app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
-                
+                endpoints.MapGrpcService<AssignmentTypeGrpcService>();
+                endpoints.MapGrpcService<CityGrpcService>();
+                endpoints.MapGrpcService<CountryGrpcService>();
+                endpoints.MapGrpcService<AddressAggregateGrpcService>();
+                endpoints.MapGrpcService<CustomerGrpcService>();
+                endpoints.MapGrpcService<ContactGrpcService>();
+                endpoints.MapGrpcService<CompanyTypeGrpcService>();
+                endpoints.MapGrpcService<PriceGrpcService>();
+                endpoints.MapGrpcService<TimeRegistrationGrpcService>();
 
                 endpoints.MapGet("/",
                     async context =>

@@ -3,37 +3,37 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models;
-using RapidTime.Core.Services;
 
 namespace RapidTime.Services
 {
     public class PriceService : IPriceService
     {
         private readonly IUnitofWork _unitofWork;
-        private ILogger _logger;
+        private ILogger<PriceService> _logger;
 
-        public PriceService(IUnitofWork unitofWork, ILogger logger)
+        public PriceService(IUnitofWork unitofWork, ILogger<PriceService> logger)
         {
             _unitofWork = unitofWork;
             _logger = logger;
         }
 
-        public Price GetById(int i)
+        public PriceEntity GetById(int i)
         {
             return _unitofWork.PriceRepository.GetbyId(i);
         }
 
-        public IEnumerable<Price> GetAll()
+        public IEnumerable<PriceEntity> GetAll()
         {
             return _unitofWork.PriceRepository.GetAll();
         }
 
-        public void Insert(Price price)
+        public int Insert(PriceEntity priceEntity)
         {
             try
             {
-                _unitofWork.PriceRepository.Insert(price);
+                var id =_unitofWork.PriceRepository.Insert(priceEntity);
                 _unitofWork.Commit();
+                return id.Id;
             }
             catch (Exception e)
             {
@@ -42,11 +42,11 @@ namespace RapidTime.Services
             }
         }
 
-        public void Update(Price price)
+        public void Update(PriceEntity priceEntity)
         {
             try
             {
-                _unitofWork.PriceRepository.Update(price);
+                _unitofWork.PriceRepository.Update(priceEntity);
                 _unitofWork.Commit();
             }
             catch (Exception e)
