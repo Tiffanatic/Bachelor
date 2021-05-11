@@ -43,7 +43,7 @@ namespace RapidTime.Api.GRPCServices
             var companyTypeToReturn = _companyTypeService.findById(id);
             return Task.FromResult(new CompanyTypeResponse()
             {
-                Response =
+                Response = new()
                 {
                     CompanyTypeName = companyTypeToReturn.CompanyTypeName,
                     Id = companyTypeToReturn.Id

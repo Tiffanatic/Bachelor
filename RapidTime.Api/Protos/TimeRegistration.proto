@@ -2,14 +2,15 @@
 
 option csharp_namespace = "RapidTime.Api";
 
-import "google/protobuf/empty.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
 
-package timeregistration;
+package timeRegistration;
 
 service TimeRegistration {
   rpc CreateTimeRegistration (CreateTimeRegistrationRequest) returns (TimeRegistrationResponse);
   rpc GetTimeRegistrationByAssignmentId (GetTimeRegistrationByAssignmentIdRequest) returns (MultiTimeRegistrationResponse);
+  rpc GetTotalTimeRegisteredOnAssignmentId (GetTimeRegistrationByAssignmentIdRequest) returns (TotalTimeSpentOnAssignment);
 }
 
 message GetTimeRegistrationByAssignmentIdRequest {
@@ -32,4 +33,9 @@ message TimeRegistrationBase {
   int32 Id = 1;
   google.protobuf.Duration TimeRecorded = 2;
   int32 assignmentId = 3;
+  google.protobuf.Timestamp Date = 4;
+}
+
+message TotalTimeSpentOnAssignment {
+  google.protobuf.Duration TimeRecordedTotal = 1;
 }

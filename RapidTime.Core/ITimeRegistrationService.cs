@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using RapidTime.Core.Models;
 
 namespace RapidTime.Core
@@ -8,5 +9,6 @@ namespace RapidTime.Core
         TimeSpan GetTimeRecordedForAssignment(int i);
         bool RegisterTime(TimeRecordEntity timeRecordEntity, int assignmentId);
         bool LimitTimeRecordToHoursOfTheDay(TimeRecordEntity timeRecordEntity, AssignmentEntity assignmentEntity);
+        List<TimeRecordEntity> GetTimeRecordsForAssignment(int i);
     }
 }

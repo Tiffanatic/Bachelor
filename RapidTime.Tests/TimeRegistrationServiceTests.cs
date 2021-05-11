@@ -118,5 +118,21 @@ namespace RapidTime.Tests
             registeredTime1.Should().BePositive();
             registeredTime2.Should().BePositive();
         }
+
+        [Fact]
+        public void ServiceShouldReturnTimeRecordObjectsOnASpecificAssignment()
+        {
+            //Arrange
+            _mockAssignmentRepository.Setup(ar => ar.GetbyId(0)).Returns(DummyData[0]);
+            
+            //Act
+            var timeRecordsForAssignment = _timeRegistrationService.GetTimeRecordsForAssignment(0);
+
+            //Assert
+            timeRecordsForAssignment.Should().HaveCount(4);
+            timeRecordsForAssignment.Should().NotContainNulls();
+            
+
+        }
     }
 }

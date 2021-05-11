@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models;
@@ -8,10 +9,10 @@ namespace RapidTime.Services
     public class TimeRegistrationService : ITimeRegistrationService
     {
         private readonly IUnitofWork _unitOfWork;
-        private readonly AssignmentService _assignmentService;
+        private readonly IAssignmentService _assignmentService;
         private readonly ILogger<TimeRegistrationService> _logger;
 
-        public TimeRegistrationService(IUnitofWork unitOfWork, AssignmentService assignmentService, ILogger<TimeRegistrationService> logger)
+        public TimeRegistrationService(IUnitofWork unitOfWork, IAssignmentService assignmentService, ILogger<TimeRegistrationService> logger)
         {
             _unitOfWork = unitOfWork;
             _assignmentService = assignmentService;
@@ -79,6 +80,22 @@ namespace RapidTime.Services
             }
 
             return registeredTime;
+        }
+
+        public List<TimeRecordEntity> GetTimeRecordsForAssignment(int i)
+        {
+            List<TimeRecordEntity> timeRecords = new List<TimeRecordEntity>();
+            var assignment = _assignmentService.GetById(i);
+
+            foreach (TimeRecordEntity timeRecord in assignment.TimeRecords)
+            {
+                if (timeRecord != null)
+                {
+                    timeRecords.Add(timeRecord);    
+                }
+            }
+
+            return timeRecords;
         }
     }
 }
