@@ -1,6 +1,7 @@
 ﻿using RapidTime.Core;
 using RapidTime.Core.Models;
 using RapidTime.Core.Models.Address;
+using RapidTime.Core.Models.Auth;
 
 namespace RapidTime.Data
 {
@@ -83,8 +84,6 @@ namespace RapidTime.Data
         {
             get { return _priceRepository ??= new Repository<PriceEntity>(_context); }
         }
-
-        
         
         public void Commit()
         {

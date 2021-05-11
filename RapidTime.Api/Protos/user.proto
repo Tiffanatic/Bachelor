@@ -17,6 +17,8 @@ message UserBase{
   string lastName = 2;
   bool gdprDeleted = 3;
   google.protobuf.Timestamp deleteDate = 4;
+  string email = 5;
+  string phoneNumber = 6;
 }
 
 message GetUserRequest{
