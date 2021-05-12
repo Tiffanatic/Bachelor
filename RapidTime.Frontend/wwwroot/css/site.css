@@ -48,3 +48,8 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+.main-loginform {
+    margin-left: 30rem;
+    margin-right: 30rem;
+}

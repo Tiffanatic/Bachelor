@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RapidTime.Frontend.Data;
+using RapidTime.Frontend.ProtoClients;
+using RapidTime.Frontend.State;
 
 namespace RapidTime.Frontend
 {
@@ -29,6 +31,8 @@ namespace RapidTime.Frontend
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddScoped<StateContainer>();
+            services.AddScoped<CountryGrpcClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
