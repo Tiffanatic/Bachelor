@@ -11,10 +11,15 @@ service Country {
   rpc CreateCountry (CreateCountryRequest) returns (google.protobuf.Empty);
   rpc DeleteCountry (DeleteCountryRequest) returns (google.protobuf.Empty);
   rpc UpdateCountry (UpdateCountryRequest) returns (CountryResponse);
+  rpc GetAllCountries (google.protobuf.Empty) returns (MultiCountryResponse);
 }
 
 message UpdateCountryRequest {
   CountryBase request = 1;
+}
+
+message MultiCountryResponse {
+  repeated CountryBase response = 1;
 }
 
 message CountryBase {

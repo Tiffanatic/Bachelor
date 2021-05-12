@@ -1,0 +1,40 @@
+﻿@page "/lande/{Id:int}"
+@inject CountryGrpcClient _countryGrpcClient
+@inject NavigationManager navManager
+
+<h3>Redigér Land</h3>
+
+    <EditForm Model="_countryBase" OnValidSubmit="Update">
+        <div class="col-md-4">
+            <div class="form-group row">
+                <label for="name" class="col-md-2 col-form-label">Navn</label>
+                <InputText id="name" @bind-Value="_countryBase.CountryName"></InputText>
+            </div>
+            <div class="form-group row">
+                <label for="Code" class="col-md-2 col-form-label">Kode</label>
+                <InputText id="Code" @bind-Value="_countryBase.CountryCode"></InputText>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success">Gem</button>
+            </div>
+        </div>
+    </EditForm>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private CountryBase _countryBase;
+    protected override async void OnInitialized()
+    {
+        _countryBase = await _countryGrpcClient.GetCountry(Id);
+    }
+
+    private async void Update()
+    {
+        var res = await _countryGrpcClient.UpdateCountry(_countryBase);
+        navManager.NavigateTo("/Lande");
+    }
+
+}

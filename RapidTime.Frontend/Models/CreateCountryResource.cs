@@ -2,7 +2,7 @@
 
 namespace RapidTime.Frontend.Models
 {
-    public class CreateCountry
+    public class CreateCountryResource
     {
         [Required(ErrorMessage = "Landekode er påkrævet")]
         public string CountryCode { get; set; }

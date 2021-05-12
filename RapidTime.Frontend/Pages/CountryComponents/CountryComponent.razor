@@ -1,0 +1,46 @@
+﻿@page "/Lande"
+@inject CountryGrpcClient _countryGrpcClient
+@inject NavigationManager _navigationManager
+
+
+<CreateCountryComponent/>
+
+<h2>Lande Oversigt</h2>
+<ListItemsComponent Items="@_countries">
+    <TableHeader>
+        <th>Id</th><th>Navn</th> <th>Kode</th>
+    </TableHeader>
+    
+    <RowTemplate>
+        <td>@context.Id</td><td>@context.CountryName</td><td>@context.CountryCode</td>
+        <td><a type="button" class="btn btn-primary" href="Lande/@context.Id">Rediger</a> </td> 
+        <td><button type="button" class="btn btn-danger" @onclick="@(() => DeleteCountry(context.Id))">Slet</button> </td>
+    </RowTemplate>
+</ListItemsComponent>
+
+
+@code {
+    private List<CountryBase> _countries;
+
+    protected override async void OnInitialized()
+    {
+        _countries = await _countryGrpcClient.GetAllCountries();
+        base.OnInitialized();
+    }
+
+    private async void DeleteCountry(int id)
+    {
+        await _countryGrpcClient.DeleteCountry(id);
+        var itemToRemove = _countries.First(x => x.Id == id);
+        _countries.Remove(itemToRemove);
+        StateHasChanged();
+    }
+
+    private void UpdateCountry(int id)
+    {
+        _navigationManager.NavigateTo($"/Lande/{id}");
+    }
+
+    
+
+}
