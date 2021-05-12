@@ -44,15 +44,17 @@ namespace RapidTime.Services
 
         public CountryEntity[] GetCountryByNameOrCountryCode(string input)
         {
+            input = input.ToLower();
+            
             try
             {
                 var countries = GetAllCountries().ToList();
                 if (input.Length < 3)
                 {
-                    return countries.Where(x => x.CountryCode.Contains(input)).ToArray();
+                    return countries.Where(x => x.CountryCode.ToLower().Contains(input)).ToArray();
                 }
 
-                return countries.Where(x => x.CountryName.Contains(input)).ToArray();
+                return countries.Where(x => x.CountryName.ToLower().Contains(input)).ToArray();
             }
             catch (Exception ex)
             {
