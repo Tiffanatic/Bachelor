@@ -1,0 +1,41 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RapidTime.Frontend";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+package timeRegistration;
+
+service TimeRegistration {
+  rpc CreateTimeRegistration (CreateTimeRegistrationRequest) returns (TimeRegistrationResponse);
+  rpc GetTimeRegistrationByAssignmentId (GetTimeRegistrationByAssignmentIdRequest) returns (MultiTimeRegistrationResponse);
+  rpc GetTotalTimeRegisteredOnAssignmentId (GetTimeRegistrationByAssignmentIdRequest) returns (TotalTimeSpentOnAssignment);
+}
+
+message GetTimeRegistrationByAssignmentIdRequest {
+  int32 Id = 1; 
+}
+
+message MultiTimeRegistrationResponse {
+  repeated TimeRegistrationBase TimeRegistrations = 1; 
+}
+
+message CreateTimeRegistrationRequest {
+  TimeRegistrationBase TimeRegistration = 1;
+}
+
+message TimeRegistrationResponse {
+  bool success = 1; 
+}
+
+message TimeRegistrationBase {
+  int32 Id = 1;
+  google.protobuf.Duration TimeRecorded = 2;
+  int32 assignmentId = 3;
+  google.protobuf.Timestamp Date = 4;
+}
+
+message TotalTimeSpentOnAssignment {
+  google.protobuf.Duration TimeRecordedTotal = 1;
+}

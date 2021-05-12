@@ -1,0 +1,41 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RapidTime.Frontend";
+
+import "google/protobuf/empty.proto";
+
+package country;
+
+service Country {
+  rpc GetCountry (GetCountryRequest) returns (CountryResponse);
+  rpc CreateCountry (CreateCountryRequest) returns (google.protobuf.Empty);
+  rpc DeleteCountry (DeleteCountryRequest) returns (google.protobuf.Empty);
+  rpc UpdateCountry (UpdateCountryRequest) returns (CountryResponse);
+}
+
+message UpdateCountryRequest {
+  CountryBase request = 1;
+}
+
+message CountryBase {
+  int32 id = 1;
+  string countryName = 2;
+  string countryCode = 3;
+}
+
+message GetCountryRequest {
+  int32 id = 1;
+}
+
+message CountryResponse {
+  CountryBase response = 1;
+}
+
+message CreateCountryRequest {
+  string countryName = 1;
+  string countryCode = 2;
+}
+
+message DeleteCountryRequest {
+  int32 id = 1;
+}

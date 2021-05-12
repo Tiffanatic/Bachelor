@@ -1,0 +1,52 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RapidTime.Frontend";
+
+import "google/protobuf/empty.proto";
+import "Protos/assignmentType.proto";
+
+package price;
+
+service Price {
+  rpc GetPrice (GetPriceRequest) returns (PriceResponse);
+  rpc UserPrices (GetUserPriceListRequest) returns (MultiPriceResponse);
+  rpc CreatePrice (CreatePriceRequest) returns (PriceResponse);
+  rpc UpdateHourlyRate (UpdatePriceRequest) returns (PriceResponse);
+  rpc DeletePrice (DeletePriceRequest) returns (google.protobuf.Empty);
+}
+
+message PriceBase{
+  int32 id = 1;
+  double hourlyRate = 2;
+  
+  assignmentType.AssignmentTypeBase assignmentType = 3;
+}
+message GetPriceRequest{
+  int32 id = 1;
+}
+
+message GetUserPriceListRequest {
+  string Id = 1;
+}
+
+message PriceResponse {
+  PriceBase response = 1;
+}
+
+message CreatePriceRequest{
+  double hourlyRate = 1;
+  string UserId = 2;
+  assignmentType.AssignmentTypeBase assignmentType = 3;
+}
+
+message UpdatePriceRequest{
+  PriceBase request = 1;
+}
+
+message DeletePriceRequest{
+  int32 id = 1;
+}
+
+message MultiPriceResponse{
+  repeated PriceResponse response = 1;
+}

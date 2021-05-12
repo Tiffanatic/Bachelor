@@ -1,0 +1,69 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RapidTime.Frontend";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "Protos/addressAggregate.proto";
+import "Protos/companyType.proto";
+import "Protos/contact.proto";
+
+package customer;
+
+service Customer {
+  rpc GetCustomer (GetCustomerRequest) returns (CustomerResponse);
+  rpc CreateCustomer (CreateCustomerRequest) returns (CustomerResponse);
+  rpc UpdateCustomer (UpdateCustomerRequest) returns (google.protobuf.Empty);
+  rpc DeleteCustomer (DeleteCustomerRequest) returns (google.protobuf.Empty);
+  rpc RequestDeletion (RequestDeleteCustomerRequest) returns (google.protobuf.Empty);
+}
+
+message GetCustomerRequest {
+  int32 id = 1;
+}
+
+message CustomerResponse {
+  CustomerBase response = 1;
+}
+
+message CreateCustomerRequest {
+  string name = 1;
+  int32 CVRNummer = 2;
+  companyType.CompanyTypeBase companyType = 3;
+  google.protobuf.Timestamp yearlyReview = 4;
+  InvoiceCurrencyEnum invoiceCurrency = 5;
+  string invoiceEmail = 6;
+  repeated contact.ContactBase contact = 7;
+}
+
+message UpdateCustomerRequest {
+  CustomerBase request = 1;
+}
+
+message DeleteCustomerRequest {
+  int32 id = 1;
+}
+message RequestDeleteCustomerRequest {
+  google.protobuf.Timestamp DateForDeletion = 1;
+  int32 IdToDelete = 2;
+}
+
+
+message CustomerBase {
+  int32 id = 1;
+  string name = 2;
+  companyType.CompanyTypeBase companyType = 3;
+  google.protobuf.Timestamp yearlyReview = 4;
+  InvoiceCurrencyEnum invoiceCurrency = 5;
+  string invoiceEmail = 6;
+  google.protobuf.Timestamp RequestDeletionDate= 7;
+  repeated contact.ContactBase contact = 8;
+}
+
+enum InvoiceCurrencyEnum {
+  DKK = 0;
+  SEK = 1;
+  NOK = 2;
+  GBP = 3;
+  EUR = 4;
+}

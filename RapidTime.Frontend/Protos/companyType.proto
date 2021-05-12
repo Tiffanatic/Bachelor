@@ -1,0 +1,34 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RapidTime.Frontend";
+
+import "google/protobuf/empty.proto";
+
+package companyType;
+
+service CompanyType {
+  rpc GetCompanyType (GetCompanyTypeRequest) returns (CompanyTypeResponse);
+  rpc CreateCompanyType (CreateCompanyTypeRequest) returns (CompanyTypeResponse);
+  rpc DeleteCompanyType (DeleteCompanyTypeRequest) returns (google.protobuf.Empty);
+}
+
+message CompanyTypeBase{
+  int32 id = 1;
+  string companyTypeName = 2;
+}
+
+message GetCompanyTypeRequest{
+  int32 id = 1;
+}
+
+message CompanyTypeResponse{
+  CompanyTypeBase response = 1;
+}
+
+message CreateCompanyTypeRequest{
+  CompanyTypeBase input = 1;
+}
+
+message DeleteCompanyTypeRequest{
+  int32 id = 1;
+}
