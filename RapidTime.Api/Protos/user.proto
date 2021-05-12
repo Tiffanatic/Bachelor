@@ -10,6 +10,7 @@ service User {
   rpc UpdateUser (UpdateUserRequest) returns (UserResponse);
   rpc CreateUser (CreateUserRequest) returns (UserResponse);
   rpc DeleteUser (DeleteUserRequest) returns (google.protobuf.Empty);
+  rpc GetAllUsers (google.protobuf.Empty) returns (MultiUserResponse);
 }
 
 message UserBase{
@@ -43,4 +44,8 @@ message CreateUserRequest{
 
 message DeleteUserRequest{
   int32 id = 1;
+}
+
+message MultiUserResponse {
+  repeated UserBase response = 1; 
 }

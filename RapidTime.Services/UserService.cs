@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -10,8 +11,8 @@ namespace RapidTime.Services
 {
     public class UserService : IUserService
     {
-        private readonly UserManager<User> _userManager;
         private readonly ILogger<UserService> _logger;
+        private readonly UserManager<User> _userManager;
 
         public UserService(UserManager<User> userManager, ILogger<UserService> logger)
         {
@@ -23,12 +24,12 @@ namespace RapidTime.Services
         {
             try
             {
-                _logger.LogInformation($"CreateUser called with param: {@input}", input);
+                _logger.LogInformation($"CreateUser called with param: {input}", input);
                 var userFound = _userManager.FindByIdAsync(input.Id.ToString());
                 if (userFound == null) throw new Exception();
-                
+
                 await _userManager.CreateAsync(input);
-                return  await _userManager.FindByIdAsync(input.Id.ToString());
+                return await _userManager.FindByIdAsync(input.Id.ToString());
             }
             catch (Exception e)
             {
@@ -41,10 +42,10 @@ namespace RapidTime.Services
         {
             try
             {
-                _logger.LogInformation($"DeleteUser called with param: {@id}", id);
-                var userFound = _userManager.FindByIdAsync(id.ToString()).Result;
+                _logger.LogInformation($"DeleteUser called with param: {id}", id);
+                User userFound = _userManager.FindByIdAsync(id.ToString()).Result;
                 if (userFound == null) throw new Exception();
-                
+
                 _userManager.DeleteAsync(userFound);
             }
             catch (Exception e)
@@ -58,12 +59,12 @@ namespace RapidTime.Services
         {
             try
             {
-                _logger.LogInformation($"UpdateUser called with param: {@input}", input);
+                _logger.LogInformation($"UpdateUser called with param: {input}", input);
                 var userFound = _userManager.FindByIdAsync(input.Id.ToString());
                 if (userFound == null) throw new Exception();
-                
+
                 await _userManager.CreateAsync(input);
-                return  await _userManager.FindByIdAsync(input.Id.ToString());
+                return await _userManager.FindByIdAsync(input.Id.ToString());
             }
             catch (Exception e)
             {
@@ -76,7 +77,7 @@ namespace RapidTime.Services
         {
             try
             {
-                _logger.LogInformation($"GetUser called with param: {@id}", id);
+                _logger.LogInformation($"GetUser called with param: {id}", id);
                 if (string.IsNullOrWhiteSpace(id.ToString()))
                     throw new ArgumentNullException("id", "Unable to parse parameter as an integer for id");
                 var user = _userManager.FindByIdAsync(id.ToString());
@@ -87,8 +88,20 @@ namespace RapidTime.Services
                 _logger.LogError("{Message}", "{StackTrace}", e.Message, e.StackTrace);
                 throw new ArgumentException(e.Message);
             }
+        }
 
-
+        public IEnumerable<User> GetAllUsers()
+        {
+            try
+            {
+                var response = _userManager.Users.AsEnumerable();
+                return response;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("{Message}", "{StackTrace}", e.Message, e.StackTrace);
+                throw new ArgumentException(e.Message);
+            }
         }
     }
 }

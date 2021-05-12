@@ -11,7 +11,7 @@ namespace RapidTime.Core.Models.Auth
 
         public bool GdprDeleted { get; set; } = false;
 
-        public DateTime? DeleteDate { get; set; } = null;
+        public DateTime DeleteDate { get; set; } = new DateTime(2099, 1, 1);
         
         public IList<PriceEntity> Prices { get; set; }
         
