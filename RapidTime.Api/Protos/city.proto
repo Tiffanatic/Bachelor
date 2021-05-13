@@ -12,6 +12,7 @@ service City {
   rpc CreateCity (CreateCityRequest) returns (google.protobuf.Empty);
   rpc FindCity (stream FindCityRequest) returns (stream MultiCityResponse);
   rpc FindCitySingular (FindCityRequest) returns (MultiCityResponse);
+  rpc DeleteCity (DeleteCityRequest) returns (google.protobuf.Empty);
 }
 
 message GetCityRequest {
@@ -40,4 +41,9 @@ message CityBase {
   int32 id = 1;
   string postalCode = 2;
   string cityName = 3;
+  string country = 4;
+}
+
+message DeleteCityRequest {
+  int32 id = 1;
 }
