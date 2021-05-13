@@ -27,7 +27,7 @@ message DeleteDateResponse {
 }
 
 message GetUserRequest{
-  int32 id = 1;
+  string id = 1;
 }
 
 message UserResponse{
@@ -35,7 +35,7 @@ message UserResponse{
 }
 
 message UpdateUserRequest{
-  int32 id = 1;
+  string id = 1;
   string firstName = 2;
   string lastName = 3;
   bool gdprDeleted = 4;
@@ -47,7 +47,7 @@ message CreateUserRequest{
 }
 
 message DeleteUserRequest{
-  int32 id = 1;
+  string id = 1;
 }
 
 message MultiUserResponse {

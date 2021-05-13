@@ -65,10 +65,6 @@ namespace RapidTime.Api.GRPCServices
             };
 
             return response;
-
-
         }
-        
-        
     }
 }
