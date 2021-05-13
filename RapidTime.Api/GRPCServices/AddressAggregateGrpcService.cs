@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
@@ -12,14 +13,17 @@ namespace RapidTime.Api.GRPCServices
     {
         private IAddressAggregateService _addressAggregateService;
         private readonly ILogger<AddressAggregateGrpcService> _logger;
-
+        private ICityService _cityService;
+        private ICountryService _countryService;
+    
         public AddressAggregateGrpcService(IAddressAggregateService addressAggregateService,
-            ILogger<AddressAggregateGrpcService> logger)
+            ILogger<AddressAggregateGrpcService> logger, ICityService cityService)
         {
             _addressAggregateService = addressAggregateService;
             _logger = logger;
+            _cityService = cityService;
         }
-
+    
         public override Task<AddressAggregateResponse> CreateAddressAggregate(CreateAddressAggregateRequest request,
             ServerCallContext context)
         {
@@ -28,8 +32,8 @@ namespace RapidTime.Api.GRPCServices
             var addressToInsert = new AddressAggregateEntity()
             {
                 Street = request.Request.Street,
-                CityId = request.Request.City.Id,
-                CountryId = request.Request.Country.Id,
+                CityId = _cityService.FindCityByNameOrPostalCode(request.Request.City.CityName).First().Id,
+                CountryId = _countryService.GetCountryByNameOrCountryCode(request.Request.Country.CountryName).First().Id,
                 CustomerId = request.CustomerId
             };
             var id = _addressAggregateService.Insert(addressToInsert);
@@ -37,7 +41,7 @@ namespace RapidTime.Api.GRPCServices
             var addressToReturn = AddressAggregateResponse(addressAggregateEntityToReturn);
             return Task.FromResult(addressToReturn);
         }
-
+    
         private static AddressAggregateResponse AddressAggregateResponse(
             AddressAggregateEntity addressAggregateEntityToReturn)
         {
@@ -60,27 +64,27 @@ namespace RapidTime.Api.GRPCServices
             };
             return addressToReturn;
         }
-
+    
         public override Task<Empty> DeleteAddressAggregate(DeleteAddressAggregateRequest request,
             ServerCallContext context)
         {
             _logger.LogInformation("Delete Address called on Id: {Id}", request.Id);
             _addressAggregateService.Delete(request.Id);
-
+    
             return Task.FromResult(new Empty());
         }
-
+    
         public override Task<AddressAggregateResponse> GetAddressAggregate(GetAddressAggregateRequest request,
             ServerCallContext context)
         {
             _logger.LogInformation("Get Address called with Id: {Id}", request.Id);
             var address = _addressAggregateService.FindById(request.Id);
-
+    
             AddressAggregateResponse addressAggregateResponse = AddressAggregateResponse(address);
-
+    
             return Task.FromResult(addressAggregateResponse);
         }
-
+    
         public override Task<Empty> UpdateAddressAggregate(UpdateAddressAggregateRequest request, ServerCallContext context)
         {
             _logger.LogInformation("Update Address Called on Id: {Id}", request.Id);
@@ -92,6 +96,38 @@ namespace RapidTime.Api.GRPCServices
         
             return Task.FromResult(new Empty());
         
+        }
+
+        public override Task<MultiAddressAggregateResponse> GetAddressByCustomerId(GetAddressAggregateRequest request, ServerCallContext context)
+        {
+            _logger.LogInformation("Get Addresses for customer with Id: {Id}", request.Id);
+            var rawAddress = _addressAggregateService.GetAll();
+            var addressToReturn = rawAddress.Where(x => x.CustomerId == request.Id);
+
+            MultiAddressAggregateResponse multiAddressAggregateResponse = new MultiAddressAggregateResponse();
+
+            foreach (var address in addressToReturn)
+            {
+                multiAddressAggregateResponse.Response.Add(new AddressAggregateBase()
+                {
+                    Street = address.Street,
+                    City = new CityBase()
+                    {
+                        CityName = address.CityEntity.CityName,
+                        Country = address.CityEntity.CityName,
+                        PostalCode = address.CityEntity.PostalCode,
+                        Id = address.CityId
+                    },
+                    Country = new CountryBase()
+                    {
+                        CountryCode = address.CountryEntity.CountryCode,
+                        CountryName = address.CountryEntity.CountryName,
+                        Id = address.CountryId
+                    }
+                });
+            }
+
+            return Task.FromResult(multiAddressAggregateResponse);
         }
     }
 }

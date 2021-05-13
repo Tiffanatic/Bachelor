@@ -73,7 +73,7 @@ namespace RapidTime.Api
                 endpoints.MapGrpcService<AssignmentTypeGrpcService>();
                 endpoints.MapGrpcService<CityGrpcService>();
                 endpoints.MapGrpcService<CountryGrpcService>();
-                endpoints.MapGrpcService<AddressAggregateGrpcService>();
+                // endpoints.MapGrpcService<AddressAggregateGrpcService>();
                 endpoints.MapGrpcService<CustomerGrpcService>();
                 endpoints.MapGrpcService<ContactGrpcService>();
                 endpoints.MapGrpcService<CompanyTypeGrpcService>();
