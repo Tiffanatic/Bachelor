@@ -33,6 +33,7 @@ namespace RapidTime.Frontend
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<StateContainer>();
             services.AddScoped<CountryGrpcClient>();
+            services.AddScoped<CityGrpcClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

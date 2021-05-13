@@ -32,13 +32,7 @@ namespace RapidTime.Frontend.ProtoClients
             return client;
         }
 
-        // public async Task<IEnumerable<MultiCountryResponse>> GetAllCountries()
-        // {
-        //     var client = await GetClient();
-        //     
-        //     client.
-        //     
-        // }
+        
         public async Task<List<CountryBase>> GetAllCountries()
         {
             var client = await GetClient();

@@ -1,5 +1,7 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
@@ -70,6 +72,32 @@ namespace RapidTime.Api.GRPCServices
                     CountryName = countryEntity.CountryName
                 }
             });
+        }
+
+        public override Task<MultiCountryResponse> GetAllCountries(Empty request, ServerCallContext context)
+        {
+            var countries = _countryService.GetAllCountries();
+
+            MultiCountryResponse response = new()
+            {
+                Response = {}
+            };
+
+            List<CountryBase> CountryBases = new();
+
+            foreach (var country in countries)
+            {
+                CountryBases.Add(new CountryBase()
+                {
+                    Id = country.Id,
+                    CountryCode = country.CountryCode,
+                    CountryName = country.CountryName
+                });
+            }
+            
+            response.Response.AddRange(CountryBases);
+
+            return Task.FromResult(response);
         }
     }
 }
