@@ -38,15 +38,15 @@ namespace RapidTime.Services
             }
         }
 
-        public void DeleteUser(int id)
+        public async Task DeleteUser(string id)
         {
             try
             {
                 _logger.LogInformation($"DeleteUser called with param: {id}", id);
-                User userFound = _userManager.FindByIdAsync(id.ToString()).Result;
+                User userFound = _userManager.FindByIdAsync(id).Result;
                 if (userFound == null) throw new Exception();
 
-                _userManager.DeleteAsync(userFound);
+                await _userManager.DeleteAsync(userFound);
             }
             catch (Exception e)
             {
@@ -104,10 +104,17 @@ namespace RapidTime.Services
             }
         }
 
-        public async Task<System.DateTime> GetUserDeleteDate(string id)
+        public async Task<DateTime> GetUserDeleteDate(string id)
         {
-            var user = await GetUser(id);
+            User user = await GetUser(id);
             return user.DeleteDate;
+        }
+        
+        public async void SetUserDeleteDate(string id, DateTime deleteDate)
+        {
+            User user = await GetUser(id);
+            user.DeleteDate = deleteDate;
+            await _userManager.CreateAsync(user);
         }
     }
 }
