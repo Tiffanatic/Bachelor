@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using RapidTime.Core.Models.Auth;
 
 namespace RapidTime.Core
@@ -8,6 +10,9 @@ namespace RapidTime.Core
         Task<User> CreateUser(User input);
         void DeleteUser(int id);
         Task<User> UpdateUser(User input);
-        Task<User> GetUser(int id);
+        Task<User> GetUser(string id);
+        IEnumerable<User> GetAllUsers();
+
+        Task<DateTime> GetUserDeleteDate(string id);
     }
 }

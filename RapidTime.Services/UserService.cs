@@ -24,16 +24,16 @@ namespace RapidTime.Services
         {
             try
             {
-                _logger.LogInformation($"CreateUser called with param: {input}", input);
-                var userFound = _userManager.FindByIdAsync(input.Id.ToString());
-                if (userFound == null) throw new Exception();
+                _logger.LogInformation("CreateUser called with param: {@input}", input);
+                User userFound = await _userManager.FindByIdAsync(input.Id.ToString());
+                if (userFound != null) throw new Exception();
 
                 await _userManager.CreateAsync(input);
                 return await _userManager.FindByIdAsync(input.Id.ToString());
             }
             catch (Exception e)
             {
-                _logger.LogError("{Message", "{StackTrace}", e.Message, e.StackTrace);
+                _logger.LogError("{Message}", e.Message);
                 throw new ArgumentException(e.Message);
             }
         }
@@ -73,14 +73,14 @@ namespace RapidTime.Services
             }
         }
 
-        public Task<User> GetUser(int id)
+        public async Task<User> GetUser(string id)
         {
             try
             {
                 _logger.LogInformation($"GetUser called with param: {id}", id);
-                if (string.IsNullOrWhiteSpace(id.ToString()))
+                if (string.IsNullOrWhiteSpace(id))
                     throw new ArgumentNullException("id", "Unable to parse parameter as an integer for id");
-                var user = _userManager.FindByIdAsync(id.ToString());
+                var user = await _userManager.FindByIdAsync(id);
                 return user;
             }
             catch (Exception e)
@@ -102,6 +102,12 @@ namespace RapidTime.Services
                 _logger.LogError("{Message}", "{StackTrace}", e.Message, e.StackTrace);
                 throw new ArgumentException(e.Message);
             }
+        }
+
+        public async Task<System.DateTime> GetUserDeleteDate(string id)
+        {
+            var user = await GetUser(id);
+            return user.DeleteDate;
         }
     }
 }
