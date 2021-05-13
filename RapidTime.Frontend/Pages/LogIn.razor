@@ -1,0 +1,65 @@
+﻿@page "/LogIn"
+@inject StateContainer _stateContainer
+@inject NavigationManager navManager
+<div class="main-loginform">
+        
+    <h3>Log Ind</h3>
+
+    @if (showAuthenticationError)
+    {
+        <div class="alert-danger" role="alert">
+            <p>@authenticationErrorText</p>
+        </div>
+    }
+
+    <EditForm Model="model" OnValidSubmit="ExecuteLogin" class="card card-body bg-light mt-5">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group row">
+            <label for="email" class="col-md-2 col-form-label">Email</label>
+            <div class="col-md-10">
+                <InputText id="email" class="form-control" @bind-Value="model.Email" />
+                <ValidationMessage For="@(()=>model.Email)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="email" class="col-md-2 col-form-label">Password</label>
+            <div class="col-md-10">
+                <InputText type="password" id="password" class="form-control" @bind-Value="model.Password" />
+                <ValidationMessage For="@(()=>model.Password)" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success">Log ind</button>
+            </div>
+        </div>
+    </EditForm>
+</div>
+@code {
+    private AuthenticationUserModel model = new();
+
+    private bool showAuthenticationError = false;
+
+    private string authenticationErrorText = "";
+
+    private async Task ExecuteLogin()
+    {
+        showAuthenticationError = false;
+
+        _stateContainer.Id = "1234";
+        navManager.NavigateTo("/");
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        _stateContainer.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        _stateContainer.OnChange -= StateHasChanged;
+    }
+}

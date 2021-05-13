@@ -1,0 +1,56 @@
+﻿@using RapidTime.Frontend.ProtoClients
+@inject CityGrpcClient _cityGrpcClient
+@inject CountryGrpcClient _countryGrpcClient
+
+<h3>Tilføj By </h3>
+
+<EditForm Model="model" OnValidSubmit="CreateCity">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <div class="col-md-3">
+            <label for="CityName">Bynavn</label>
+            <InputText id="CityName" @bind-Value="model.CityName"></InputText>
+        </div>
+        <div class="col-md-3">
+            <label for="PostalCode">Post nummer</label>
+            <InputText id="PostalCode" @bind-Value="model.PostalCode"></InputText>
+        </div>
+        <div class="col-md-3">
+            <select class="form-control" @bind="@model.CountryName">
+                <option selected disabled="true"> -- Vælg Land --</option>
+                @foreach (var country in _countries)
+                {
+                    <option title="@country.CountryName" value="@country.CountryName">@country.CountryName</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-success">Gem</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    
+    [Parameter]
+    public Action ExternalMethod { get; set; }
+    
+    private List<CountryBase> _countries;
+    private CreateCityResource model;
+    protected override async void OnInitialized()
+    {
+        model = new CreateCityResource();
+        _countries = await _countryGrpcClient.GetAllCountries();
+    }
+
+    private void CreateCity()
+    {
+        _cityGrpcClient.CreateCity(model);
+        model.CityName = "";
+        model.PostalCode = "";
+        ExternalMethod?.Invoke();
+        StateHasChanged();
+    }
+
+}

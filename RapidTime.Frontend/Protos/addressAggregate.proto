@@ -1,0 +1,43 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RapidTime.Frontend";
+
+import "google/protobuf/empty.proto";
+import "Protos/city.proto";
+import "Protos/country.proto";
+
+package addressAggregate;
+
+service AddressAggregate {
+  rpc GetAddressAggregate (GetAddressAggregateRequest) returns (AddressAggregateResponse);
+  rpc UpdateAddressAggregate (UpdateAddressAggregateRequest) returns (google.protobuf.Empty);
+  rpc DeleteAddressAggregate (DeleteAddressAggregateRequest) returns (google.protobuf.Empty);
+  rpc CreateAddressAggregate (CreateAddressAggregateRequest) returns (AddressAggregateResponse);
+}
+message GetAddressAggregateRequest{
+  int32 id = 1;
+}
+
+message AddressAggregateResponse{
+  AddressAggregateBase response = 1;
+}
+
+message UpdateAddressAggregateRequest{
+  AddressAggregateBase response = 1;
+  int32 Id = 2;
+}
+
+message DeleteAddressAggregateRequest{
+  int32 id = 1;
+}
+
+message CreateAddressAggregateRequest{
+  AddressAggregateBase request = 1;
+  int32 customerId = 2;
+}
+
+message AddressAggregateBase {
+  city.CityBase city = 1;
+  country.CountryBase country = 2;
+  string street = 3;
+}

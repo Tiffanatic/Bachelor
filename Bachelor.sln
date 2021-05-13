@@ -1,21 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greeter", "Greeter\Greeter.csproj", "{27E026FD-FDEC-49A5-BCC9-10941D239276}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Greeter", "Greeter\Greeter.csproj", "{27E026FD-FDEC-49A5-BCC9-10941D239276}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcGreeterClient", "GrpcGreeterClient\GrpcGreeterClient.csproj", "{5695FA2C-CFDB-4EFC-B9DA-19BC736EE82E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcGreeterClient", "GrpcGreeterClient\GrpcGreeterClient.csproj", "{5695FA2C-CFDB-4EFC-B9DA-19BC736EE82E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapidTime.Api", "RapidTime.Api\RapidTime.Api.csproj", "{055C9498-801B-4E3D-8A46-D5998971264D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RapidTime.Api", "RapidTime.Api\RapidTime.Api.csproj", "{055C9498-801B-4E3D-8A46-D5998971264D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapidTime.Data", "RapidTime.Data\RapidTime.Data.csproj", "{57E89A70-F7D2-4A4A-9A98-66FB32BA4366}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RapidTime.Data", "RapidTime.Data\RapidTime.Data.csproj", "{57E89A70-F7D2-4A4A-9A98-66FB32BA4366}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapidTime.Core", "RapidTime.Core\RapidTime.Core.csproj", "{22811E81-7253-4308-B36B-6C91DDB1B646}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RapidTime.Core", "RapidTime.Core\RapidTime.Core.csproj", "{22811E81-7253-4308-B36B-6C91DDB1B646}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapidTime.Tests", "RapidTime.Tests\RapidTime.Tests.csproj", "{39F0911A-EB19-4A54-862C-408670C7C7BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RapidTime.Tests", "RapidTime.Tests\RapidTime.Tests.csproj", "{39F0911A-EB19-4A54-862C-408670C7C7BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapidTime.Services", "RapidTime.Services\RapidTime.Services.csproj", "{4FD8216F-B926-4A46-BBEF-69A2C2ED7AA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RapidTime.Services", "RapidTime.Services\RapidTime.Services.csproj", "{4FD8216F-B926-4A46-BBEF-69A2C2ED7AA9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RapidTime.Frontend", "RapidTime.Frontend\RapidTime.Frontend.csproj", "{F88F2EEF-5904-4819-9728-89D0EFF8CE07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,9 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{27E026FD-FDEC-49A5-BCC9-10941D239276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -114,5 +113,23 @@ Global
 		{4FD8216F-B926-4A46-BBEF-69A2C2ED7AA9}.Release|x64.Build.0 = Release|Any CPU
 		{4FD8216F-B926-4A46-BBEF-69A2C2ED7AA9}.Release|x86.ActiveCfg = Release|Any CPU
 		{4FD8216F-B926-4A46-BBEF-69A2C2ED7AA9}.Release|x86.Build.0 = Release|Any CPU
+		{F88F2EEF-5904-4819-9728-89D0EFF8CE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F88F2EEF-5904-4819-9728-89D0EFF8CE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F88F2EEF-5904-4819-9728-89D0EFF8CE07}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F88F2EEF-5904-4819-9728-89D0EFF8CE07}.Debug|x64.Build.0 = Debug|Any CPU
+		{F88F2EEF-5904-4819-9728-89D0EFF8CE07}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F88F2EEF-5904-4819-9728-89D0EFF8CE07}.Debug|x86.Build.0 = Debug|Any CPU
+		{F88F2EEF-5904-4819-9728-89D0EFF8CE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F88F2EEF-5904-4819-9728-89D0EFF8CE07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F88F2EEF-5904-4819-9728-89D0EFF8CE07}.Release|x64.ActiveCfg = Release|Any CPU
+		{F88F2EEF-5904-4819-9728-89D0EFF8CE07}.Release|x64.Build.0 = Release|Any CPU
+		{F88F2EEF-5904-4819-9728-89D0EFF8CE07}.Release|x86.ActiveCfg = Release|Any CPU
+		{F88F2EEF-5904-4819-9728-89D0EFF8CE07}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FB2E3090-E9A4-4B7E-8E1B-1D098DB094F7}
 	EndGlobalSection
 EndGlobal

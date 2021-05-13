@@ -1,0 +1,54 @@
+﻿@inherits LayoutComponentBase
+@inject StateContainer _statecontainer
+@inject NavigationManager navManager
+@implements IDisposable
+
+
+@if (!String.IsNullOrEmpty(_statecontainer.Id))
+{
+    <div class="page">
+        <div class="sidebar">
+            <NavMenu/>
+        </div>
+
+        <div class="main">
+
+            <div class="content px-4">
+                @Body
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <LogIn />
+}
+
+@code {
+    private AuthenticationUserModel model = new();
+
+    private bool showAuthenticationError = false;
+
+    private string authenticationErrorText = "";
+
+    private async Task ExecuteLogin()
+    {
+        showAuthenticationError = false;
+
+        _statecontainer.Id = "1234";
+        navManager.NavigateTo("/");
+    }
+
+    protected override void OnInitialized()
+    {
+        _statecontainer.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        _statecontainer.OnChange -= StateHasChanged;
+    }
+    
+    
+
+}

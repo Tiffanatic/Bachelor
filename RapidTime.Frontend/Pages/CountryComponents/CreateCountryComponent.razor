@@ -1,0 +1,34 @@
+﻿@using RapidTime.Frontend.ProtoClients
+@inject CountryGrpcClient _countryGrpcClient
+
+<h3>Tilføj land</h3>
+
+<EditForm Model="model" OnValidSubmit="createCountry">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <div class="col-md-4">
+            <label for="countryname">Lande navn</label>
+            <InputText id="countryname" @bind-Value="model.CountryName"></InputText>
+            <ValidationMessage For="@(()=>model.CountryName)"/>
+        </div> 
+        <div class="col-md-4">
+            <label for="countrycode">Lande kode</label>
+            <InputText id="countrycode" @bind-Value="model.CountryCode"></InputText>
+            <ValidationMessage For="@(()=>model.CountryCode)"/>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-success" >Gem</button>
+        </div>
+    </div>
+</EditForm>
+
+
+@code {
+    CreateCountryResource model = new CreateCountryResource();
+
+    private async void createCountry()
+    {
+        await _countryGrpcClient.createCountry(model);
+    }
+}
