@@ -55,6 +55,7 @@ namespace RapidTime.Api
             services.AddTransient<IPriceService, PriceService>();
             services.AddTransient<IRepository<BaseEntity>, Repository<BaseEntity>>();
             services.AddTransient<ITimeRegistrationService, TimeRegistrationService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,6 +79,7 @@ namespace RapidTime.Api
                 endpoints.MapGrpcService<CompanyTypeGrpcService>();
                 endpoints.MapGrpcService<PriceGrpcService>();
                 endpoints.MapGrpcService<TimeRegistrationGrpcService>();
+                endpoints.MapGrpcService<UserGrpcService>();
 
                 endpoints.MapGet("/",
                     async context =>

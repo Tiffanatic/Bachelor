@@ -7,16 +7,23 @@ import "google/protobuf/timestamp.proto";
 
 service User {
   rpc GetUser (GetUserRequest) returns (UserResponse);
+  rpc GetUserDeleteDate (GetUserRequest) returns (DeleteDateResponse);
   rpc UpdateUser (UpdateUserRequest) returns (UserResponse);
   rpc CreateUser (CreateUserRequest) returns (UserResponse);
   rpc DeleteUser (DeleteUserRequest) returns (google.protobuf.Empty);
+  rpc GetAllUsers (google.protobuf.Empty) returns (MultiUserResponse);
 }
 
 message UserBase{
   string firstName = 1;
   string lastName = 2;
   bool gdprDeleted = 3;
-  google.protobuf.Timestamp deleteDate = 4;
+  string email = 5;
+  string phoneNumber = 6;
+}
+
+message DeleteDateResponse {
+  google.protobuf.Timestamp deleteDate = 1;
 }
 
 message GetUserRequest{
@@ -41,4 +48,8 @@ message CreateUserRequest{
 
 message DeleteUserRequest{
   int32 id = 1;
+}
+
+message MultiUserResponse {
+  repeated UserBase response = 1; 
 }
