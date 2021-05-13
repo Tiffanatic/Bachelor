@@ -8,11 +8,12 @@ namespace RapidTime.Core
     public interface IUserService
     {
         Task<User> CreateUser(User input);
-        void DeleteUser(int id);
+        Task DeleteUser(string id);
         Task<User> UpdateUser(User input);
         Task<User> GetUser(string id);
         IEnumerable<User> GetAllUsers();
 
         Task<DateTime> GetUserDeleteDate(string id);
+        void SetUserDeleteDate(string id, DateTime deleteDate);
     }
 }
