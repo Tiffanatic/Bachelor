@@ -13,6 +13,7 @@ service AddressAggregate {
   rpc UpdateAddressAggregate (UpdateAddressAggregateRequest) returns (google.protobuf.Empty);
   rpc DeleteAddressAggregate (DeleteAddressAggregateRequest) returns (google.protobuf.Empty);
   rpc CreateAddressAggregate (CreateAddressAggregateRequest) returns (AddressAggregateResponse);
+  rpc GetAddressByCustomerId (GetAddressAggregateRequest) returns (MultiAddressAggregateResponse);
 }
 message GetAddressAggregateRequest{
   int32 id = 1;
@@ -20,6 +21,10 @@ message GetAddressAggregateRequest{
 
 message AddressAggregateResponse{
   AddressAggregateBase response = 1;
+}
+
+message MultiAddressAggregateResponse {
+  repeated AddressAggregateBase response = 1;
 }
 
 message UpdateAddressAggregateRequest{

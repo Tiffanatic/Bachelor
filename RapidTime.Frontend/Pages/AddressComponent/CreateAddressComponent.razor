@@ -1,0 +1,66 @@
+﻿@page "/addresse/{CustomerId:int}"
+@inject AddressGrpcClient _addressGrpcClient 
+@inject CityGrpcClient _cityGrpcClient
+@inject CountryGrpcClient _countryGrpcClient
+@inject NavigationManager navManager
+
+<EditForm Model="model" OnValidSubmit="CreateAddress">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label for="Street">Vej navn og nr.</label>
+            </div>
+            <div class="col-md-10">
+                <InputText id="Street" class="form-control" @bind-Value="model.Street"></InputText>
+            </div>
+        </div>
+         <div class="col-md-12">
+            <select class="form-control" @bind="@model.CityName">
+                <option selected disabled="true"> -- Vælg By --</option>
+                @foreach (var city in _cities)
+                {
+                    <option title="@city.CityName" value="@city.CityName">@city.CityName</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-12">
+            <select class="form-control" @bind="@model.CountryName">
+                <option selected disabled="true"> -- Vælg Land --</option>
+                @foreach (var country in _countries)
+                {
+                    <option title="@country.CountryName" value="@country.CountryName">@country.CountryName</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-success">Gem</button>
+        </div>
+    </div>
+</EditForm>
+
+
+@code {
+
+    private CreateAddressResource model;
+    private List<CountryBase> _countries;
+    private List<CityBase> _cities;
+    protected override async void OnInitialized()
+    {
+        model = new CreateAddressResource();
+        _countries = await _countryGrpcClient.GetAllCountries();
+        _cities = _cityGrpcClient.GetAllCities();
+        
+        base.OnInitialized();
+    }
+
+    private void CreateAddress()
+    {
+        _addressGrpcClient.CreateAddressOnCustomer(model, CustomerId);
+        navManager.NavigateTo("/Kunder");
+    }
+
+    [Parameter]
+    public int CustomerId { get; set; }
+}
