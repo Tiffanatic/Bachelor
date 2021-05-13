@@ -1,0 +1,45 @@
+﻿@page "/Byer"
+@inject CityGrpcClient _cityGrpcClient
+
+<CreateCityComponent ExternalMethod="@UpdateThis"/>
+
+<h2>By Oversigt</h2>
+<ListItemsComponent Items="@_cities">
+    <TableHeader>
+        <th>Bynavn</th><th>Post Nummer</th>
+    </TableHeader>
+
+    <RowTemplate>
+        <td>@context.CityName</td>
+        <td>@context.PostalCode</td>
+        @* <td>@context.Country</td> *@
+        <td><button type="button" class="btn btn-danger" @onclick="@(()=> DeleteCity(@context.Id))">Slet</button> </td>
+    </RowTemplate>
+</ListItemsComponent>
+
+@code {
+
+    private List<CityBase> _cities;
+
+    protected override void OnInitialized()
+    {
+        _cities = _cityGrpcClient.GetAllCities();
+        base.OnInitialized();
+
+    }
+
+    private void DeleteCity(int citybaseId)
+    {
+        _cityGrpcClient.DeleteCity(citybaseId);
+        var itemToRemove = _cities.First(x => x.Id == citybaseId);
+        _cities.Remove(item: itemToRemove);
+        StateHasChanged();
+    }
+
+    private void UpdateThis()
+    {
+        _cities = _cityGrpcClient.GetAllCities();
+        StateHasChanged();
+    }
+
+}
