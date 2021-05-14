@@ -1,0 +1,33 @@
+﻿@inject CompanyTypeGrpcClient _companyTypeGrpcClient
+
+<h3>Opret firmatype</h3>
+
+<EditForm Model="model" OnValidSubmit="CreateCompanyType">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <div class="col-md-4">
+            <label for="companyType"></label>
+            <InputText id="companyType" @bind-Value="@model.Name"></InputText>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-success">Gem</button>
+        </div>
+    </div>
+    
+</EditForm>
+
+@code {
+    private CreatyCompanyTypeResource model = new();
+
+    [Parameter]
+    public Action ExternalMethod { get; set; }
+    
+    private void CreateCompanyType()
+    {
+        _companyTypeGrpcClient.CreateCompanyType(model);
+        ExternalMethod?.Invoke();
+        model.Name = "";
+        StateHasChanged();
+    }
+}
