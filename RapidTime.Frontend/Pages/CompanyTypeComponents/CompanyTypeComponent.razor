@@ -1,0 +1,31 @@
+﻿@page "/Firmatyper"
+@inject CompanyTypeGrpcClient _companyTypeGrpcClient
+
+<CreateCompanyTypeComponent ExternalMethod="@UpdateThis"/>
+
+<ListItemsComponent Items="_companyTypes">
+    <TableHeader>
+        <th>Id</th><th>Firma Type</th>
+    </TableHeader>
+    <RowTemplate>
+        <td>@context.Id</td><td>@context.CompanyTypeName</td>
+    </RowTemplate>
+</ListItemsComponent>
+
+@code {
+
+    private List<CompanyTypeBase> _companyTypes;
+
+    protected override void OnInitialized()
+    {
+        _companyTypes = _companyTypeGrpcClient.GetAllCompanyTypes();
+        base.OnInitialized();
+    }
+
+
+    private void UpdateThis()
+    {
+        _companyTypes = _companyTypeGrpcClient.GetAllCompanyTypes();
+        StateHasChanged();
+    }
+}

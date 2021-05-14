@@ -56,5 +56,20 @@ namespace RapidTime.Api.GRPCServices
             _companyTypeService.Delete(request.Id);
             return Task.FromResult(new Empty());
         }
+
+        public override Task<MultiCompanyTypeResponse> MultiCompanyType(Empty request, ServerCallContext context)
+        {
+            var companyTypeEntities = _companyTypeService.GetAll();
+            MultiCompanyTypeResponse response = new();
+            foreach (var companyTypeEntity in companyTypeEntities)
+            {
+                response.ResponseList.Add(new CompanyTypeBase()
+                {
+                    CompanyTypeName = companyTypeEntity.CompanyTypeName,
+                    Id = companyTypeEntity.Id
+                });
+            }
+            return Task.FromResult(response);
+        }
     }
 }
