@@ -16,6 +16,9 @@ namespace RapidTime.Core.Models.Auth
         public IList<PriceEntity> Prices { get; set; }
         
         public IList<AssignmentEntity> Assignments { get; set; }
+
+        public DateTime Created { get; set; }
+        public DateTime Updated { get; set; }
             
         //Following fields are being inherited from IdentityUser
         /*

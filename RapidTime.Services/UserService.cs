@@ -28,6 +28,8 @@ namespace RapidTime.Services
                 User userFound = await _userManager.FindByIdAsync(input.Id.ToString());
                 if (userFound != null) throw new Exception();
 
+                input.Created = DateTime.UtcNow;
+                input.Updated = DateTime.UtcNow;
                 await _userManager.CreateAsync(input);
                 return await _userManager.FindByIdAsync(input.Id.ToString());
             }
@@ -62,7 +64,8 @@ namespace RapidTime.Services
                 _logger.LogInformation($"UpdateUser called with param: {input}", input);
                 var userFound = _userManager.FindByIdAsync(input.Id.ToString());
                 if (userFound == null) throw new Exception();
-
+                
+                input.Updated = DateTime.UtcNow;
                 await _userManager.CreateAsync(input);
                 return await _userManager.FindByIdAsync(input.Id.ToString());
             }
@@ -114,6 +117,7 @@ namespace RapidTime.Services
         {
             User user = await GetUser(id);
             user.DeleteDate = deleteDate;
+            user.Updated = DateTime.UtcNow;
             await _userManager.CreateAsync(user);
         }
     }

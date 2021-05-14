@@ -32,15 +32,16 @@ namespace RapidTime.Data
         public T Insert(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
-
+            entity.Created = DateTime.UtcNow;
+            entity.Updated = DateTime.UtcNow;
             var entityEntry = entities.Add(entity);
             return entityEntry.Entity;
-
         }
 
         public void Update(T entity)
         {
             if ( entity == null) throw new ArgumentNullException("entity");
+            entity.Updated = DateTime.UtcNow;
             entities.Update(entity);
         }
 
