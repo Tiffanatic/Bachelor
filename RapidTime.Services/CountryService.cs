@@ -98,6 +98,7 @@ namespace RapidTime.Services
 
         public void Update(CountryEntity countryEntity)
         {
+            if (countryEntity == null) throw new NullReferenceException();
             try
             {
                 _unitofWork.CountryRepository.Update(countryEntity);

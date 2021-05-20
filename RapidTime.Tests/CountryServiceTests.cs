@@ -149,7 +149,7 @@ namespace RapidTime.Tests
             CountryEntity countryEntity = null;
             
             //act & assert
-            //_countryService.Invoking(cs => cs.Insert(countryEntity.Id).Should().Throw<NullReferenceException>());
+            _countryService.Invoking(cs => cs.Update(countryEntity)).Should().Throw<NullReferenceException>();
         }
 
         [Fact]
