@@ -85,7 +85,11 @@ namespace RapidTime.Data
                 .HasOne<AssignmentEntity>(a => a.AssignmentEntity)
                 .WithMany(a => a.TimeRecords)
                 .HasForeignKey(a => a.AssignmentId);
-
+            
+            builder.Entity<TimeRecordEntity>()
+                .Property(e => e.Date)
+                .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+            
             base.OnModelCreating(builder);
         }
     }
