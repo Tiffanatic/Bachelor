@@ -1,0 +1,54 @@
+﻿@page "/brugere/{id:string}"
+@inject UserGrpcClient _userGrpcClient
+<h3>SingularUser</h3>
+<p>
+    Navn: @user.UserBaseResponse.FirstName + @user.UserBaseResponse.LastName
+</p>
+<p>
+    Email: @user.UserBaseResponse.Email
+</p>
+
+@if (user.UserBaseResponse.GdprDeleted)
+{
+    <p>Slettes den: @deleteDate</p>
+}
+
+<p>
+    priser,
+    Nuværende opgaver?
+    Se tidligere opgaver
+    hent igangværende ugerapport
+    hent specifik ugerapport
+    
+
+    <button type="button" class="btn btn-danger">Sæt til sletning</button>
+</p>
+
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+
+    private UserResponse user;
+
+    private string deleteDate;
+    
+    protected override void OnInitialized()
+    {
+        user = _userGrpcClient.GetUser(id);
+        if (user.UserBaseResponse.GdprDeleted)
+        {
+            deleteDate = _userGrpcClient.GetDeleteDate(id);
+        }
+        base.OnInitialized();
+        
+    }
+
+    private void SetToBeDeleted()
+    {
+        
+    }
+    
+    
+
+}

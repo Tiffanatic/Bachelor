@@ -1,0 +1,50 @@
+﻿@page "/brugere"
+@inject UserGrpcClient _userGrpcClient
+@inject NavigationManager _navigationManager
+
+
+<h3>Brugere</h3>
+
+<div class="row">
+    <div class="col-md-11">
+        Liste over brugere skal have adgang til at kunne lave administrative handlinger over brugere her,
+        man skal kunne trykke på enkelte brugere
+        
+        <ListItemsComponent Items="_users">
+            <TableHeader>
+                <th>Navn</th><th>Email</th>
+            </TableHeader>
+            <RowTemplate>
+                <td @onclick="@(() => NavigateToUser(@context.UserId))">@context.UserBaseResponse.FirstName @context.UserBaseResponse.LastName</td>
+                <td @onclick="@(() => NavigateToUser(@context.UserId))">@context.UserBaseResponse.Email</td>
+            </RowTemplate>
+
+
+        </ListItemsComponent>
+    </div>
+    <div class="col-md-1">
+        <button type="button" class="btn btn-primary" @onclick="@(() => NavigateToCreateUser())">Opret ny bruger</button>
+        
+    </div>
+</div>
+
+@code {
+
+    List<UserResponse> _users;
+    protected override void OnInitialized()
+    {
+        _users = _userGrpcClient.GetAllUsers();
+        base.OnInitialized();
+    }
+
+    private void NavigateToUser(string Id)
+    {
+        _navigationManager.NavigateTo($"/brugere/{Id}");
+    }
+
+    private void NavigateToCreateUser()
+    {
+        _navigationManager.NavigateTo("/brugere/opret");
+    }
+
+}
