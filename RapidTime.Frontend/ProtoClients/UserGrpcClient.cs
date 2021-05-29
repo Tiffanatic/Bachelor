@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
@@ -57,6 +58,18 @@ namespace RapidTime.Frontend.ProtoClients
             {
                 Id = id
             }).ToString();
+        }
+
+        public UserResponse SetDeleteDate(DateTime dateTime, string id)
+        {
+            var client = GetClient();
+            var resp = client.SetUserDeleteDate(new SetUserDeleteDateRequest()
+            {
+                DeleteDate = Timestamp.FromDateTime(dateTime),
+                Id = id
+            });
+
+            return resp;
         }
     }
 }

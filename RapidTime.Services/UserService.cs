@@ -118,7 +118,7 @@ namespace RapidTime.Services
             User user = await GetUser(id);
             user.DeleteDate = deleteDate;
             user.Updated = DateTime.UtcNow;
-            await _userManager.CreateAsync(user);
+            await _userManager.UpdateAsync(user);
         }
     }
 }
