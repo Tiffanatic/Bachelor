@@ -4,6 +4,8 @@
 
 <h3>Priser for @_userResponse.UserBaseResponse.FirstName @_userResponse.UserBaseResponse.LastName</h3>
 
+<CreateUserPrice ExternalMethod="@UpdateThis"></CreateUserPrice>
+
 <ListItemsComponent Items="_prices">
     <TableHeader>
         <th>Opgave Type</th><th>Pris</th>
@@ -26,6 +28,12 @@
         _prices = _priceGrpcClient.GetPricesForUser(Id);
         
         base.OnInitialized();
+    }
+    
+    private void UpdateThis()
+    {
+        _prices = _priceGrpcClient.GetPricesForUser(Id);
+        StateHasChanged();
     }
 
 }

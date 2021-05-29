@@ -32,6 +32,8 @@
 
     private List<AssignmentTypeResponse> _assignmentResponses;
 
+    [Parameter]
+    public Action ExternalMethod { get; set; }
 
     protected override void OnInitialized()
     {
@@ -42,6 +44,10 @@
 
     private void CreatePrice()
     {
-        
+        _priceGrpcClient.CreatePrice(model);
+        model.HourlyRate = 0;
+        model.AssignmentBase = null;
+        ExternalMethod?.Invoke();
+        StateHasChanged();
     }
 }
