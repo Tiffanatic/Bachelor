@@ -91,6 +91,16 @@ namespace RapidTime.Api.GRPCServices
             }
         }
 
+        public override Task<MultiAssignmentTypeResponse> GetAllAssignmentType(Empty request, ServerCallContext context)
+        {
+            MultiAssignmentTypeResponse multiAssignmentTypeResponse = new MultiAssignmentTypeResponse();
+            var items = _assignmentTypeService.GetAll();
+            foreach (var item in items)
+            {
+                multiAssignmentTypeResponse.AssignmentType.Add(EntityToResponse(item));
+            }
+            return Task.FromResult(multiAssignmentTypeResponse);
+        }
 
         private AssignmentTypeResponse EntityToResponse(AssignmentTypeEntity assignmentTypeEntity)
         {

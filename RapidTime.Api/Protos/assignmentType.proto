@@ -12,6 +12,7 @@ service AssignmentType {
   rpc UpdateAssignmentType (UpdateAssignmentTypeRequest) returns (AssignmentTypeResponse);
   rpc MultiAssignmentType (stream GetMultiAssignmentTypeRequest) returns (stream MultiAssignmentTypeResponse);
   rpc DeleteAssignmentType (DeleteAssignmentTypeRequest) returns (google.protobuf.Empty);
+  rpc GetAllAssignmentType (google.protobuf.Empty) returns (MultiAssignmentTypeResponse);
 }
 
 message DeleteAssignmentTypeRequest {

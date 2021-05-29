@@ -19,8 +19,4 @@
 		<ProtoBuf Include="**\*.proto" GrpcServices="Client" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Pages\PriceComponents" />
-	</ItemGroup>
-
 </Project>

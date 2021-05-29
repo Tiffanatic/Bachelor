@@ -37,7 +37,8 @@ namespace RapidTime.Frontend
             services.AddScoped<AddressGrpcClient>();
             services.AddScoped<CompanyTypeGrpcClient>();
             services.AddScoped<UserGrpcClient>();
-            
+            services.AddScoped<PriceGrpcClient>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
