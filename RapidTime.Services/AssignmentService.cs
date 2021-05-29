@@ -59,7 +59,9 @@ namespace RapidTime.Services
         {
             try
             {
-                var assignment = _unitOfWork.AssignmentRepository.Insert(assignmentEntity);
+                assignmentEntity.DateStarted = assignmentEntity.DateStarted.ToUniversalTime();
+                
+                AssignmentEntity assignment = _unitOfWork.AssignmentRepository.Insert(assignmentEntity);
                 _unitOfWork.Commit();
                 return assignment.Id;
             }

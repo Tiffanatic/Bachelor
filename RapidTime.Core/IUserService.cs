@@ -13,6 +13,7 @@ namespace RapidTime.Core
         Task<User> GetUser(string id);
         IEnumerable<User> GetAllUsers();
 
+        // Ingen "usage" pga. grpc implementering der kræver at .ToTimeStamp() er returneret.
         Task<DateTime> GetUserDeleteDate(string id);
         void SetUserDeleteDate(string id, DateTime deleteDate);
     }
