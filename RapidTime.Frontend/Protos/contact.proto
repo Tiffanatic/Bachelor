@@ -36,7 +36,6 @@ message UpdateContactRequest{
 
 message CreateContactRequest{
   ContactBase CreateContact = 1;
-  int32 CustomerId = 2;
 }
 
 message DeleteContactRequest{
