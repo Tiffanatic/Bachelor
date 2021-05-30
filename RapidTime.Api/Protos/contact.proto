@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "RapidTime.Frontend";
+option csharp_namespace = "RapidTime.Api";
 
 import "google/protobuf/empty.proto";
 
