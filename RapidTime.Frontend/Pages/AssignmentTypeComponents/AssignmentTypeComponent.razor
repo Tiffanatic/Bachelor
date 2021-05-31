@@ -1,0 +1,52 @@
+﻿@page "/opgavetyper"
+@inject AssignmentTypeGrpcClient _assignmentTypeGrpcClient
+<CreateAssignmentTypeComponent ExternalMethod="@UpdateThis"></CreateAssignmentTypeComponent>
+
+<ListItemsComponent Items="_Items">
+    <TableHeader>
+        <th>Navn</th>
+        <th>Nummer</th>
+        <th>Fakturerbár</th>
+    </TableHeader>
+    
+    <RowTemplate>
+        <td>@context.AssignmentType.Name</td>
+        <td>@context.AssignmentType.Number</td>
+        <td>@if (@context.AssignmentType.InvoiceAble)
+            {
+                <p>Ja</p>   
+            }
+            else
+            {
+                <p>Nej</p>
+            }</td>
+        <td>
+            <button type="button" class="btn btn-danger" @onclick="@(()=> DeleteAssignmentType(@context.AssignmentType.Id))">Slet</button> 
+        </td>
+    </RowTemplate>
+    
+</ListItemsComponent>
+
+@code {
+
+    private List<AssignmentTypeResponse> _Items;
+    
+    protected override void OnInitialized()
+    {
+        _Items = _assignmentTypeGrpcClient.GetAssignmentTypes();
+        base.OnInitialized();
+    }
+
+
+    private void UpdateThis()
+    {
+        _Items = _assignmentTypeGrpcClient.GetAssignmentTypes();
+        StateHasChanged();
+    }
+
+    private void DeleteAssignmentType(int id)
+    {
+        _assignmentTypeGrpcClient.DeleteAssignmentType(id);
+        UpdateThis();
+    }
+}
