@@ -18,7 +18,7 @@ on:
 
 env:
   # TODO: Change variable to your image's name.
-  IMAGE_NAME: RapidTime
+  IMAGE_NAME: rapidtime
 
 jobs:
   # Run tests.

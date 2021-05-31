@@ -1,0 +1,59 @@
+﻿@page "/Kontakter"
+@inject ContactGrpcClient _contactGrpcClient
+
+<CreateContactComponent ExternalMethod="@UpdateThis"/>
+
+<h3>Kontakt oversigt</h3>
+<ListItemsComponent Items="@_contacts">
+    <TableHeader>
+        <th>Fornavn</th>
+        <th>Efternavn</th>
+        <th>Email</th>
+        <th>Telefonnummer</th>
+    </TableHeader>
+
+    <RowTemplate>
+        <td>@context.FirstName</td>
+        <td>@context.LastName</td>
+        <td>@context.Email</td>
+        <td>@context.TelephoneNumber</td>
+        @* <td><button type="button" class="btn btn-warning" @onclick="@(() => UpdateContact(@context.Id))">Redigér</button> </td> *@
+        <td><button type="button" class="btn btn-danger" @onclick="@(()=> DeleteContact(@context.Id))">Slet</button> </td>
+    </RowTemplate>
+</ListItemsComponent>
+
+@code {
+    private List<ContactBase> _contacts;
+
+    protected override void OnInitialized()
+    {
+        _contacts = _contactGrpcClient.GetAllContacts();
+    }
+
+    // private void UpdateContact(int contactBaseId)
+    // {
+    //     var contact = _contactGrpcClient.GetContact(contactBaseId);
+    //     
+    //     var contactRequest = new UpdateContactRequest()
+    //     {
+    //         UpdatedContact = new ContactBase()
+    //         {
+    //             Email = contact.Response.Email,
+    //             
+    //         }
+    //     }
+    //     _contactGrpcClient.UpdateContact() //UpdateContact(_contactGrpcClient.GetContact(contactBaseId));
+    // }
+
+    private void DeleteContact(int contactBaseId)
+    {
+        _contactGrpcClient.DeleteContact(contactBaseId);
+        UpdateThis();
+    }
+
+    private void UpdateThis()
+    {
+        _contacts = _contactGrpcClient.GetAllContacts();
+        StateHasChanged();
+    }
+}

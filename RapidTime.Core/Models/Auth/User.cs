@@ -25,34 +25,5 @@ namespace RapidTime.Core.Models.Auth
          * Email
          * Phone number
          */
-
-        public string fullName()
-        {
-            return Firstname + " " + Lastname;
-        }
-
-        public bool GDPRDelete()
-        {
-            try
-            {
-                Firstname = "Deleted User";
-                Lastname = "";
-                Email = "";
-                PhoneNumber = "";
-                GdprDeleted = true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message + " \n" + ex.StackTrace);
-            }
-
-            return true;
-        }
-
-        public DateTime SetDeleteDate(DateTime date)
-        {
-            this.DeleteDate = date;
-            return date;
-        } 
     }
 }
