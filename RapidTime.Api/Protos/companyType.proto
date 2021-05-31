@@ -10,11 +10,16 @@ service CompanyType {
   rpc GetCompanyType (GetCompanyTypeRequest) returns (CompanyTypeResponse);
   rpc CreateCompanyType (CreateCompanyTypeRequest) returns (CompanyTypeResponse);
   rpc DeleteCompanyType (DeleteCompanyTypeRequest) returns (google.protobuf.Empty);
+  rpc MultiCompanyType (google.protobuf.Empty) returns (MultiCompanyTypeResponse);
 }
 
 message CompanyTypeBase{
   int32 id = 1;
   string companyTypeName = 2;
+}
+
+message MultiCompanyTypeResponse {
+  repeated CompanyTypeBase responseList= 1;
 }
 
 message GetCompanyTypeRequest{

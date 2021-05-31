@@ -1,0 +1,39 @@
+﻿@page "/priser/{Id}"
+@inject PriceGrpcClient _priceGrpcClient
+@inject UserGrpcClient _userGrpcClient
+
+<h3>Priser for @_userResponse.UserBaseResponse.FirstName @_userResponse.UserBaseResponse.LastName</h3>
+
+<CreateUserPrice ExternalMethod="@UpdateThis"></CreateUserPrice>
+
+<ListItemsComponent Items="_prices">
+    <TableHeader>
+        <th>Opgave Type</th><th>Pris</th>
+    </TableHeader>
+    <RowTemplate>
+        <td>@context.Response.AssignmentType.Name</td><td>@context.Response.HourlyRate</td>
+    </RowTemplate>
+    
+</ListItemsComponent>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    private UserResponse _userResponse;
+    private List<PriceResponse> _prices;
+    protected override void OnInitialized()
+    {
+        _userResponse = _userGrpcClient.GetUser(Id);
+        _prices = _priceGrpcClient.GetPricesForUser(Id);
+        
+        base.OnInitialized();
+    }
+    
+    private void UpdateThis()
+    {
+        _prices = _priceGrpcClient.GetPricesForUser(Id);
+        StateHasChanged();
+    }
+
+}

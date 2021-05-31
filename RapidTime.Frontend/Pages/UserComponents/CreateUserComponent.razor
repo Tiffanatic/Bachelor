@@ -1,0 +1,52 @@
+﻿@page "/Brugere/opret"
+@inject UserGrpcClient _userGrpcClient
+@inject NavigationManager _navigationManager
+
+
+<h3>CreateUserComponent</h3>
+
+<EditForm Model="UserBase" OnValidSubmit="@CreateNewUser">
+    <div class="form-control row">
+        <div class="form-control row">
+            <label for="firstname">Fornavn</label>
+            <InputText id="firstname" @bind-Value="@UserBase.FirstName"></InputText>
+        </div>
+        <div class="form-control row">
+            <label for="lastname">Efternavn</label>
+            <InputText id="lastname" @bind-Value="@UserBase.LastName"></InputText>
+        </div>
+        <div class="form-control row">
+            <label for="email">E-mail</label>
+            <InputText id="email" @bind-Value="@UserBase.Email"></InputText>
+        </div>
+        <div class="form-control row">
+            <label for="phonenumber"> Tlf Nummer:</label>
+            <InputText id="phonenumber" @bind-Value="@UserBase.PhoneNumber" />
+        </div>
+        <div class="form-control row">
+            <button type="submit" class="btn btn-success">Gem Bruger</button>
+        </div>
+    </div>
+    
+</EditForm>
+@code {
+    private UserBase UserBase;
+    protected override void OnInitialized()
+    {
+        UserBase = new UserBase();
+        base.OnInitialized();
+    }
+
+    private void CreateNewUser()
+    {
+        _userGrpcClient.CreateUser(UserBase);
+        _navigationManager.NavigateTo("/brugere");
+    }
+    
+    // string firstName = 1;
+    // string lastName = 2;
+    // bool gdprDeleted = 3;
+    // string email = 5;
+    // string phoneNumber = 6;
+
+}

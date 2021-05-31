@@ -1,0 +1,53 @@
+﻿@inject PriceGrpcClient _priceGrpcClient
+@inject AssignmentTypeGrpcClient _assignmentTypeGrpcClient
+
+
+<h3>CreateUserPrice</h3>
+
+<EditForm Model="model" OnValidSubmit="CreatePrice">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <div class="col-md-3">
+            <label for="Amount">Pris</label>
+            <InputNumber id="Amount" @bind-Value="model.HourlyRate"></InputNumber>
+        </div>
+        <div class="col-md-3">
+            <select class="form-control" @bind="@model.AssignmentBase">
+                <option selected disabled="true"> -- Opgave type --</option>
+                @foreach (var assignmentResponse in _assignmentResponses)
+                {
+                    <option title="@assignmentResponse.AssignmentType" value="@assignmentResponse.AssignmentType">@assignmentResponse.AssignmentType</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-success">Gem</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    private CreatePriceResource model;
+
+    private List<AssignmentTypeResponse> _assignmentResponses;
+
+    [Parameter]
+    public Action ExternalMethod { get; set; }
+
+    protected override void OnInitialized()
+    {
+        model = new CreatePriceResource();
+        _assignmentResponses = _assignmentTypeGrpcClient.GetAssignmentTypes();
+        base.OnInitialized();
+    }
+
+    private void CreatePrice()
+    {
+        _priceGrpcClient.CreatePrice(model);
+        model.HourlyRate = 0;
+        model.AssignmentBase = null;
+        ExternalMethod?.Invoke();
+        StateHasChanged();
+    }
+}

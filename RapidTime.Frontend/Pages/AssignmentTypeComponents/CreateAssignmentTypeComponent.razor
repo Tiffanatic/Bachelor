@@ -1,0 +1,51 @@
+﻿@inject AssignmentTypeGrpcClient _assignmentTypeGrpcClient
+
+<h3>Opret ny opgave type</h3>
+
+<EditForm Model="model" OnValidSubmit="() => Submit()">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <div class="col-md-3">
+            <label for="Name">Opgave type</label>
+            <InputText id="Name" @bind-Value="model.Name"></InputText>
+        </div>
+        <div class="col-md-3">
+            <label for="Number">Nummer</label>
+            <InputText id="Number" @bind-Value="model.Number"></InputText>
+        </div>
+        <div class="col-md-3">
+            <label for="InvoiceAble">Fakturerbar</label>
+            <InputCheckbox id="InvoiceAble" @bind-Value="model.InvoiceAble"></InputCheckbox>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-success">Gem</button>
+        </div>
+    </div>
+    
+    
+</EditForm>
+
+@code {
+    private CreateAssignmentTypeResource model;
+    
+    [Parameter]
+    public Action ExternalMethod { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        model = new();
+        base.OnInitialized();
+    }
+
+    private void Submit()
+    {
+        _assignmentTypeGrpcClient.CreateAssignmentType(model);
+        model.Name = "";
+        model.Number = "";
+        model.InvoiceAble = false;
+        StateHasChanged();
+        ExternalMethod?.Invoke();
+    }
+    
+}

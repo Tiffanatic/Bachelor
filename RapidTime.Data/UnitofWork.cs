@@ -17,7 +17,7 @@ namespace RapidTime.Data
         private IRepository<CountryEntity> _countryRepository;
         private IRepository<CityEntity> _cityRepository;
         private IRepository<AddressAggregateEntity> _addressAggregateRepository;
-        private Repository<TimeRecordEntity> _timeRecordRepository;
+        private IRepository<TimeRecordEntity> _timeRecordRepository;
         private IRepository<CustomerContact> _customerContactRepository;
 
         public UnitofWork(RapidTimeDbContext context)

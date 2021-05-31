@@ -34,6 +34,11 @@ namespace RapidTime.Frontend
             services.AddScoped<StateContainer>();
             services.AddScoped<CountryGrpcClient>();
             services.AddScoped<CityGrpcClient>();
+            services.AddScoped<AddressGrpcClient>();
+            services.AddScoped<CompanyTypeGrpcClient>();
+            services.AddScoped<UserGrpcClient>();
+            services.AddScoped<PriceGrpcClient>();
+            services.AddScoped<AssignmentTypeGrpcClient>();
             services.AddScoped<ContactGrpcClient>();
         }
 
