@@ -67,12 +67,12 @@ namespace RapidTime.Services
             }
         }
 
-        public CustomerContact AddContactToCustomer(ContactEntity contactEntity, int Id)
+        public CustomerContact AddContactToCustomer(ContactEntity contactEntity, int customerId)
         {
             try
             {
 
-                var customer = _customerService.GetById(Id);
+                var customer = _customerService.GetById(customerId);
                 var customerContact = new CustomerContact()
                 {
                     ContactId = contactEntity.Id,
