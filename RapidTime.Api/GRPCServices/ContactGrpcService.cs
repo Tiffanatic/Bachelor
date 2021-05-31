@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
@@ -31,7 +32,7 @@ namespace RapidTime.Api.GRPCServices
             };
             var id = _contactService.Insert(contactEntity);
             var contact = _contactService.FindById(id);
-            _contactService.AddContactToCustomer(contact, request.CustomerId);
+            
             return Task.FromResult( new ContactResponse()
             {
                 Response =
@@ -87,7 +88,7 @@ namespace RapidTime.Api.GRPCServices
         public override Task<Empty> UpdateContact(UpdateContactRequest request, ServerCallContext context)
         {
             _logger.LogInformation("UpdateContact Called with Id: {Id}", request);
-            var contact = _contactService.FindById(request.Id);
+            var contact = _contactService.FindById(request.UpdatedContact.Id);
             contact.Email = request.UpdatedContact.Email;
             contact.Firstname = request.UpdatedContact.FirstName;
             contact.Lastname = request.UpdatedContact.LastName;
@@ -95,6 +96,33 @@ namespace RapidTime.Api.GRPCServices
             
             _contactService.Update(contact);
             return Task.FromResult(new Empty());
+        }
+
+        public override Task<MultiContactResponse> GetAllContacts(Empty request, ServerCallContext context)
+        {
+            _logger.LogInformation("MultiContact called");
+            var contacts = _contactService.GetAll();
+            var response = new MultiContactResponse()
+            {
+                Response = { }
+            };
+
+            var responses = new MultiContactResponse()
+            {
+                Response = { }
+            };
+            
+            foreach (ContactEntity contact in contacts)
+            {
+                responses.Response.Add(new ContactBase()
+                {
+                    FirstName = contact.Firstname,
+                    LastName = contact.Lastname,
+                    Email = contact.Email,
+                    TelephoneNumber = contact.TelephoneNumber
+                });
+            }
+            return Task.FromResult<MultiContactResponse>(responses);
         }
     }
 }
