@@ -22,20 +22,20 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<ContactResponse> CreateContact(CreateContactRequest request, ServerCallContext context)
         {
-            _logger.LogInformation("CreateContact called with values {@CreateContact}", request.CreateContact);
+            _logger.LogInformation("CreateContact called with values {@CreateContact}", request);
             ContactEntity contactEntity = new ContactEntity()
             {
-                Email = request.CreateContact.Email,
-                Firstname = request.CreateContact.FirstName,
-                Lastname = request.CreateContact.LastName,
-                TelephoneNumber = request.CreateContact.TelephoneNumber
+                Email = request.Email,
+                Firstname = request.FirstName,
+                Lastname = request.LastName,
+                TelephoneNumber = request.TelephoneNumber
             };
             var id = _contactService.Insert(contactEntity);
             var contact = _contactService.FindById(id);
             
             return Task.FromResult( new ContactResponse()
             {
-                Response =
+                Response = new()
                 {
                     Email = contact.Email,
                     FirstName = contact.Firstname,

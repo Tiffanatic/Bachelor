@@ -1,0 +1,56 @@
+﻿@using RapidTime.Frontend.ProtoClients
+@inject ContactGrpcClient _contactGrpcClient
+
+<h3>Tilføj kontakt</h3>
+
+<EditForm Model="model" OnValidSubmit="CreateContact">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <div class="col-md-auto">
+            <label for="FirstName">Fornavn</label>
+            <InputText id="FirstName" @bind-Value="model.FirstName"></InputText>
+        </div>
+        <div class="col-md-auto">
+            <label for="LastName">Efternavn</label>
+            <InputText id="LastName" @bind-Value="model.LastName"></InputText>
+        </div>
+        <div class="col-md-auto">
+            <label for="TelephoneNumber">Telefonnummer</label>
+            <InputText id="TelephoneNumber" @bind-Value="model.Telephonenumber"></InputText>
+        </div>
+        <div class="col-md-auto">
+            <label for="Email">Email</label>
+            <InputText id="Email" @bind-Value="model.Email"></InputText>
+        </div>
+        <br>
+        <div class="col-md-auto">
+            <button type="submit" class="btn btn-success">Gem</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public Action ExternalMethod { get; set; }
+
+    private List<ContactBase> _contacts;
+    private CreateContactResource model;
+
+    protected override async void OnInitialized()
+    {
+        model = new CreateContactResource();
+        _contacts = _contactGrpcClient.GetAllContacts();
+    }
+
+    private void CreateContact()
+    {
+        _contactGrpcClient.CreateContact(model);
+        model.FirstName = "";
+        model.LastName = "";
+        model.Email = "";
+        model.Telephonenumber = "";
+        ExternalMethod?.Invoke();
+        StateHasChanged();
+    }
+}
