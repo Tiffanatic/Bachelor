@@ -73,7 +73,7 @@ namespace RapidTime.Services
 
             foreach (var record in assignment.TimeRecords)
             {
-                if (startDate < record.Date && record.Date < endDate)
+                if (startDate.ToUniversalTime() < record.Date && record.Date < endDate.ToUniversalTime())
                 {
                     registeredTime += record.TimeRecorded;
                 }
