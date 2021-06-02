@@ -71,6 +71,7 @@ namespace RapidTime.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<AssignmentTypeGrpcService>();
+                endpoints.MapGrpcService<AssignmentGrpcService>();
                 endpoints.MapGrpcService<CityGrpcService>();
                 endpoints.MapGrpcService<CountryGrpcService>();
                 endpoints.MapGrpcService<AddressAggregateGrpcService>();

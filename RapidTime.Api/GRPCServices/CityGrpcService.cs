@@ -36,7 +36,8 @@ namespace RapidTime.Api.GRPCServices
                 {
                     Id = city.Id,
                     CityName = city.CityName,
-                    PostalCode = city.PostalCode
+                    PostalCode = city.PostalCode,
+                    Country = city.CountryId.ToString()
                 }
             });
         }

@@ -30,7 +30,6 @@ message TimeRegistrationResponse {
 }
 
 message TimeRegistrationBase {
-  int32 Id = 1;
   google.protobuf.Duration TimeRecorded = 2;
   int32 assignmentId = 3;
   google.protobuf.Timestamp Date = 4;
