@@ -1,0 +1,62 @@
+﻿@using Google.Protobuf.WellKnownTypes
+@inject CustomerGrpcClient _customerGrpcClient
+@inject AssignmentTypeGrpcClient _assignmentTypeGrpcClient
+@inject AssignmentGrpcClient _assignmentGrpcClient
+@inject NavigationManager _navigationManager
+
+<h3>Opret Opgave</h3>
+
+<EditForm Model="CreateAssignmentResource" OnValidSubmit="SaveAssignment">
+    <div class="form-group row">
+        <label for="Date">Start Dato</label>
+        <InputDate id="Date" @bind-Value="CreateAssignmentResource.DateStarted"></InputDate>
+    </div>
+    <div class="form-group row">
+        <label for="AssignmentId">Opgave Type</label>
+        <select>
+            <option selected disabled="true"> -- Vælg Opgave Type --</option>
+            @foreach (var assignmentType in _assignmentTypeResponses)
+            {
+                <option @bind-Value="@assignmentType.AssignmentType">@assignmentType.AssignmentType.Name</option>
+            }
+        </select>
+    </div>
+    <div class="form-control">
+        <button type="submit">Gem</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int CustomerId { get; init; }
+
+    private CustomerBase customer;
+    private List<AssignmentTypeResponse> _assignmentTypeResponses;
+    
+    public CreateAssignmentResource CreateAssignmentResource;
+    
+    
+    protected override void OnInitialized()
+    {
+        customer = _customerGrpcClient.GetCustomerById(CustomerId);
+        _assignmentTypeResponses = _assignmentTypeGrpcClient.GetAssignmentTypes();
+        base.OnInitialized();
+    }
+
+    private void SaveAssignment()
+    {
+        _assignmentGrpcClient.CreateAssignment(new()
+        {
+            Base = new AssignmentBase()
+            {
+                Amount = 0,
+                AssignmentType = CreateAssignmentResource.AssignmentType,
+                Customer = customer,
+                DateStarted = CreateAssignmentResource.DateStarted.ToTimestamp(),
+                TimeSpent = "0"
+            }
+        });
+        _navigationManager.NavigateTo($"/kunder/{CustomerId}");
+    }
+
+}
