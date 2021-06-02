@@ -12,10 +12,15 @@ package customer;
 
 service Customer {
   rpc GetCustomer (GetCustomerRequest) returns (CustomerResponse);
+  rpc GetAllCustomers (google.protobuf.Empty) returns (MultiCustomerResponse);
   rpc CreateCustomer (CreateCustomerRequest) returns (CustomerResponse);
   rpc UpdateCustomer (UpdateCustomerRequest) returns (google.protobuf.Empty);
   rpc DeleteCustomer (DeleteCustomerRequest) returns (google.protobuf.Empty);
   rpc RequestDeletion (RequestDeleteCustomerRequest) returns (google.protobuf.Empty);
+}
+
+message MultiCustomerResponse {
+	repeated CustomerResponse response = 1;
 }
 
 message GetCustomerRequest {
