@@ -57,6 +57,7 @@ namespace RapidTime.Services
                 
                 var id =_unitofWork.CustomerRepository.Insert(customerEntity);
                 _unitofWork.Commit();
+
                 return id.Id;
 
             }catch (Exception e)

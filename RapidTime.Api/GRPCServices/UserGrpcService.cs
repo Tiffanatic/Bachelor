@@ -61,8 +61,9 @@ namespace RapidTime.Api.GRPCServices
                     LastName = userCreated.Lastname,
                     Email = userCreated.Email,
                     GdprDeleted = userCreated.GdprDeleted,
-                    PhoneNumber = userCreated.PhoneNumber
-                }
+                    PhoneNumber = userCreated.PhoneNumber,
+                },
+                UserId = userCreated.Id.ToString()
             };
         
             return response;
@@ -136,7 +137,7 @@ namespace RapidTime.Api.GRPCServices
         public override async Task<DeleteDateResponse> GetUserDeleteDate(GetUserRequest request, ServerCallContext context)
         {
             var user = await _userService.GetUser(request.Id);
-            var userDeleteDate = user.DeleteDate.ToTimestamp();
+            var userDeleteDate = user.DeleteDate.ToUniversalTime().ToTimestamp();
             
             var response = new DeleteDateResponse()
             {
@@ -149,7 +150,7 @@ namespace RapidTime.Api.GRPCServices
         public override async Task<UserResponse> SetUserDeleteDate(SetUserDeleteDateRequest request, ServerCallContext context)
         {
             var user = await _userService.GetUser(request.Id);
-            var userDeleteDate = user.DeleteDate.ToTimestamp();
+            var userDeleteDate = user.DeleteDate.ToUniversalTime().ToTimestamp();
             
             _userService.SetUserDeleteDate(user.Id.ToString(), request.DeleteDate.ToDateTime());
         
