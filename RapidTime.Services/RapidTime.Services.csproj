@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\RapidTime.Core\RapidTime.Core.csproj" />
+      <ProjectReference Include="..\RapidTime.Data\RapidTime.Data.csproj" />
     </ItemGroup>
 
 </Project>
