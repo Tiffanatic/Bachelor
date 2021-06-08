@@ -1,31 +1,31 @@
 ﻿@page "/Kunder"
 @inject CustomerGrpcClient _customerGrpcClient
 
-<CreateCustomerComponent ExternalMethod="@UpdateThis"/>
+<CreateCustomerComponent/>
 
 <h3>Kundeoversigt</h3>
-<ListItemsComponent Items="@_customers">
-    <TableHeader>
-        <th>@context.Name</th>
-    </TableHeader>
-    <RowTemplate>
-        <td></td>
-        <td><button type="button" class="btn btn-info" @onclick="@(() => MethodName(@context.Id))"></button></td>
-    </RowTemplate>
-</ListItemsComponent>
+@* <ListItemsComponent Items="@_customers"> *@
+@*     <TableHeader> *@
+@*         <th>@</th> *@
+@*     </TableHeader> *@
+@*     <RowTemplate> *@
+@*         <td></td> *@
+@*         <td><button type="button" class="btn btn-info" @onclick="@(() => MethodName(@context.Id))"></button></td> *@
+@*     </RowTemplate> *@
+@* </ListItemsComponent> *@
 
 @code {
     private List<CustomerBase> _customers;
 
     protected override void OnInitialized()
     {
-        _customers = _customerGrpcClient.GetAllCustomers();
+        // _customers = _customerGrpcClient.GetAllCustomers();
         base.OnInitialized();
     }
 
     private void UpdateThis()
         {
-            _customers = _customerGrpcClient.GetAllCustomers();
+            // _customers = _customerGrpcClient.GetAllCustomers();
             StateHasChanged();
         }
 }

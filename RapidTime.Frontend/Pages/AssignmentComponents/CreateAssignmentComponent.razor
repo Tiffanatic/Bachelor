@@ -17,7 +17,7 @@
             <option selected disabled="true"> -- Vælg Opgave Type --</option>
             @foreach (var assignmentType in _assignmentTypeResponses)
             {
-                <option @bind-Value="@assignmentType.AssignmentType">@assignmentType.AssignmentType.Name</option>
+                <option @bind="@assignmentType.AssignmentType">@assignmentType.AssignmentType.Name</option>
             }
         </select>
     </div>
@@ -30,7 +30,7 @@
     [Parameter]
     public int CustomerId { get; init; }
 
-    private CustomerBase customer;
+    private CustomerResponse customer;
     private List<AssignmentTypeResponse> _assignmentTypeResponses;
     
     public CreateAssignmentResource CreateAssignmentResource;
@@ -38,7 +38,7 @@
     
     protected override void OnInitialized()
     {
-        customer = _customerGrpcClient.GetCustomerById(CustomerId);
+        customer = _customerGrpcClient.GetCustomer(CustomerId);
         _assignmentTypeResponses = _assignmentTypeGrpcClient.GetAssignmentTypes();
         base.OnInitialized();
     }
@@ -51,7 +51,7 @@
             {
                 Amount = 0,
                 AssignmentType = CreateAssignmentResource.AssignmentType,
-                Customer = customer,
+                Customer = customer.Response,
                 DateStarted = CreateAssignmentResource.DateStarted.ToTimestamp(),
                 TimeSpent = "0"
             }
