@@ -19,17 +19,17 @@ namespace RapidTime.Tests
             new AssignmentEntity()
             {
                 Id = 0,
-                DateStarted = DateTime.Now.AddDays(-4),
+                DateStarted = DateTime.UtcNow.AddDays(-4),
                 TimeRecords = new()
                 {
                     new TimeRecordEntity()
                     {
-                        Date = DateTime.Now,
+                        Date = DateTime.UtcNow,
                         TimeRecorded = new TimeSpan(0, 20, 0)
                     },
                     new TimeRecordEntity()
                     {
-                        Date = DateTime.Now,
+                        Date = DateTime.UtcNow,
                         TimeRecorded = new TimeSpan(0, 20, 0)
                     },
                     new TimeRecordEntity()
@@ -51,7 +51,7 @@ namespace RapidTime.Tests
         private Mock<IRepository<AssignmentEntity>> _mockAssignmentRepository;
         private TimeRegistrationService _timeRegistrationService;
         private Mock<IRepository<TimeRecordEntity>> _mockTimeRecordRepository;
-        private  AssignmentService _assignmentService;
+        private AssignmentService _assignmentService;
         private readonly Mock<ILogger<AssignmentService>> _assignmentServiceLogger;
 
         public TimeRegistrationServiceTests()
@@ -65,6 +65,7 @@ namespace RapidTime.Tests
             _timeRegistrationService = new TimeRegistrationService(_mockUnitOfWork.Object, _assignmentService, _logger.Object);
 
             _mockUnitOfWork.Setup(_ => _.AssignmentRepository).Returns(_mockAssignmentRepository.Object);
+            _mockUnitOfWork.Setup(_ => _.TimeRecordRepository).Returns(_mockTimeRecordRepository.Object);
 
         }
         
@@ -91,10 +92,11 @@ namespace RapidTime.Tests
             
             //Act
             TimeRecordEntity tooBigToRegister = new TimeRecordEntity() {Date = DateTime.Now, TimeRecorded = new TimeSpan(25, 0, 0)};
-            var register25Hours = _timeRegistrationService.RegisterTime(tooBigToRegister, 0);
+            
             
             //Assert
-            register25Hours.Should().Be(false);
+            _timeRegistrationService.Invoking(_ => _.RegisterTime(tooBigToRegister, 0))
+                .Should().Throw<Exception>().WithMessage("Unable to register more than 24 hours a day.");
         }
 
         [Fact]
