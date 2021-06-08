@@ -12,6 +12,7 @@ package customer;
 
 service Customer {
   rpc GetCustomer (GetCustomerRequest) returns (CustomerResponse);
+  rpc GetAllCustomers (google.protobuf.Empty) returns (MultiCustomerResponse);
   rpc CreateCustomer (CreateCustomerRequest) returns (CustomerResponse);
   rpc UpdateCustomer (UpdateCustomerRequest) returns (google.protobuf.Empty);
   rpc DeleteCustomer (DeleteCustomerRequest) returns (google.protobuf.Empty);
@@ -19,6 +20,10 @@ service Customer {
   rpc GetContactsForCustomer (GetCustomerRequest) returns (MultiContactsResponse);
   rpc AddContactCustomer (CustomerContactRequest) returns (CustomerContactResponse);
   rpc DeleteContactCustomer (DeleteCustomerContactRequest) returns (google.protobuf.Empty);
+}
+
+message MultiCustomerResponse {
+	repeated CustomerResponse response = 1;
 }
 
 message GetCustomerRequest {
@@ -36,7 +41,6 @@ message CreateCustomerRequest {
   google.protobuf.Timestamp yearlyReview = 4;
   InvoiceCurrencyEnum invoiceCurrency = 5;
   string invoiceEmail = 6;
-  repeated contact.ContactBase contact = 7;
 }
 
 message UpdateCustomerRequest {
@@ -63,7 +67,6 @@ message CustomerBase {
   InvoiceCurrencyEnum invoiceCurrency = 5;
   string invoiceEmail = 6;
   google.protobuf.Timestamp RequestDeletionDate= 7;
-  repeated contact.ContactBase contact = 8;
 }
 
 message CustomerContactRequest {

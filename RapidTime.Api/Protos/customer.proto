@@ -12,6 +12,7 @@ package customer;
 
 service Customer {
   rpc GetCustomer (GetCustomerRequest) returns (CustomerResponse);
+  rpc GetAllCustomers (google.protobuf.Empty) returns (MultiCustomerResponse);
   rpc CreateCustomer (CreateCustomerRequest) returns (CustomerResponse);
   rpc UpdateCustomer (UpdateCustomerRequest) returns (google.protobuf.Empty);
   rpc DeleteCustomer (DeleteCustomerRequest) returns (google.protobuf.Empty);
@@ -76,6 +77,10 @@ message CustomerContactResponse {
 
 message DeleteCustomerContactRequest {
   int32 Id = 1;
+}
+
+message MultiCustomerResponse {
+  repeated CustomerResponse response = 1;
 }
 
 enum InvoiceCurrencyEnum {
