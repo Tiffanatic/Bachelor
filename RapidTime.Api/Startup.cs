@@ -52,6 +52,7 @@ namespace RapidTime.Api
             services.AddTransient<ICompanyTypeService, CompanyTypeService>();
             services.AddTransient<IContactService, ContactService>();
             services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<ICustomerContactService, CustomerContactService>();
             services.AddTransient<IPriceService, PriceService>();
             services.AddTransient<IRepository<BaseEntity>, Repository<BaseEntity>>();
             services.AddTransient<ITimeRegistrationService, TimeRegistrationService>();

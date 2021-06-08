@@ -15,12 +15,14 @@ namespace RapidTime.Api.GRPCServices
         private ICustomerService _customerService;
         private ICompanyTypeService _companyTypeService;
         private ILogger<CustomerGrpcService> _logger;
+        private ICustomerContactService _customerContactService;
 
-        public CustomerGrpcService(ILogger<CustomerGrpcService> logger, ICustomerService customerService, ICompanyTypeService companyTypeService)
+        public CustomerGrpcService(ILogger<CustomerGrpcService> logger, ICustomerService customerService, ICompanyTypeService companyTypeService, ICustomerContactService customerContactService)
         {
             _logger = logger;
             _customerService = customerService;
             _companyTypeService = companyTypeService;
+            _customerContactService = customerContactService;
         }
 
         public override Task<CustomerResponse> CreateCustomer(CreateCustomerRequest request, ServerCallContext context)
@@ -122,6 +124,13 @@ namespace RapidTime.Api.GRPCServices
             };
             return contactBases;
         }
-        
+
+        public override Task<CustomerContactResponse> AddContactCustomer(CustomerContactRequest request, ServerCallContext context)
+        {
+            var res = _customerContactService.CreateCustomerContact(request.CustomerId, request.ContactId);
+
+            return Task.FromResult(new CustomerContactResponse() {Success = res});
+
+        }
     }
 }
