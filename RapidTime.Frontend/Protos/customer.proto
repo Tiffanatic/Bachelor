@@ -41,7 +41,6 @@ message CreateCustomerRequest {
   google.protobuf.Timestamp yearlyReview = 4;
   InvoiceCurrencyEnum invoiceCurrency = 5;
   string invoiceEmail = 6;
-  repeated contact.ContactBase contact = 7;
 }
 
 message UpdateCustomerRequest {
@@ -68,7 +67,6 @@ message CustomerBase {
   InvoiceCurrencyEnum invoiceCurrency = 5;
   string invoiceEmail = 6;
   google.protobuf.Timestamp RequestDeletionDate= 7;
-  repeated contact.ContactBase contact = 8;
 }
 
 message CustomerContactRequest {

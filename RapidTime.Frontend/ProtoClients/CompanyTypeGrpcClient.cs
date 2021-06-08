@@ -27,8 +27,18 @@ namespace RapidTime.Frontend.ProtoClients
 
             return resp;
         }
-        
-        
+
+        public CompanyTypeResponse GetCompanyType(int CompanyTypeId)
+        {
+            var client = GetClient();
+            var res = client.GetCompanyType(new() {
+                Id = CompanyTypeId
+            });
+
+            return res;
+        }
+
+
         public List<CompanyTypeBase> GetAllCompanyTypes()
         {
             var client = GetClient();

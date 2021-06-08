@@ -22,6 +22,7 @@ namespace RapidTime.Api.GRPCServices
             _logger = logger;
             _customerService = customerService;
             _companyTypeService = companyTypeService;
+
             _customerContactService = customerContactService;
         }
 
@@ -35,7 +36,7 @@ namespace RapidTime.Api.GRPCServices
                 CompanyTypeId = request.CompanyType.Id,
                 YearlyReview = request.YearlyReview.ToDateTime(),
                 InvoiceMail = request.InvoiceEmail,
-                InvoiceCurrency = (CustomerEntity.InvoiceCurrencyEnum) request.InvoiceCurrency,
+                InvoiceCurrency = (CustomerEntity.InvoiceCurrencyEnum) request.InvoiceCurrency
             };
 
             var id = _customerService.Insert(customerToCreate);
@@ -102,10 +103,11 @@ namespace RapidTime.Api.GRPCServices
                     },
                     YearlyReview = customerEntity.YearlyReview.ToUniversalTime().ToTimestamp(),
                     InvoiceCurrency = (InvoiceCurrencyEnum) customerEntity.InvoiceCurrency,
-                    InvoiceEmail = customerEntity.InvoiceMail,
+                    InvoiceEmail = customerEntity.InvoiceMail
                 }
             };
-            
+                
+            //response.Response.Contact.AddRange(CustomerContactsToContactBaseRepeatedField(customerEntity.CustomerContacts));
             return response;
         }
 
