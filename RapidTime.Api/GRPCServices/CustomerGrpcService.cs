@@ -134,5 +134,52 @@ namespace RapidTime.Api.GRPCServices
             return Task.FromResult(new CustomerContactResponse() {Success = res});
 
         }
+
+        public override Task<MultiCustomerResponse> GetAllCustomers(Empty request, ServerCallContext context)
+        {
+            var customerEntities = _customerService.GetAllCustomers();
+            MultiCustomerResponse response = new MultiCustomerResponse();
+
+            foreach (CustomerEntity entity in customerEntities)
+            {
+                CompanyTypeEntity companyType = _companyTypeService.findById(entity.CompanyTypeId);
+                CompanyTypeBase companyTypeBaseMapped = new CompanyTypeBase()
+                {
+                    Id = companyType.Id,
+                    CompanyTypeName = companyType.CompanyTypeName
+                };
+
+                var requestDeletionDate = _customerService.GetById(entity.Id);
+                var requestDeletionDateMapped = requestDeletionDate.
+                response.Response.Add(new CustomerResponse()
+                {
+                    Response = new CustomerBase()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        CompanyType = companyTypeBaseMapped,
+                        InvoiceCurrency = entity.InvoiceCurrency.,
+                        InvoiceEmail = entity.InvoiceMail,
+                        YearlyReview = entity.YearlyReview.ToTimestamp(),
+                        RequestDeletionDate = entity.
+                    }
+                });
+            }
+        }
+
+        public override Task<MultiContactsResponse> GetContactsForCustomer(GetCustomerRequest request, ServerCallContext context)
+        {
+            return base.GetContactsForCustomer(request, context);
+        }
+
+        public override Task<Empty> DeleteContactCustomer(DeleteCustomerContactRequest request, ServerCallContext context)
+        {
+            return base.DeleteContactCustomer(request, context);
+        }
+
+        private MultiCustomerResponse MappingFromCustomerEntity(IEnumerable<CustomerEntity> customerEntities)
+        {
+            
+        }
     }
 }
