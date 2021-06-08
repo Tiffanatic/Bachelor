@@ -40,7 +40,7 @@ namespace RapidTime.Services
             
             if (assignmentEntity.DateStarted >= timeRecordEntity.Date) return false;
             
-            if (timeRecordEntity.TimeRecorded.Hours > 24)
+            if (timeRecordEntity.TimeRecorded.TotalHours > 24)
             {
                 throw new Exception("Unable to register more than 24 hours a day.");
             }

@@ -53,7 +53,11 @@ namespace RapidTime.Data
                 .WithMany(ct => ct.Customers)
                 .HasForeignKey(c => c.CompanyTypeId);
 
-            builder.Entity<CustomerContact>().HasKey(cc => new {cc.ContactId, cc.CustomerId});
+            builder.Entity<CustomerContact>()
+                .Ignore(cc => cc.Id)
+                .Ignore(cc => cc.ContactEntity)
+                .Ignore(cc => cc.CustomerEntity)
+                .HasKey(cc => new {cc.ContactId, cc.CustomerId});
 
             builder.Entity<AssignmentTypeEntity>()
                 .HasMany<AssignmentEntity>(at => at.Assignments)

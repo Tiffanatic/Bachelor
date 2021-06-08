@@ -17,6 +17,7 @@ namespace RapidTime.Data
         {
             _context = context;
             entities = context.Set<T>();
+            
         }
 
         public IEnumerable<T> GetAll()
