@@ -31,7 +31,7 @@ namespace RapidTime.Api.GRPCServices
             TimeRecordEntity timeRecordEntity = new()
             {
                 Date = request.TimeRegistration.Date.ToDateTime(),
-                Id = request.TimeRegistration.Id,
+                
                 AssignmentEntity = assignment,
                 AssignmentId = request.TimeRegistration.AssignmentId,
                 TimeRecorded = request.TimeRegistration.TimeRecorded.ToTimeSpan()

@@ -13,12 +13,16 @@ namespace RapidTime.Api.GRPCServices
     public class CustomerGrpcService : Customer.CustomerBase
     {
         private ICustomerService _customerService;
+        private ICompanyTypeService _companyTypeService;
         private ILogger<CustomerGrpcService> _logger;
+        private ICustomerContactService _customerContactService;
 
-        public CustomerGrpcService(ILogger<CustomerGrpcService> logger, ICustomerService customerService)
+        public CustomerGrpcService(ILogger<CustomerGrpcService> logger, ICustomerService customerService, ICompanyTypeService companyTypeService, ICustomerContactService customerContactService)
         {
             _logger = logger;
             _customerService = customerService;
+            _companyTypeService = companyTypeService;
+            _customerContactService = customerContactService;
         }
 
         public override Task<CustomerResponse> CreateCustomer(CreateCustomerRequest request, ServerCallContext context)
@@ -31,15 +35,24 @@ namespace RapidTime.Api.GRPCServices
                 CompanyTypeId = request.CompanyType.Id,
                 YearlyReview = request.YearlyReview.ToDateTime(),
                 InvoiceMail = request.InvoiceEmail,
-                InvoiceCurrency = (CustomerEntity.InvoiceCurrencyEnum) request.InvoiceCurrency
+                InvoiceCurrency = (CustomerEntity.InvoiceCurrencyEnum) request.InvoiceCurrency,
             };
 
             var id = _customerService.Insert(customerToCreate);
-
             var insertedCustomer = _customerService.GetById(id);
+            
 
             return Task.FromResult(CustomerEntityToCustomerResponse(insertedCustomer));
             
+        }
+
+        public override Task<Empty> RequestDeletion(RequestDeleteCustomerRequest request, ServerCallContext context)
+        {
+            _logger.LogInformation("Request For deletion Called with Customer Id {Id}", request.IdToDelete);
+            
+            _customerService.Delete(request.IdToDelete);
+
+            return Task.FromResult(new Empty());
         }
 
         public override Task<CustomerResponse> GetCustomer(GetCustomerRequest request, ServerCallContext context)
@@ -78,21 +91,21 @@ namespace RapidTime.Api.GRPCServices
         {
             CustomerResponse response = new()
             {
-                Response =
+                Response = new()
                 {
                     Id = customerEntity.Id,
                     Name = customerEntity.Name,
-                    CompanyType =
+                    CompanyType = new()
                     {
                         Id = customerEntity.CompanyTypeId,
-                        CompanyTypeName = customerEntity.CompanyTypeEntity.CompanyTypeName
+                        CompanyTypeName = _companyTypeService.findById(customerEntity.CompanyTypeId).CompanyTypeName
                     },
-                    YearlyReview = customerEntity.YearlyReview.ToTimestamp(),
+                    YearlyReview = customerEntity.YearlyReview.ToUniversalTime().ToTimestamp(),
                     InvoiceCurrency = (InvoiceCurrencyEnum) customerEntity.InvoiceCurrency,
                     InvoiceEmail = customerEntity.InvoiceMail,
                 }
             };
-            response.Response.Contact.AddRange(CustomerContactsToContactBaseRepeatedField(customerEntity.CustomerContacts));
+            
             return response;
         }
 
@@ -111,6 +124,13 @@ namespace RapidTime.Api.GRPCServices
             };
             return contactBases;
         }
-        
+
+        public override Task<CustomerContactResponse> AddContactCustomer(CustomerContactRequest request, ServerCallContext context)
+        {
+            var res = _customerContactService.CreateCustomerContact(request.CustomerId, request.ContactId);
+
+            return Task.FromResult(new CustomerContactResponse() {Success = res});
+
+        }
     }
 }

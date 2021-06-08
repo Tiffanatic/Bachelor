@@ -117,7 +117,7 @@ namespace RapidTime.Api.GRPCServices
                 {
                     Id = assignmentEntity.CustomerId
                 },
-                AssignmentType = assignmentEntity.AssignmentTypeEntity.Name
+                AssignmentType = assignmentEntity.AssignmentTypeId.ToString()
             };
         }
     }

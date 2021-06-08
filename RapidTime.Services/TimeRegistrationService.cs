@@ -10,6 +10,7 @@ namespace RapidTime.Services
     {
         private readonly IUnitofWork _unitOfWork;
         private readonly IAssignmentService _assignmentService;
+        
         private readonly ILogger<TimeRegistrationService> _logger;
 
         public TimeRegistrationService(IUnitofWork unitOfWork, IAssignmentService assignmentService, ILogger<TimeRegistrationService> logger)
@@ -17,6 +18,7 @@ namespace RapidTime.Services
             _unitOfWork = unitOfWork;
             _assignmentService = assignmentService;
             _logger = logger;
+            
         }
 
         public TimeSpan GetTimeRecordedForAssignment(int i)
@@ -36,17 +38,21 @@ namespace RapidTime.Services
         {
             AssignmentEntity assignmentEntity = _assignmentService.GetById(assignmentId);
             
-            if (assignmentEntity.DateStarted <= timeRecordEntity.Date) return false;
+            if (assignmentEntity.DateStarted >= timeRecordEntity.Date) return false;
             
-            if (timeRecordEntity.TimeRecorded.Hours > 24)
+            if (timeRecordEntity.TimeRecorded.TotalHours > 24)
             {
                 throw new Exception("Unable to register more than 24 hours a day.");
             }
 
             if (LimitTimeRecordToHoursOfTheDay(timeRecordEntity, assignmentEntity))
             {
+                if (assignmentEntity.TimeRecords is null)
+                    assignmentEntity.TimeRecords = new List<TimeRecordEntity>();
                 assignmentEntity.TimeRecords.Add(timeRecordEntity);
+                var entity = _unitOfWork.TimeRecordRepository.Insert(timeRecordEntity);
                 _unitOfWork.Commit();
+                return true;
             }
 
             return false;
@@ -56,10 +62,12 @@ namespace RapidTime.Services
         public bool LimitTimeRecordToHoursOfTheDay(TimeRecordEntity timeRecordEntity, AssignmentEntity assignmentEntity)
         {
             var sum = 0;
-
-            foreach (var existingTimeRecord in assignmentEntity.TimeRecords)
+            if (assignmentEntity.TimeRecords != null)
             {
-                sum += existingTimeRecord.TimeRecorded.Hours;
+                foreach (var existingTimeRecord in assignmentEntity.TimeRecords)
+                {
+                    sum += existingTimeRecord.TimeRecorded.Hours;
+                }
             }
             if (sum > 24.0) { throw new Exception("Unable to register more than 24 hours a day.");}
 

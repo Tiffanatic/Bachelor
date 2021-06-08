@@ -52,6 +52,7 @@ namespace RapidTime.Api
             services.AddTransient<ICompanyTypeService, CompanyTypeService>();
             services.AddTransient<IContactService, ContactService>();
             services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<ICustomerContactService, CustomerContactService>();
             services.AddTransient<IPriceService, PriceService>();
             services.AddTransient<IRepository<BaseEntity>, Repository<BaseEntity>>();
             services.AddTransient<ITimeRegistrationService, TimeRegistrationService>();
@@ -71,6 +72,7 @@ namespace RapidTime.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<AssignmentTypeGrpcService>();
+                endpoints.MapGrpcService<AssignmentGrpcService>();
                 endpoints.MapGrpcService<CityGrpcService>();
                 endpoints.MapGrpcService<CountryGrpcService>();
                 endpoints.MapGrpcService<AddressAggregateGrpcService>();

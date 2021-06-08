@@ -40,7 +40,8 @@ namespace RapidTime.Api.GRPCServices
                     Email = contact.Email,
                     FirstName = contact.Firstname,
                     LastName = contact.Lastname,
-                    TelephoneNumber = contact.TelephoneNumber
+                    TelephoneNumber = contact.TelephoneNumber,
+                    Id = contact.Id
                 }
             });
         }
@@ -68,12 +69,13 @@ namespace RapidTime.Api.GRPCServices
             var contact = _contactService.FindById(request.Id);
             return Task.FromResult( new ContactResponse()
             {
-                Response =
+                Response = new()
                 {
                     Email = contact.Email,
                     FirstName = contact.Firstname,
                     LastName = contact.Lastname,
-                    TelephoneNumber = contact.TelephoneNumber
+                    TelephoneNumber = contact.TelephoneNumber,
+                    Id = contact.Id
                 }
             });
         }
