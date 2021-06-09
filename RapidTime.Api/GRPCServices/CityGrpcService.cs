@@ -32,13 +32,10 @@ namespace RapidTime.Api.GRPCServices
             var city = _cityService.FindById(request.Id);
             return Task.FromResult(new CityResponse()
             {
-                Citybase = new CityBase()
-                {
-                    Id = city.Id,
-                    CityName = city.CityName,
-                    PostalCode = city.PostalCode,
-                    Country = city.CountryId.ToString()
-                }
+                Id = city.Id,
+                CityName = city.CityName,
+                PostalCode = city.PostalCode,
+                Country = city.CountryId.ToString()
             });
         }
 
@@ -125,12 +122,9 @@ namespace RapidTime.Api.GRPCServices
             {
                 cityResponses.Add(new CityResponse()
                 {
-                    Citybase = new CityBase()
-                    {
-                        CityName = city.CityName,
-                        Id = city.Id,
-                        PostalCode = city.PostalCode
-                    }
+                    CityName = city.CityName,
+                    Id = city.Id,
+                    PostalCode = city.PostalCode
                 });
             }
             return cityResponses;

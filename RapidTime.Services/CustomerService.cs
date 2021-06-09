@@ -27,7 +27,7 @@ namespace RapidTime.Services
             }
             catch (Exception e)
             {
-                _logger.LogInformation(e.Message);
+                _logger.LogInformation("Error in CustomerService.GetAllCustomers: {Error}", e.Message);
                 throw new Exception(e.Message);
             }
             
@@ -36,7 +36,6 @@ namespace RapidTime.Services
 
         public void Delete(int customerId)
         {
-            if (customerId == null) throw new NullReferenceException();
             try
             {
                 _unitofWork.CustomerRepository.Delete(customerId);
@@ -45,7 +44,7 @@ namespace RapidTime.Services
             }
             catch (Exception e)
             {
-                _logger.LogInformation(e.Message);
+                _logger.LogInformation("Error in CustomerService.Delete: {Error}", e.Message);
                 throw new Exception(e.Message);
             }
         }
@@ -96,6 +95,7 @@ namespace RapidTime.Services
             }
         }
 
+        // Not used as the gRPC service only implements GetById(int i)
         public CustomerEntity[] FindByName(string input)
         {
             try

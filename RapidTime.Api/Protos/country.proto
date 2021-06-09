@@ -15,17 +15,13 @@ service Country {
 }
 
 message UpdateCountryRequest {
-  CountryBase request = 1;
-}
-
-message MultiCountryResponse {
-  repeated CountryBase response= 1;
-}
-
-message CountryBase {
   int32 id = 1;
   string countryName = 2;
   string countryCode = 3;
+}
+
+message MultiCountryResponse {
+  repeated CountryResponse response= 1;
 }
 
 message GetCountryRequest {
@@ -33,7 +29,9 @@ message GetCountryRequest {
 }
 
 message CountryResponse {
-  CountryBase response = 1;
+  int32 id = 1;
+  string countryName = 2;
+  string countryCode = 3;
 }
 
 message CreateCountryRequest {

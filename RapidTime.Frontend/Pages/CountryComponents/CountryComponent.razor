@@ -3,7 +3,7 @@
 @inject NavigationManager _navigationManager
 
 
-<CreateCountryComponent/>
+<CreateCountryComponent ExternalMethod="@UpdateView"/>
 
 <h2>Lande Oversigt</h2>
 <ListItemsComponent Items="@_countries">
@@ -20,7 +20,7 @@
 
 
 @code {
-    private List<CountryBase> _countries;
+    private List<CountryResponse> _countries;
 
     protected override async void OnInitialized()
     {
@@ -41,6 +41,9 @@
         _navigationManager.NavigateTo($"/Lande/{id}");
     }
 
-    
-
+    private async void UpdateView()
+    {
+        _countries = await _countryGrpcClient.GetAllCountries();
+        StateHasChanged();
+    }
 }

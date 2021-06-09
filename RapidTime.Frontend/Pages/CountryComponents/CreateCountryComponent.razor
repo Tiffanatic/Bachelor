@@ -27,8 +27,13 @@
 @code {
     CreateCountryResource model = new CreateCountryResource();
 
+    [Parameter]
+    public Action ExternalMethod { get; set; }
+    
     private async void createCountry()
     {
+
         await _countryGrpcClient.createCountry(model);
+        ExternalMethod?.Invoke();
     }
 }

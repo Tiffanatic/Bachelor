@@ -25,10 +25,10 @@ namespace RapidTime.Api.GRPCServices
         {
             var EntityToCreate = new AssignmentEntity()
             {
-                Amount = request.Base.Amount,
-                AssignmentTypeId = request.Base.AssignmentType.Id,
+                Amount = 0,
+                AssignmentTypeId = request.AssignmentType.Id,
                 TimeSpentInTotal = TimeSpan.Zero,
-                CustomerId = request.Base.Customer.Id,
+                CustomerId = request.Customer.Id,
                 DateStarted = DateTime.Today,
                 UserId = Guid.Parse(request.UserId)
             };
@@ -56,14 +56,14 @@ namespace RapidTime.Api.GRPCServices
         {
             var entity = _assignmentService.GetById(request.Id);
             
-            if (entity.Amount != request.Base.Amount)
-                entity.Amount = request.Base.Amount;
+            if (entity.Amount != request.Amount)
+                entity.Amount = request.Amount;
             
-            if ( entity.CustomerId != request.Base.Customer.Id)
-                entity.CustomerId = request.Base.Customer.Id;
+            if ( entity.CustomerId != request.Customer.Id)
+                entity.CustomerId = request.Customer.Id;
             
-            if (entity.DateStarted != request.Base.DateStarted.ToDateTime())
-                entity.DateStarted = request.Base.DateStarted.ToDateTime();
+            if (entity.DateStarted != request.DateStarted.ToDateTime())
+                entity.DateStarted = request.DateStarted.ToDateTime();
 
             // if (entity.UserId != new Guid(request.Base.UserId))
             // {

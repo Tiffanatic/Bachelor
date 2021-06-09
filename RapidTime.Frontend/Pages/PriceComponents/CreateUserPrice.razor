@@ -13,11 +13,11 @@
             <InputNumber id="Amount" @bind-Value="model.HourlyRate"></InputNumber>
         </div>
         <div class="col-md-3">
-            <select class="form-control" @bind="@model.AssignmentBase">
+            <select class="form-control" @bind="@model.AssignmentType">
                 <option selected disabled="true"> -- Opgave type --</option>
                 @foreach (var assignmentResponse in _assignmentResponses)
                 {
-                    <option title="@assignmentResponse.AssignmentType" value="@assignmentResponse.AssignmentType">@assignmentResponse.AssignmentType</option>
+                    <option title="@assignmentResponse" value="@assignmentResponse">@assignmentResponse</option>
                 }
             </select>
         </div>
@@ -46,7 +46,7 @@
     {
         _priceGrpcClient.CreatePrice(model);
         model.HourlyRate = 0;
-        model.AssignmentBase = null;
+        model.AssignmentType = null;
         ExternalMethod?.Invoke();
         StateHasChanged();
     }

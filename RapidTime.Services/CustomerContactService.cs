@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models;
@@ -58,6 +60,21 @@ namespace RapidTime.Services
             }
 
             return true;
+        }
+
+        public List<CustomerContact> GetContactsForCustomer(int customerId)
+        {
+            _logger.LogInformation("GetContactsForCustomer called from CustomerContactService with id: {CustomerId}", customerId);
+            
+            try
+            {
+                List<CustomerContact> res = _unitofWork.CustomerContactRepository.GetAll().ToList().FindAll(x => x.CustomerId == customerId);
+                return res;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }

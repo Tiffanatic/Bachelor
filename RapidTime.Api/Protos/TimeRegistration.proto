@@ -9,7 +9,7 @@ package timeRegistration;
 
 service TimeRegistration {
   rpc CreateTimeRegistration (CreateTimeRegistrationRequest) returns (TimeRegistrationResponse);
-  rpc GetTimeRegistrationByAssignmentId (GetTimeRegistrationByAssignmentIdRequest) returns (MultiTimeRegistrationResponse);
+  rpc GetTimeRegistrationByAssignmentId (GetTimeRegistrationByAssignmentIdRequest) returns (TimeRegistrationsByAssignmentId);
   rpc GetTotalTimeRegisteredOnAssignmentId (GetTimeRegistrationByAssignmentIdRequest) returns (TotalTimeSpentOnAssignment);
 }
 
@@ -17,19 +17,21 @@ message GetTimeRegistrationByAssignmentIdRequest {
   int32 Id = 1; 
 }
 
-message MultiTimeRegistrationResponse {
-  repeated TimeRegistrationBase TimeRegistrations = 1; 
+message TimeRegistrationsByAssignmentId {
+  repeated TimeRegistrations TimeRegistrations = 1;
 }
 
 message CreateTimeRegistrationRequest {
-  TimeRegistrationBase TimeRegistration = 1;
+  google.protobuf.Duration TimeRecorded = 2;
+  int32 assignmentId = 3;
+  google.protobuf.Timestamp Date = 4;
 }
 
 message TimeRegistrationResponse {
   bool success = 1; 
 }
 
-message TimeRegistrationBase {
+message TimeRegistrations {
   google.protobuf.Duration TimeRecorded = 2;
   int32 assignmentId = 3;
   google.protobuf.Timestamp Date = 4;

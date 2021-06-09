@@ -28,12 +28,13 @@ namespace RapidTime.Api.GRPCServices
             ServerCallContext context)
         {
             _logger.LogInformation("Create Address Called with street {street}, for customerId {customer}",
-                request.Request.Street, request.CustomerId);
+                request.Street, request.CustomerId);
+            
             var addressToInsert = new AddressAggregateEntity()
             {
-                Street = request.Request.Street,
-                CityId = _cityService.FindCityByNameOrPostalCode(request.Request.City.CityName).First().Id,
-                CountryId = _countryService.GetCountryByNameOrCountryCode(request.Request.Country.CountryName).First().Id,
+                Street = request.Street,
+                CityId = _cityService.FindCityByNameOrPostalCode(request.City.CityName).First().Id,
+                CountryId = _countryService.GetCountryByNameOrCountryCode(request.Country.CountryName).First().Id,
                 CustomerId = request.CustomerId
             };
             var id = _addressAggregateService.Insert(addressToInsert);
@@ -47,19 +48,16 @@ namespace RapidTime.Api.GRPCServices
         {
             AddressAggregateResponse addressToReturn = new()
             {
-                Response =
+                Street = addressAggregateEntityToReturn.Street,
+                City =
                 {
-                    Street = addressAggregateEntityToReturn.Street,
-                    City =
-                    {
-                        CityName = addressAggregateEntityToReturn.CityEntity.CityName,
-                        PostalCode = addressAggregateEntityToReturn.CityEntity.PostalCode
-                    },
-                    Country =
-                    {
-                        CountryCode = addressAggregateEntityToReturn.CountryEntity.CountryCode,
-                        CountryName = addressAggregateEntityToReturn.CountryEntity.CountryName
-                    }
+                    CityName = addressAggregateEntityToReturn.CityEntity.CityName,
+                    PostalCode = addressAggregateEntityToReturn.CityEntity.PostalCode
+                },
+                Country =
+                {
+                    CountryCode = addressAggregateEntityToReturn.CountryEntity.CountryCode,
+                    CountryName = addressAggregateEntityToReturn.CountryEntity.CountryName
                 }
             };
             return addressToReturn;
@@ -89,9 +87,9 @@ namespace RapidTime.Api.GRPCServices
         {
             _logger.LogInformation("Update Address Called on Id: {Id}", request.Id);
             var addressToUpdate = _addressAggregateService.FindById(request.Id);
-            addressToUpdate.Street = request.Response.Street;
-            addressToUpdate.CityId = request.Response.City.Id;
-            addressToUpdate.CountryId = request.Response.Country.Id;
+            addressToUpdate.Street = request.Street;
+            addressToUpdate.CityId = request.City.Id;
+            addressToUpdate.CountryId = request.Country.Id;
             _addressAggregateService.Update(addressToUpdate);
         
             return Task.FromResult(new Empty());
@@ -108,17 +106,17 @@ namespace RapidTime.Api.GRPCServices
 
             foreach (var address in addressToReturn)
             {
-                multiAddressAggregateResponse.Response.Add(new AddressAggregateBase()
+                multiAddressAggregateResponse.Response.Add(new AddressAggregateResponse()
                 {
                     Street = address.Street,
-                    City = new CityBase()
+                    City = new CityResponse()
                     {
                         CityName = address.CityEntity.CityName,
                         Country = address.CityEntity.CityName,
                         PostalCode = address.CityEntity.PostalCode,
                         Id = address.CityId
                     },
-                    Country = new CountryBase()
+                    Country = new CountryResponse()
                     {
                         CountryCode = address.CountryEntity.CountryCode,
                         CountryName = address.CountryEntity.CountryName,

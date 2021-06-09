@@ -15,7 +15,11 @@ service Contact{
   rpc AddContactToCustomer (AddContactToCustomerRequest) returns (ContactResponse);
 }
 
-message ContactBase{
+message GetContactRequest{
+  int32 id = 1;
+}
+
+message ContactResponse{
   string firstName = 1;
   string lastName = 2;
   string email = 3;
@@ -23,16 +27,12 @@ message ContactBase{
   int32 id = 5;
 }
 
-message GetContactRequest{
-  int32 id = 1;
-}
-
-message ContactResponse{
-  ContactBase response = 1;
-}
-
 message UpdateContactRequest{
-  ContactBase updatedContact = 2;
+  string firstName = 1;
+  string lastName = 2;
+  string email = 3;
+  string telephoneNumber = 4;
+  int32 id = 5;
 }
 
 message CreateContactRequest{
@@ -52,5 +52,5 @@ message AddContactToCustomerRequest {
 }
 
 message MultiContactResponse{
-  repeated ContactBase response = 1;
+  repeated ContactResponse response = 1;
 }

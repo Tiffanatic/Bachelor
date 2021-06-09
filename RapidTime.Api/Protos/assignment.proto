@@ -17,26 +17,22 @@ service Assignment {
   rpc CreateAssignment (CreateAssignmentRequest) returns (AssignmentResponse);
   rpc UpdateAssignment (UpdateAssignmentRequest) returns (AssignmentResponse);
   rpc DeleteAssignment (AssignmentRequest) returns (google.protobuf.Empty);
-  
-}
-
-// Assignment created to represent the base entity class
-message AssignmentBase {
-  assignmentType.AssignmentTypeBase assignmentType = 1;
-  google.protobuf.Timestamp dateStarted = 2;
-  double amount = 3;
-  string timeSpent = 4;
-  customer.CustomerBase customer = 5;
 }
 
 message CreateAssignmentRequest {
-  AssignmentBase base = 1;
-  string UserId = 2;
+  assignmentType.AssignmentTypeResponse assignmentType = 1;
+  google.protobuf.Timestamp dateStarted = 2;
+  customer.CustomerResponse customer = 5;
+  string UserId = 6;
 }
 
 message UpdateAssignmentRequest {
-  AssignmentBase base = 1;
-  int32 Id = 2;
+  assignmentType.AssignmentTypeResponse assignmentType = 1;
+  google.protobuf.Timestamp dateStarted = 2;
+  double amount = 3;
+  string timeSpent = 4;
+  customer.CustomerResponse customer = 5;
+  int32 Id = 6;
 }
 
 message AssignmentRequest {
@@ -57,7 +53,7 @@ message AssignmentResponse {
   google.protobuf.Timestamp date = 3;
   double amount = 4;
   string timeSpent = 5;
-  customer.CustomerBase customer = 6;
+  customer.CustomerResponse customer = 6;
   string UserId = 7;
 }
 

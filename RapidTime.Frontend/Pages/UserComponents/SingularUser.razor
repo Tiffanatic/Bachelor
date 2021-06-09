@@ -4,13 +4,13 @@
 
 <h3>SingularUser</h3>
 <p>
-    Navn: @user.UserBaseResponse.FirstName + @user.UserBaseResponse.LastName
+    Navn: @user.FirstName + @user.LastName
 </p>
 <p>
-    Email: @user.UserBaseResponse.Email
+    Email: @user.Email
 </p>
 
-@if (user.UserBaseResponse.GdprDeleted)
+@if (user.GdprDeleted)
 {
     <p>Slettes den: @deleteDate</p>
 }
@@ -40,7 +40,7 @@
     protected override void OnInitialized()
     {
         user = _userGrpcClient.GetUser(id);
-        if (user.UserBaseResponse.GdprDeleted)
+        if (user.GdprDeleted)
         {
             deleteDate = _userGrpcClient.GetDeleteDate(id);
         }

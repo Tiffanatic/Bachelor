@@ -22,6 +22,7 @@ namespace RapidTime.Api.GRPCServices
             _logger = logger;
             _customerService = customerService;
             _companyTypeService = companyTypeService;
+
             _customerContactService = customerContactService;
         }
 
@@ -35,7 +36,7 @@ namespace RapidTime.Api.GRPCServices
                 CompanyTypeId = request.CompanyType.Id,
                 YearlyReview = request.YearlyReview.ToDateTime(),
                 InvoiceMail = request.InvoiceEmail,
-                InvoiceCurrency = (CustomerEntity.InvoiceCurrencyEnum) request.InvoiceCurrency,
+                InvoiceCurrency = (CustomerEntity.InvoiceCurrencyEnum) request.InvoiceCurrency
             };
 
             var id = _customerService.Insert(customerToCreate);
@@ -72,16 +73,16 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<Empty> UpdateCustomer(UpdateCustomerRequest request, ServerCallContext context)
         {
-            _logger.LogInformation("Update Customer called on Id: {Id}", request.Request.Id);
-            var customerToUpdate = _customerService.GetById(request.Request.Id);
-            if (!String.IsNullOrEmpty(request.Request.Name)) 
-                customerToUpdate.Name = request.Request.Name;
-            if(!String.IsNullOrEmpty(request.Request.InvoiceEmail))
-                customerToUpdate.InvoiceMail = request.Request.InvoiceEmail;
-            if (request.Request.CompanyType.Id > 0)
-                customerToUpdate.CompanyTypeId = request.Request.CompanyType.Id;
-            if (!String.IsNullOrEmpty(request.Request.YearlyReview.ToString()))
-                customerToUpdate.YearlyReview = request.Request.YearlyReview.ToDateTime();
+            _logger.LogInformation("Update Customer called on Id: {Id}", request.Id);
+            var customerToUpdate = _customerService.GetById(request.Id);
+            if (!String.IsNullOrEmpty(request.Name)) 
+                customerToUpdate.Name = request.Name;
+            if(!String.IsNullOrEmpty(request.InvoiceEmail))
+                customerToUpdate.InvoiceMail = request.InvoiceEmail;
+            if (request.CompanyType.Id > 0)
+                customerToUpdate.CompanyTypeId = request.CompanyType.Id;
+            if (!String.IsNullOrEmpty(request.YearlyReview.ToString()))
+                customerToUpdate.YearlyReview = request.YearlyReview.ToDateTime();
             
             _customerService.Update(customerToUpdate);
             return Task.FromResult(new Empty());
@@ -91,30 +92,28 @@ namespace RapidTime.Api.GRPCServices
         {
             CustomerResponse response = new()
             {
-                Response = new()
+                Id = customerEntity.Id,
+                Name = customerEntity.Name,
+                CompanyType = new()
                 {
-                    Id = customerEntity.Id,
-                    Name = customerEntity.Name,
-                    CompanyType = new()
-                    {
-                        Id = customerEntity.CompanyTypeId,
-                        CompanyTypeName = _companyTypeService.findById(customerEntity.CompanyTypeId).CompanyTypeName
-                    },
-                    YearlyReview = customerEntity.YearlyReview.ToUniversalTime().ToTimestamp(),
-                    InvoiceCurrency = (InvoiceCurrencyEnum) customerEntity.InvoiceCurrency,
-                    InvoiceEmail = customerEntity.InvoiceMail,
-                }
+                    Id = customerEntity.CompanyTypeId,
+                    CompanyTypeName = _companyTypeService.findById(customerEntity.CompanyTypeId).CompanyTypeName
+                },
+                YearlyReview = customerEntity.YearlyReview.ToUniversalTime().ToTimestamp(),
+                InvoiceCurrency = (InvoiceCurrencyEnum) customerEntity.InvoiceCurrency,
+                InvoiceEmail = customerEntity.InvoiceMail
             };
-            
+                
+            //response.Response.Contact.AddRange(CustomerContactsToContactBaseRepeatedField(customerEntity.CustomerContacts));
             return response;
         }
 
-        private RepeatedField<ContactBase> CustomerContactsToContactBaseRepeatedField(IList<CustomerContact> contacts)
+        private RepeatedField<ContactResponse> CustomerContactsToContactBaseRepeatedField(IList<CustomerContact> contacts)
         {
-            RepeatedField<ContactBase> contactBases = new RepeatedField<ContactBase>();
+            RepeatedField<ContactResponse> contactBases = new RepeatedField<ContactResponse>();
             foreach (var contact in contacts)
             {
-                contactBases.Add(new ContactBase()
+                contactBases.Add(new ContactResponse()
                 {
                     Email = contact.ContactEntity.Email,
                     FirstName = contact.ContactEntity.Firstname,
@@ -131,6 +130,48 @@ namespace RapidTime.Api.GRPCServices
 
             return Task.FromResult(new CustomerContactResponse() {Success = res});
 
+        }
+
+        // public override Task<MultiCustomerResponse> GetAllCustomers(Empty request, ServerCallContext context)
+        // {
+        //     var customerEntities = _customerService.GetAllCustomers();
+        //     MultiCustomerResponse response = new MultiCustomerResponse();
+        //
+        //     foreach (CustomerEntity entity in customerEntities)
+        //     {
+        //         CompanyTypeEntity companyType = _companyTypeService.findById(entity.CompanyTypeId);
+        //         CompanyTypeBase companyTypeBaseMapped = new CompanyTypeBase()
+        //         {
+        //             Id = companyType.Id,
+        //             CompanyTypeName = companyType.CompanyTypeName
+        //         };
+        //
+        //         var requestDeletionDate = _customerService.GetById(entity.Id);
+        //         var requestDeletionDateMapped = requestDeletionDate.
+        //         response.Response.Add(new CustomerResponse()
+        //         {
+        //             Response = new CustomerBase()
+        //             {
+        //                 Id = entity.Id,
+        //                 Name = entity.Name,
+        //                 CompanyType = companyTypeBaseMapped,
+        //                 InvoiceCurrency = entity.InvoiceCurrency.,
+        //                 InvoiceEmail = entity.InvoiceMail,
+        //                 YearlyReview = entity.YearlyReview.ToTimestamp(),
+        //                 RequestDeletionDate = entity.
+        //             }
+        //         });
+        //     }
+        // }
+
+        public override Task<MultiContactsResponse> GetContactsForCustomer(GetCustomerRequest request, ServerCallContext context)
+        {
+            return base.GetContactsForCustomer(request, context);
+        }
+
+        public override Task<Empty> DeleteContactCustomer(DeleteCustomerContactRequest request, ServerCallContext context)
+        {
+            return base.DeleteContactCustomer(request, context);
         }
     }
 }

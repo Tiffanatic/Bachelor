@@ -27,14 +27,14 @@ namespace RapidTime.Api.GRPCServices
         public override Task<TimeRegistrationResponse> CreateTimeRegistration(CreateTimeRegistrationRequest request, ServerCallContext context)
         {
             _logger.LogInformation("Create TimeRegistration called");
-            AssignmentEntity assignment = _assignmentService.GetById(request.TimeRegistration.AssignmentId);
+            AssignmentEntity assignment = _assignmentService.GetById(request.AssignmentId);
             TimeRecordEntity timeRecordEntity = new()
             {
-                Date = request.TimeRegistration.Date.ToDateTime(),
+                Date = request.Date.ToDateTime(),
                 
                 AssignmentEntity = assignment,
-                AssignmentId = request.TimeRegistration.AssignmentId,
-                TimeRecorded = request.TimeRegistration.TimeRecorded.ToTimeSpan()
+                AssignmentId = request.AssignmentId,
+                TimeRecorded = request.TimeRecorded.ToTimeSpan()
             };
 
             var response = _timeRegistrationService.RegisterTime(timeRecordEntity, timeRecordEntity.AssignmentId);
@@ -43,7 +43,7 @@ namespace RapidTime.Api.GRPCServices
             return Task.FromResult(BoolToTimeRegistrationResponseConverter(response));
         }
 
-        public override Task<MultiTimeRegistrationResponse> GetTimeRegistrationByAssignmentId(GetTimeRegistrationByAssignmentIdRequest request, ServerCallContext context)
+        public override Task<TimeRegistrationsByAssignmentId> GetTimeRegistrationByAssignmentId(GetTimeRegistrationByAssignmentIdRequest request, ServerCallContext context)
         {
             return base.GetTimeRegistrationByAssignmentId(request, context);
         }

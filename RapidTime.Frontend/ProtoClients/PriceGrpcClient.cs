@@ -42,7 +42,7 @@ namespace RapidTime.Frontend.ProtoClients
             var client = GetClient();
             client.CreatePrice(new CreatePriceRequest()
             {
-                AssignmentType = createPriceResource.AssignmentBase.AssignmentType,
+                AssignmentType = createPriceResource.AssignmentType,
                 HourlyRate = createPriceResource.HourlyRate,
                 UserId = createPriceResource.Id
             });

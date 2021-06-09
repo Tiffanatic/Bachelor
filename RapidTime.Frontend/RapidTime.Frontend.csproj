@@ -18,5 +18,5 @@
 		<PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.4.1" />
 		<ProtoBuf Include="**\*.proto" GrpcServices="Client" />
 	</ItemGroup>
-
+	
 </Project>

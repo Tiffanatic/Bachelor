@@ -35,14 +35,11 @@ namespace RapidTime.Api.GRPCServices
             
             return Task.FromResult( new ContactResponse()
             {
-                Response = new()
-                {
-                    Email = contact.Email,
-                    FirstName = contact.Firstname,
-                    LastName = contact.Lastname,
-                    TelephoneNumber = contact.TelephoneNumber,
-                    Id = contact.Id
-                }
+                Email = contact.Email,
+                FirstName = contact.Firstname,
+                LastName = contact.Lastname,
+                TelephoneNumber = contact.TelephoneNumber,
+                Id = contact.Id
             });
         }
 
@@ -53,13 +50,10 @@ namespace RapidTime.Api.GRPCServices
             _contactService.AddContactToCustomer(contact, request.CustomerId);
             return Task.FromResult( new ContactResponse()
             {
-                Response =
-                {
-                    Email = contact.Email,
-                    FirstName = contact.Firstname,
-                    LastName = contact.Lastname,
-                    TelephoneNumber = contact.TelephoneNumber
-                }
+                Email = contact.Email,
+                FirstName = contact.Firstname,
+                LastName = contact.Lastname,
+                TelephoneNumber = contact.TelephoneNumber
             });
         }
 
@@ -69,14 +63,11 @@ namespace RapidTime.Api.GRPCServices
             var contact = _contactService.FindById(request.Id);
             return Task.FromResult( new ContactResponse()
             {
-                Response = new()
-                {
-                    Email = contact.Email,
-                    FirstName = contact.Firstname,
-                    LastName = contact.Lastname,
-                    TelephoneNumber = contact.TelephoneNumber,
-                    Id = contact.Id
-                }
+                Email = contact.Email,
+                FirstName = contact.Firstname,
+                LastName = contact.Lastname,
+                TelephoneNumber = contact.TelephoneNumber,
+                Id = contact.Id
             });
         }
 
@@ -90,11 +81,11 @@ namespace RapidTime.Api.GRPCServices
         public override Task<Empty> UpdateContact(UpdateContactRequest request, ServerCallContext context)
         {
             _logger.LogInformation("UpdateContact Called with Id: {Id}", request);
-            var contact = _contactService.FindById(request.UpdatedContact.Id);
-            contact.Email = request.UpdatedContact.Email;
-            contact.Firstname = request.UpdatedContact.FirstName;
-            contact.Lastname = request.UpdatedContact.LastName;
-            contact.TelephoneNumber = request.UpdatedContact.TelephoneNumber;
+            var contact = _contactService.FindById(request.Id);
+            contact.Email = request.Email;
+            contact.Firstname = request.FirstName;
+            contact.Lastname = request.LastName;
+            contact.TelephoneNumber = request.TelephoneNumber;
             
             _contactService.Update(contact);
             return Task.FromResult(new Empty());
@@ -116,7 +107,7 @@ namespace RapidTime.Api.GRPCServices
             
             foreach (ContactEntity contact in contacts)
             {
-                responses.Response.Add(new ContactBase()
+                responses.Response.Add(new ContactResponse()
                 {
                     FirstName = contact.Firstname,
                     LastName = contact.Lastname,

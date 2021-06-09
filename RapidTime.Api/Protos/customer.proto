@@ -12,6 +12,7 @@ package customer;
 
 service Customer {
   rpc GetCustomer (GetCustomerRequest) returns (CustomerResponse);
+  rpc GetAllCustomers (google.protobuf.Empty) returns (MultiCustomerResponse);
   rpc CreateCustomer (CreateCustomerRequest) returns (CustomerResponse);
   rpc UpdateCustomer (UpdateCustomerRequest) returns (google.protobuf.Empty);
   rpc DeleteCustomer (DeleteCustomerRequest) returns (google.protobuf.Empty);
@@ -26,24 +27,36 @@ message GetCustomerRequest {
 }
 
 message MultiContactsResponse {
-  repeated contact.ContactBase Contacts = 1;
+  repeated contact.ContactResponse Contacts = 1;
 }
 
 message CustomerResponse {
-  CustomerBase response = 1;
+  int32 id = 1;
+  string name = 2;
+  companyType.CompanyTypeResponse companyType = 3;
+  google.protobuf.Timestamp yearlyReview = 4;
+  InvoiceCurrencyEnum invoiceCurrency = 5;
+  string invoiceEmail = 6;
+  google.protobuf.Timestamp RequestDeletionDate = 7;
 }
 
 message CreateCustomerRequest {
   string name = 1;
   int32 CVRNummer = 2;
-  companyType.CompanyTypeBase companyType = 3;
+  companyType.CompanyTypeResponse companyType = 3;
   google.protobuf.Timestamp yearlyReview = 4;
   InvoiceCurrencyEnum invoiceCurrency = 5;
   string invoiceEmail = 6;
 }
 
 message UpdateCustomerRequest {
-  CustomerBase request = 1;
+  int32 id = 1;
+  string name = 2;
+  companyType.CompanyTypeResponse companyType = 3;
+  google.protobuf.Timestamp yearlyReview = 4;
+  InvoiceCurrencyEnum invoiceCurrency = 5;
+  string invoiceEmail = 6;
+  google.protobuf.Timestamp RequestDeletionDate= 7;
 }
 
 message DeleteCustomerRequest {
@@ -52,17 +65,6 @@ message DeleteCustomerRequest {
 message RequestDeleteCustomerRequest {
   google.protobuf.Timestamp DateForDeletion = 1;
   int32 IdToDelete = 2;
-}
-
-
-message CustomerBase {
-  int32 id = 1;
-  string name = 2;
-  companyType.CompanyTypeBase companyType = 3;
-  google.protobuf.Timestamp yearlyReview = 4;
-  InvoiceCurrencyEnum invoiceCurrency = 5;
-  string invoiceEmail = 6;
-  google.protobuf.Timestamp RequestDeletionDate= 7;
 }
 
 message CustomerContactRequest {
@@ -76,6 +78,10 @@ message CustomerContactResponse {
 
 message DeleteCustomerContactRequest {
   int32 Id = 1;
+}
+
+message MultiCustomerResponse {
+  repeated CustomerResponse response = 1;
 }
 
 enum InvoiceCurrencyEnum {

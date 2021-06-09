@@ -45,17 +45,14 @@ namespace RapidTime.Api.GRPCServices
             {
                 multiPriceResponse.Response.Add(new PriceResponse()
                 {
-                    Response =
+                    Id = price.Id,
+                    HourlyRate = price.HourlyRate,
+                    AssignmentType =
                     {
-                        Id = price.Id,
-                        HourlyRate = price.HourlyRate,
-                        AssignmentType =
-                        {
-                            Id = price.AssignmentTypeId,
-                            InvoiceAble = price.AssignmentTypeEntity.InvoiceAble,
-                            Name = price.AssignmentTypeEntity.Name,
-                            Number = price.AssignmentTypeEntity.Number
-                        }
+                        Id = price.AssignmentTypeId,
+                        InvoiceAble = price.AssignmentTypeEntity.InvoiceAble,
+                        Name = price.AssignmentTypeEntity.Name,
+                        Number = price.AssignmentTypeEntity.Number
                     }
                 });
                 
@@ -79,10 +76,10 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<PriceResponse> UpdateHourlyRate(UpdatePriceRequest request, ServerCallContext context)
         {
-            _logger.LogInformation("UpdateHourlyRate called on Id: {Id}", request.Request.Id);
-            var price = _priceService.GetById(request.Request.Id);
+            _logger.LogInformation("UpdateHourlyRate called on Id: {Id}", request.Id);
+            var price = _priceService.GetById(request.Id);
         
-            price.HourlyRate = request.Request.HourlyRate;
+            price.HourlyRate = request.HourlyRate;
             
             _priceService.Update(price);
         
@@ -93,17 +90,14 @@ namespace RapidTime.Api.GRPCServices
         {
             return new PriceResponse()
             {
-                Response =
+                Id = priceEntity.Id,
+                HourlyRate = priceEntity.HourlyRate,
+                AssignmentType =
                 {
-                    Id = priceEntity.Id,
-                    HourlyRate = priceEntity.HourlyRate,
-                    AssignmentType =
-                    {
-                        Id = priceEntity.AssignmentTypeId,
-                        InvoiceAble = priceEntity.AssignmentTypeEntity.InvoiceAble,
-                        Name = priceEntity.AssignmentTypeEntity.Name,
-                        Number = priceEntity.AssignmentTypeEntity.Name
-                    }
+                    Id = priceEntity.AssignmentTypeId,
+                    InvoiceAble = priceEntity.AssignmentTypeEntity.InvoiceAble,
+                    Name = priceEntity.AssignmentTypeEntity.Name,
+                    Number = priceEntity.AssignmentTypeEntity.Name
                 }
             };
         }

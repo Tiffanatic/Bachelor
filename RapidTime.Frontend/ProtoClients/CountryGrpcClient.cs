@@ -33,7 +33,7 @@ namespace RapidTime.Frontend.ProtoClients
         }
 
         
-        public async Task<List<CountryBase>> GetAllCountries()
+        public async Task<List<CountryResponse>> GetAllCountries()
         {
             var client = await GetClient();
             return client.GetAllCountries(new  Empty()).Response.ToList();
@@ -45,19 +45,21 @@ namespace RapidTime.Frontend.ProtoClients
             client.DeleteCountryAsync(new DeleteCountryRequest() {Id = id});
         }
 
-        public async Task<CountryBase> GetCountry(int id)
+        public async Task<CountryResponse> GetCountry(int id)
         {
             var client = await GetClient();
 
-            return client.GetCountry(new GetCountryRequest() {Id = id}).Response;
+            return client.GetCountry(new GetCountryRequest() {Id = id});
         }
 
-        public async Task<CountryResponse> UpdateCountry(CountryBase countryBase)
+        public async Task<CountryResponse> UpdateCountry(UpdateCountryRequest request)
         {
             var client = await GetClient();
             UpdateCountryRequest response = new UpdateCountryRequest()
             {
-                Request = countryBase
+                Id = request.Id,
+                CountryCode = request.CountryCode,
+                CountryName = request.CountryName
             };
             return await client.UpdateCountryAsync(response);
         }

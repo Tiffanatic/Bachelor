@@ -47,30 +47,24 @@ namespace RapidTime.Api.GRPCServices
             var countryEntity = _countryService.FindById(request.Id);
             return Task.FromResult(new CountryResponse()
             {
-                Response = new CountryBase()
-                {
-                    CountryCode = countryEntity.CountryCode,
-                    CountryName = countryEntity.CountryName,
-                    Id = countryEntity.Id
-                }
+                CountryCode = countryEntity.CountryCode,
+                CountryName = countryEntity.CountryName,
+                Id = countryEntity.Id
             });
         }
 
         public override Task<CountryResponse> UpdateCountry(UpdateCountryRequest request, ServerCallContext context)
         {
-            _logger.LogInformation("Update Country called with Id: {Id}", request.Request.Id);
-            var countryEntity = _countryService.FindById(request.Request.Id);
-            countryEntity.CountryCode = request.Request.CountryCode;
-            countryEntity.CountryName = request.Request.CountryName;
+            _logger.LogInformation("Update Country called with Id: {Id}", request.Id);
+            var countryEntity = _countryService.FindById(request.Id);
+            countryEntity.CountryCode = request.CountryCode;
+            countryEntity.CountryName = request.CountryName;
             _countryService.Update(countryEntity);
             return Task.FromResult(new CountryResponse()
             {
-                Response = new CountryBase()
-                {
-                    Id = countryEntity.Id,
-                    CountryCode = countryEntity.CountryCode,
-                    CountryName = countryEntity.CountryName
-                }
+                Id = countryEntity.Id,
+                CountryCode = countryEntity.CountryCode,
+                CountryName = countryEntity.CountryName
             });
         }
 
@@ -83,11 +77,11 @@ namespace RapidTime.Api.GRPCServices
                 Response = {}
             };
 
-            List<CountryBase> CountryBases = new();
+            List<CountryResponse> countryResponses = new();
 
             foreach (var country in countries)
             {
-                CountryBases.Add(new CountryBase()
+                countryResponses.Add(new CountryResponse()
                 {
                     Id = country.Id,
                     CountryCode = country.CountryCode,
@@ -95,7 +89,7 @@ namespace RapidTime.Api.GRPCServices
                 });
             }
             
-            response.Response.AddRange(CountryBases);
+            response.Response.AddRange(countryResponses);
 
             return Task.FromResult(response);
         }

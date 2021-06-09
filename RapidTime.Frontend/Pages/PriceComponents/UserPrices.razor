@@ -2,7 +2,7 @@
 @inject PriceGrpcClient _priceGrpcClient
 @inject UserGrpcClient _userGrpcClient
 
-<h3>Priser for @_userResponse.UserBaseResponse.FirstName @_userResponse.UserBaseResponse.LastName</h3>
+<h3>Priser for @_userResponse.FirstName @_userResponse.LastName</h3>
 
 <CreateUserPrice ExternalMethod="@UpdateThis"></CreateUserPrice>
 
@@ -11,7 +11,7 @@
         <th>Opgave Type</th><th>Pris</th>
     </TableHeader>
     <RowTemplate>
-        <td>@context.Response.AssignmentType.Name</td><td>@context.Response.HourlyRate</td>
+        <td>@context.AssignmentType.Name</td><td>@context.HourlyRate</td>
     </RowTemplate>
     
 </ListItemsComponent>
