@@ -58,10 +58,29 @@ namespace RapidTime.Frontend.ProtoClients
                 Id = id
             });
         }
+
+        public void UpdateCustomer(UpdateCustomerRequest request)
+        {
+            var client = GetClient();
+            client.UpdateCustomer(request);
+        }
+
+        public void DeleteCustomer(int customerId)
+        {
+            var client = GetClient();
+            client.DeleteCustomer(new DeleteCustomerRequest(){Id = customerId});
+        }
+
+        public List<CustomerContactResponse> GetContactsForCustomer(int customerId)
+        {
+            var client = GetClient();
+            List<CustomerContactResponse> res = new List<CustomerContactResponse>();
+            
+            client.GetContactsForCustomer
+
+        }
         
         //TODO:
-        // -Update Customer
-        // -Delete Customer
         // -Get Contacts For Customer
         // -Add Contact To Customer
         // -Delete Contact From Customer

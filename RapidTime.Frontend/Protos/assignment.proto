@@ -22,8 +22,6 @@ service Assignment {
 message CreateAssignmentRequest {
   assignmentType.AssignmentTypeResponse assignmentType = 1;
   google.protobuf.Timestamp dateStarted = 2;
-  double amount = 3;
-  string timeSpent = 4;
   customer.CustomerResponse customer = 5;
   string UserId = 6;
 }
