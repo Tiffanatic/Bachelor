@@ -20,7 +20,10 @@ message GetCityRequest {
 }
 
 message CityResponse {
-  CityBase citybase = 1;
+  int32 id = 1;
+  string postalCode = 2;
+  string cityName = 3;
+  string country = 4;
 }
 
 message MultiCityResponse {
@@ -35,13 +38,6 @@ message CreateCityRequest {
 
 message FindCityRequest {
   string input = 1;
-}
-
-message CityBase {
-  int32 id = 1;
-  string postalCode = 2;
-  string cityName = 3;
-  string country = 4;
 }
 
 message DeleteCityRequest {

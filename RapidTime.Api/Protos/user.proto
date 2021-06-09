@@ -32,8 +32,12 @@ message GetUserRequest{
 }
 
 message UserResponse{
-  UserBase userBaseResponse = 1;
-  string userId = 2;
+  string firstName = 1;
+  string lastName = 2;
+  bool gdprDeleted = 3;
+  string email = 5;
+  string phoneNumber = 6;
+  string userId = 7;
 }
 
 message UpdateUserRequest{
@@ -51,7 +55,11 @@ message SetUserDeleteDateRequest {
 }
 
 message CreateUserRequest{
-  UserBase request = 1;
+  string firstName = 1;
+  string lastName = 2;
+  bool gdprDeleted = 3;
+  string email = 5;
+  string phoneNumber = 6;
 }
 
 message DeleteUserRequest{

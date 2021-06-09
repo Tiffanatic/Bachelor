@@ -20,16 +20,20 @@ message GetAddressAggregateRequest{
 }
 
 message AddressAggregateResponse{
-  AddressAggregateBase response = 1;
+  city.CityResponse city = 1;
+  country.CountryResponse country = 2;
+  string street = 3;
 }
 
 message MultiAddressAggregateResponse {
-  repeated AddressAggregateBase response = 1;
+  repeated AddressAggregateResponse response = 1;
 }
 
 message UpdateAddressAggregateRequest{
-  AddressAggregateBase response = 1;
-  int32 Id = 2;
+  city.CityResponse city = 1;
+  country.CountryResponse country = 2;
+  string street = 3;
+  int32 Id = 4;
 }
 
 message DeleteAddressAggregateRequest{
@@ -37,12 +41,8 @@ message DeleteAddressAggregateRequest{
 }
 
 message CreateAddressAggregateRequest{
-  AddressAggregateBase request = 1;
-  int32 customerId = 2;
-}
-
-message AddressAggregateBase {
-  city.CityBase city = 1;
-  country.CountryBase country = 2;
+  city.CityResponse city = 1;
+  country.CountryResponse country = 2;
   string street = 3;
+  int32 customerId = 4;
 }

@@ -30,7 +30,10 @@ message MultiAssignmentTypeResponse {
 }
 
 message UpdateAssignmentTypeRequest {
-  AssignmentTypeBase assignmentType = 1;
+  int32 id = 1;
+  string name = 2;
+  string number = 3;
+  bool invoiceAble = 4;
 }
 
 message GetAssignmentTypeRequest {
@@ -42,10 +45,6 @@ message GetMultiAssignmentTypeRequest {
 }
 
 message AssignmentTypeResponse {
-  AssignmentTypeBase assignmentType = 1;
-}
-
-message AssignmentTypeBase {
   int32 id = 1;
   string name = 2;
   string number = 3;

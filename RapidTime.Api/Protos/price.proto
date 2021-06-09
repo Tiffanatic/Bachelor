@@ -15,12 +15,6 @@ service Price {
   rpc DeletePrice (DeletePriceRequest) returns (google.protobuf.Empty);
 }
 
-message PriceBase{
-  int32 id = 1;
-  double hourlyRate = 2;
-  
-  assignmentType.AssignmentTypeBase assignmentType = 3;
-}
 message GetPriceRequest{
   int32 id = 1;
 }
@@ -30,17 +24,21 @@ message GetUserPriceListRequest {
 }
 
 message PriceResponse {
-  PriceBase response = 1;
+  int32 id = 1;
+  double hourlyRate = 2;
+  assignmentType.AssignmentTypeResponse assignmentType = 3;
 }
 
 message CreatePriceRequest{
   double hourlyRate = 1;
   string UserId = 2;
-  assignmentType.AssignmentTypeBase assignmentType = 3;
+  assignmentType.AssignmentTypeResponse assignmentType = 3;
 }
 
 message UpdatePriceRequest{
-  PriceBase request = 1;
+  int32 id = 1;
+  double hourlyRate = 2;
+  assignmentType.AssignmentTypeResponse assignmentType = 3;
 }
 
 message DeletePriceRequest{
