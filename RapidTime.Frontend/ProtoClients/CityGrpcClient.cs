@@ -32,27 +32,33 @@ namespace RapidTime.Frontend.ProtoClients
              });
          }
 
-         public List<CityBase> GetAllCities()
+         public List<CityResponse> GetAllCities()
          {
              var client = GetClient();
              var cities = client.MultiCity(new GetCityRequest());
              
-             List<CityBase> cityBases = new List<CityBase>();
+             List<CityResponse> cityResponses = new List<CityResponse>();
              foreach (var city in cities.Response)
              {
-                 cityBases.Add(city.Citybase);
+                 cityResponses.Add(new CityResponse()
+                 {
+                     CityName = city.CityName,
+                     PostalCode = city.PostalCode,
+                     Country = city.Country,
+                     Id = city.Id
+                 });
              }
 
-             return cityBases;
+             return cityResponses;
          }
 
 
-         public void DeleteCity(int citybaseId)
+         public void DeleteCity(int cityId)
          {
              var client = GetClient();
              client.DeleteCity(new DeleteCityRequest()
              {
-                 Id = citybaseId
+                 Id = cityId
              });
          }
     }

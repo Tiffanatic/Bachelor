@@ -25,7 +25,7 @@
     [Parameter]
     public int Id { get; set; }
 
-    private CountryBase _countryBase;
+    private CountryResponse _countryBase;
     protected override async void OnInitialized()
     {
         _countryBase = await _countryGrpcClient.GetCountry(Id);
@@ -33,7 +33,14 @@
 
     private async void Update()
     {
-        var res = await _countryGrpcClient.UpdateCountry(_countryBase);
+        var countryUpdate = new UpdateCountryRequest()
+        {
+            Id = _countryBase.Id,
+            CountryCode = _countryBase.CountryCode,
+            CountryName = _countryBase.CountryName
+        };
+        
+        var res = await _countryGrpcClient.UpdateCountry(countryUpdate);
         navManager.NavigateTo("/Lande");
     }
 

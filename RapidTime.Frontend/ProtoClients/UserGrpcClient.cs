@@ -47,7 +47,11 @@ namespace RapidTime.Frontend.ProtoClients
             var client = GetClient();
             var userCreated = client.CreateUser(new CreateUserRequest()
             {
-                Request = user
+                Email = user.Email,
+                FirstName = user.FirstName,
+                GdprDeleted = user.GdprDeleted,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber
             });
         }
 

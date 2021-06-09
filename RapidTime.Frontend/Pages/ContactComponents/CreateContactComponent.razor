@@ -3,25 +3,25 @@
 
 <h3>Tilføj kontakt</h3>
 
-<EditForm Model="model" OnValidSubmit="CreateContact">
+<EditForm Model="_model" OnValidSubmit="CreateContact">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="form-group row">
         <div class="col-md-auto">
             <label for="FirstName">Fornavn</label>
-            <InputText id="FirstName" @bind-Value="model.FirstName"></InputText>
+            <InputText id="FirstName" @bind-Value="_model.FirstName"></InputText>
         </div>
         <div class="col-md-auto">
             <label for="LastName">Efternavn</label>
-            <InputText id="LastName" @bind-Value="model.LastName"></InputText>
+            <InputText id="LastName" @bind-Value="_model.LastName"></InputText>
         </div>
         <div class="col-md-auto">
             <label for="TelephoneNumber">Telefonnummer</label>
-            <InputText id="TelephoneNumber" @bind-Value="model.Telephonenumber"></InputText>
+            <InputText id="TelephoneNumber" @bind-Value="_model.Telephonenumber"></InputText>
         </div>
         <div class="col-md-auto">
             <label for="Email">Email</label>
-            <InputText id="Email" @bind-Value="model.Email"></InputText>
+            <InputText id="Email" @bind-Value="_model.Email"></InputText>
         </div>
         <br>
         <div class="col-md-auto">
@@ -34,22 +34,22 @@
     [Parameter]
     public Action ExternalMethod { get; set; }
 
-    private List<ContactBase> _contacts;
-    private CreateContactResource model;
+    private List<ContactResponse> _contacts;
+    private CreateContactResource _model;
 
     protected override async void OnInitialized()
     {
-        model = new CreateContactResource();
+        _model = new CreateContactResource();
         _contacts = _contactGrpcClient.GetAllContacts();
     }
 
     private void CreateContact()
     {
-        _contactGrpcClient.CreateContact(model);
-        model.FirstName = "";
-        model.LastName = "";
-        model.Email = "";
-        model.Telephonenumber = "";
+        _contactGrpcClient.CreateContact(_model);
+        _model.FirstName = "";
+        _model.LastName = "";
+        _model.Email = "";
+        _model.Telephonenumber = "";
         ExternalMethod?.Invoke();
         StateHasChanged();
     }

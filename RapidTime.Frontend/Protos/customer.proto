@@ -33,7 +33,7 @@ message MultiContactsResponse {
 message CustomerResponse {
   int32 id = 1;
   string name = 2;
-  companyType.companyTypeResponse companyType = 3;
+  companyType.CompanyTypeResponse companyType = 3;
   google.protobuf.Timestamp yearlyReview = 4;
   InvoiceCurrencyEnum invoiceCurrency = 5;
   string invoiceEmail = 6;

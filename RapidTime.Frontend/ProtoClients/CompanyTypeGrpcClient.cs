@@ -13,15 +13,12 @@ namespace RapidTime.Frontend.ProtoClients
             
         }
 
-        public CompanyTypeResponse CreateCompanyType(CreatyCompanyTypeResource creatyCompanyTypeResource)
+        public CompanyTypeResponse CreateCompanyType(CreatyCompanyTypeResource createCompanyTypeResource)
         {
             var client = GetClient();
             CreateCompanyTypeRequest request = new CreateCompanyTypeRequest()
             {
-                Input = new CompanyTypeBase()
-                {
-                    CompanyTypeName = creatyCompanyTypeResource.Name
-                }
+                CompanyTypeName = createCompanyTypeResource.Name
             };
             var resp = client.CreateCompanyType(request);
 
@@ -39,11 +36,11 @@ namespace RapidTime.Frontend.ProtoClients
         }
 
 
-        public List<CompanyTypeBase> GetAllCompanyTypes()
+        public List<CompanyTypeResponse> GetAllCompanyTypes()
         {
             var client = GetClient();
             var response = client.MultiCompanyType(new Empty());
-            return response.ResponseList.ToList();
+            return response.Response.ToList();
         }
 
 

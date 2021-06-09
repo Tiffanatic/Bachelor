@@ -27,7 +27,10 @@ namespace RapidTime.Frontend.ProtoClients
             Contact.ContactClient client = GetClient();
             Empty res = client.UpdateContact(new UpdateContactRequest
             {
-                UpdatedContact = updateContactRequest.UpdatedContact
+                FirstName = updateContactRequest.FirstName,
+                LastName = updateContactRequest.LastName,
+                TelephoneNumber = updateContactRequest.TelephoneNumber,
+                Email = updateContactRequest.Email,
             });
         
             return new Empty();
@@ -72,18 +75,18 @@ namespace RapidTime.Frontend.ProtoClients
             return res;
         }
 
-        public List<ContactBase> GetAllContacts()
+        public List<ContactResponse> GetAllContacts()
         {
             var client = GetClient();
             var contacts = client.GetAllContacts(new Google.Protobuf.WellKnownTypes.Empty());
 
-            List<ContactBase> contactBases = new List<ContactBase>();
+            List<ContactResponse> contactResponses = new List<ContactResponse>();
             foreach (var contact in contacts.Response)
             {
-                contactBases.Add(contact);
+                contactResponses.Add(contact);
             }
 
-            return contactBases;
+            return contactResponses;
         }
 
         private Contact.ContactClient GetClient()

@@ -15,8 +15,8 @@
                 <th>Navn</th><th>Email</th>
             </TableHeader>
             <RowTemplate>
-                <td @onclick="@(() => NavigateToUser(@context.UserId))">@context.UserBaseResponse.FirstName @context.UserBaseResponse.LastName</td>
-                <td @onclick="@(() => NavigateToUser(@context.UserId))">@context.UserBaseResponse.Email</td>
+                <td @onclick="@(() => NavigateToUser(@context.UserId))">@context.FirstName @context.LastName</td>
+                <td @onclick="@(() => NavigateToUser(@context.UserId))">@context.Email</td>
             </RowTemplate>
 
 

@@ -2,7 +2,7 @@
 {
     public class CreatePriceResource
     {
-        public AssignmentBase AssignmentBase { get; set; }
+        public AssignmentTypeResponse AssignmentType { get; set; }
         public string Id { get; set; }
         public double HourlyRate { get; set; }
         

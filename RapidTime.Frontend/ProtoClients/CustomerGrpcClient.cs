@@ -10,32 +10,32 @@ namespace RapidTime.Frontend.ProtoClients
 {
     public class CustomerGrpcClient
     {
-        public Task<CustomerResponse> CreateCustomer(CreateCustomerResource createCustomerResource)
-        {
-            Customer.CustomerClient client = GetClient();
-            CompanyType.CompanyTypeClient companyTypeClient = new CompanyType.CompanyTypeClient(GrpcChannel.ForAddress("https://localhost:5001"));
-        
-            var companyType = companyTypeClient.GetCompanyType(new GetCompanyTypeRequest()
-            {
-                Id = createCustomerResource.CompanyTypeId
-            });
-            CompanyTypeBase baseMapped = new()
-            {
-                Id = companyType.Response.Id,
-                CompanyTypeName = companyType.Response.CompanyTypeName
-            };
-        
-            var res = client.CreateCustomer(new CreateCustomerRequest()
-            {
-                Name = createCustomerResource.Name,
-                CVRNummer = createCustomerResource.CVRNumber,
-                CompanyType = baseMapped,
-                YearlyReview = createCustomerResource.YearlyReview.ToTimestamp(),
-                InvoiceEmail = createCustomerResource.InvoiceEmail
-            });
-
-            return Task.FromResult(res);
-        }
+        // public Task<CustomerResponse> CreateCustomer(CreateCustomerResource createCustomerResource)
+        // {
+        //     Customer.CustomerClient client = GetClient();
+        //     CompanyType.CompanyTypeClient companyTypeClient = new CompanyType.CompanyTypeClient(GrpcChannel.ForAddress("https://localhost:5001"));
+        //
+        //     var companyType = companyTypeClient.GetCompanyType(new GetCompanyTypeRequest()
+        //     {
+        //         Id = createCustomerResource.CompanyTypeId
+        //     });
+        //     CompanyTypeBase baseMapped = new()
+        //     {
+        //         Id = companyType.Response.Id,
+        //         CompanyTypeName = companyType.Response.CompanyTypeName
+        //     };
+        //
+        //     var res = client.CreateCustomer(new CreateCustomerRequest()
+        //     {
+        //         Name = createCustomerResource.Name,
+        //         CVRNummer = createCustomerResource.CVRNumber,
+        //         CompanyType = baseMapped,
+        //         YearlyReview = createCustomerResource.YearlyReview.ToTimestamp(),
+        //         InvoiceEmail = createCustomerResource.InvoiceEmail
+        //     });
+        //
+        //     return Task.FromResult(res);
+        // }
 
         private Customer.CustomerClient GetClient()
         {
