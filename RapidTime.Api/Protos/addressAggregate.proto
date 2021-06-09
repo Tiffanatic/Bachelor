@@ -15,6 +15,7 @@ service AddressAggregate {
   rpc CreateAddressAggregate (CreateAddressAggregateRequest) returns (AddressAggregateResponse);
   rpc GetAddressByCustomerId (GetAddressAggregateRequest) returns (MultiAddressAggregateResponse);
 }
+
 message GetAddressAggregateRequest{
   int32 id = 1;
 }

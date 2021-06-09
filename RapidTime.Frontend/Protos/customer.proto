@@ -22,32 +22,41 @@ service Customer {
   rpc DeleteContactCustomer (DeleteCustomerContactRequest) returns (google.protobuf.Empty);
 }
 
-message MultiCustomerResponse {
-	repeated CustomerResponse response = 1;
-}
-
 message GetCustomerRequest {
   int32 id = 1;
 }
 
+message MultiContactsResponse {
+  repeated contact.ContactResponse Contacts = 1;
+}
+
 message CustomerResponse {
-  CustomerBase response = 1;
+  int32 id = 1;
+  string name = 2;
+  companyType.companyTypeResponse companyType = 3;
+  google.protobuf.Timestamp yearlyReview = 4;
+  InvoiceCurrencyEnum invoiceCurrency = 5;
+  string invoiceEmail = 6;
+  google.protobuf.Timestamp RequestDeletionDate = 7;
 }
 
 message CreateCustomerRequest {
   string name = 1;
   int32 CVRNummer = 2;
-  companyType.CompanyTypeBase companyType = 3;
+  companyType.CompanyTypeResponse companyType = 3;
   google.protobuf.Timestamp yearlyReview = 4;
   InvoiceCurrencyEnum invoiceCurrency = 5;
   string invoiceEmail = 6;
 }
 
 message UpdateCustomerRequest {
-  CustomerBase request = 1;
-}
-message MultiContactsResponse {
-  repeated contact.ContactBase Contacts = 1;
+  int32 id = 1;
+  string name = 2;
+  companyType.CompanyTypeResponse companyType = 3;
+  google.protobuf.Timestamp yearlyReview = 4;
+  InvoiceCurrencyEnum invoiceCurrency = 5;
+  string invoiceEmail = 6;
+  google.protobuf.Timestamp RequestDeletionDate= 7;
 }
 
 message DeleteCustomerRequest {
@@ -56,17 +65,6 @@ message DeleteCustomerRequest {
 message RequestDeleteCustomerRequest {
   google.protobuf.Timestamp DateForDeletion = 1;
   int32 IdToDelete = 2;
-}
-
-
-message CustomerBase {
-  int32 id = 1;
-  string name = 2;
-  companyType.CompanyTypeBase companyType = 3;
-  google.protobuf.Timestamp yearlyReview = 4;
-  InvoiceCurrencyEnum invoiceCurrency = 5;
-  string invoiceEmail = 6;
-  google.protobuf.Timestamp RequestDeletionDate= 7;
 }
 
 message CustomerContactRequest {
@@ -80,6 +78,10 @@ message CustomerContactResponse {
 
 message DeleteCustomerContactRequest {
   int32 Id = 1;
+}
+
+message MultiCustomerResponse {
+  repeated CustomerResponse response = 1;
 }
 
 enum InvoiceCurrencyEnum {
