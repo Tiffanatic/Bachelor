@@ -58,14 +58,14 @@ namespace RapidTime.Api.GRPCServices
         public override Task<AssignmentTypeResponse> UpdateAssignmentType(UpdateAssignmentTypeRequest request, ServerCallContext context)
         {
             _logger.LogInformation("Update AssignmentType Called");
-            var assignmentTypeToUpdate = _assignmentTypeService.GetById(request.AssignmentType.Id);
-            if (!String.IsNullOrEmpty(request.AssignmentType.Name))
-                assignmentTypeToUpdate.Name = request.AssignmentType.Name;
+            var assignmentTypeToUpdate = _assignmentTypeService.GetById(request.Id);
+            if (!String.IsNullOrEmpty(request.Name))
+                assignmentTypeToUpdate.Name = request.Name;
             
-            if (!String.IsNullOrEmpty(request.AssignmentType.Number))
-                assignmentTypeToUpdate.Number = request.AssignmentType.Number;
+            if (!String.IsNullOrEmpty(request.Number))
+                assignmentTypeToUpdate.Number = request.Number;
 
-            assignmentTypeToUpdate.InvoiceAble = request.AssignmentType.InvoiceAble;
+            assignmentTypeToUpdate.InvoiceAble = request.InvoiceAble;
             
             _assignmentTypeService.Update(assignmentTypeToUpdate);
 
@@ -106,13 +106,10 @@ namespace RapidTime.Api.GRPCServices
         {
             return new()
             {
-                AssignmentType = new()
-                {
-                    Id = assignmentTypeEntity.Id,
-                    InvoiceAble = assignmentTypeEntity.InvoiceAble,
-                    Name = assignmentTypeEntity.Name,
-                    Number = assignmentTypeEntity.Number
-                }
+                Id = assignmentTypeEntity.Id,
+                InvoiceAble = assignmentTypeEntity.InvoiceAble,
+                Name = assignmentTypeEntity.Name,
+                Number = assignmentTypeEntity.Number
             };
         }
     }

@@ -15,14 +15,6 @@ service User {
   rpc GetAllUsers (google.protobuf.Empty) returns (MultiUserResponse);
 }
 
-message UserBase{
-  string firstName = 1;
-  string lastName = 2;
-  bool gdprDeleted = 3;
-  string email = 5;
-  string phoneNumber = 6;
-}
-
 message DeleteDateResponse {
   google.protobuf.Timestamp deleteDate = 1;
 }

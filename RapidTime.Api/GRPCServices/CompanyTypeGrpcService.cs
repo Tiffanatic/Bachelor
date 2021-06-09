@@ -24,11 +24,8 @@ namespace RapidTime.Api.GRPCServices
             var companyTypeEntity = _companyTypeService.findById(request.Id);
             return Task.FromResult(new CompanyTypeResponse()
             {
-                Response =
-                {
-                    CompanyTypeName = companyTypeEntity.CompanyTypeName,
-                    Id = companyTypeEntity.Id
-                }
+                CompanyTypeName = companyTypeEntity.CompanyTypeName,
+                Id = companyTypeEntity.Id
             });
         }
 
@@ -36,18 +33,15 @@ namespace RapidTime.Api.GRPCServices
         {
             CompanyTypeEntity companyTypeEntity = new()
             {
-                CompanyTypeName = request.Input.CompanyTypeName
+                CompanyTypeName = request.CompanyTypeName
             };
 
             var id = _companyTypeService.Insert(companyTypeEntity);
             var companyTypeToReturn = _companyTypeService.findById(id);
             return Task.FromResult(new CompanyTypeResponse()
             {
-                Response = new()
-                {
-                    CompanyTypeName = companyTypeToReturn.CompanyTypeName,
-                    Id = companyTypeToReturn.Id
-                }
+                CompanyTypeName = companyTypeToReturn.CompanyTypeName,
+                Id = companyTypeToReturn.Id
             });
         }
 
@@ -63,7 +57,7 @@ namespace RapidTime.Api.GRPCServices
             MultiCompanyTypeResponse response = new();
             foreach (var companyTypeEntity in companyTypeEntities)
             {
-                response.ResponseList.Add(new CompanyTypeBase()
+                response.Response.Add(new CompanyTypeResponse()
                 {
                     CompanyTypeName = companyTypeEntity.CompanyTypeName,
                     Id = companyTypeEntity.Id

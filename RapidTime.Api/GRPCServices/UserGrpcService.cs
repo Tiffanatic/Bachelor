@@ -26,14 +26,11 @@ namespace RapidTime.Api.GRPCServices
             var user = _userService.GetUser(request.Id.ToString());
             UserResponse response = new UserResponse()
             {
-                UserBaseResponse = new UserBase()
-                {
-                    FirstName = user.Result.Firstname,
-                    LastName = user.Result.Lastname,
-                    Email = user.Result.Email,
-                    GdprDeleted = user.Result.GdprDeleted,
-                    PhoneNumber = user.Result.PhoneNumber
-                }
+                FirstName = user.Result.Firstname,
+                LastName = user.Result.Lastname,
+                Email = user.Result.Email,
+                GdprDeleted = user.Result.GdprDeleted,
+                PhoneNumber = user.Result.PhoneNumber
             };
             
             return Task.FromResult(response);
@@ -43,26 +40,23 @@ namespace RapidTime.Api.GRPCServices
         {
             var userEntityToBeCreated = new Core.Models.Auth.User()
             {
-                Firstname = request.Request.FirstName,
-                Lastname = request.Request.LastName,
-                GdprDeleted = request.Request.GdprDeleted,
-                Email = request.Request.Email,
-                PhoneNumber = request.Request.PhoneNumber,
-                UserName = request.Request.Email
+                Firstname = request.FirstName,
+                Lastname = request.LastName,
+                GdprDeleted = request.GdprDeleted,
+                Email = request.Email,
+                PhoneNumber = request.PhoneNumber,
+                UserName = request.Email
             };
         
             var userCreated = await _userService.CreateUser(userEntityToBeCreated);
         
             UserResponse response = new UserResponse()
             {
-                UserBaseResponse = new UserBase()
-                {
-                    FirstName = userCreated.Firstname,
-                    LastName = userCreated.Lastname,
-                    Email = userCreated.Email,
-                    GdprDeleted = userCreated.GdprDeleted,
-                    PhoneNumber = userCreated.PhoneNumber,
-                },
+                FirstName = userCreated.Firstname,
+                LastName = userCreated.Lastname,
+                Email = userCreated.Email,
+                GdprDeleted = userCreated.GdprDeleted,
+                PhoneNumber = userCreated.PhoneNumber,
                 UserId = userCreated.Id.ToString()
             };
         
@@ -93,14 +87,11 @@ namespace RapidTime.Api.GRPCServices
         
             UserResponse response = new UserResponse()
             {
-                UserBaseResponse = new UserBase()
-                {
-                    FirstName = userCreated.Firstname,
-                    LastName = userCreated.Lastname,
-                    Email = userCreated.Email,
-                    GdprDeleted = userCreated.GdprDeleted,
-                    PhoneNumber = userCreated.PhoneNumber
-                }
+                FirstName = userCreated.Firstname,
+                LastName = userCreated.Lastname,
+                Email = userCreated.Email,
+                GdprDeleted = userCreated.GdprDeleted,
+                PhoneNumber = userCreated.PhoneNumber
             };
         
             return response;
@@ -114,7 +105,7 @@ namespace RapidTime.Api.GRPCServices
             
             foreach (RapidTime.Core.Models.Auth.User user in users)
             {
-                var userToAdd = new UserBase()
+                var userToAdd = new CreateUserRequest()
                 {
                     FirstName = user.Firstname,
                     LastName = user.Lastname,
@@ -124,7 +115,11 @@ namespace RapidTime.Api.GRPCServices
                 };
                 var userResponseToAdd = new UserResponse()
                 {
-                    UserBaseResponse = new UserBase(userToAdd),
+                    FirstName = userToAdd.FirstName,
+                    LastName = userToAdd.LastName,
+                    Email = userToAdd.Email,
+                    GdprDeleted = userToAdd.GdprDeleted,
+                    PhoneNumber = userToAdd.PhoneNumber,
                     UserId = user.Id.ToString()
                 };
                 
@@ -158,14 +153,11 @@ namespace RapidTime.Api.GRPCServices
         
             var response = new UserResponse()
             {
-                UserBaseResponse = new UserBase()
-                {
-                    FirstName = user.Firstname,
-                    LastName = user.Lastname,
-                    Email = user.Email,
-                    GdprDeleted = user.GdprDeleted,
-                    PhoneNumber = user.PhoneNumber
-                }
+                FirstName = user.Firstname,
+                LastName = user.Lastname,
+                Email = user.Email,
+                GdprDeleted = user.GdprDeleted,
+                PhoneNumber = user.PhoneNumber
             };
             
             return response;
