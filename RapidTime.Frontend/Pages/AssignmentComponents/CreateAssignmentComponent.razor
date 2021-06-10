@@ -1,0 +1,55 @@
+﻿@using Google.Protobuf.WellKnownTypes
+@inject CustomerGrpcClient _customerGrpcClient
+@inject AssignmentTypeGrpcClient _assignmentTypeGrpcClient
+@inject AssignmentGrpcClient _assignmentGrpcClient
+@inject StateContainer _stateContainer
+@inject NavigationManager _navigationManager
+
+<h3>Opret Opgave</h3>
+
+<EditForm Model="CreateAssignmentResource" OnValidSubmit="@SaveAssignment">
+    <div class="form-group row">
+        <label for="AssignmentId">Opgave Type</label>
+        <select @bind="CreateAssignmentResource.AssignmentTypeId">
+            <option selected disabled="true"> -- Vælg Opgave Type --</option>
+            @foreach (var assignmentType in _assignmentTypeResponses)
+            {
+                <option value="@assignmentType.Id">@assignmentType.Name</option>
+            }
+        </select>
+    </div>
+    <div class="form-control">
+        <button type="submit">Gem</button>
+    </div>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public int CustomerId { get; set; }
+    private CustomerResponse customer;
+    private List<AssignmentTypeResponse> _assignmentTypeResponses;
+    public CreateAssignmentResource CreateAssignmentResource;
+
+    protected override void OnInitialized()
+    {
+        CreateAssignmentResource = new();
+        CustomerId = 1;
+        customer = _customerGrpcClient.GetCustomer(CustomerId);
+        _assignmentTypeResponses = _assignmentTypeGrpcClient.GetAssignmentTypes();
+        base.OnInitialized();
+    }
+    
+    private void SaveAssignment()
+    {
+        _assignmentGrpcClient.CreateAssignment(new()
+        {
+            AssignmentTypeId = CreateAssignmentResource.AssignmentTypeId,
+            CustomerId = customer.Id,
+            DateStarted =DateTime.Today.ToUniversalTime().ToTimestamp(),
+            UserId = _stateContainer.Id
+        });
+        _navigationManager.NavigateTo($"/kunder/{CustomerId}");
+    }
+
+}

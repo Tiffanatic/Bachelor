@@ -39,6 +39,8 @@ namespace RapidTime.Frontend
             services.AddScoped<UserGrpcClient>();
             services.AddScoped<PriceGrpcClient>();
             services.AddScoped<AssignmentTypeGrpcClient>();
+            services.AddScoped<AssignmentGrpcClient>();
+            services.AddScoped<CustomerGrpcClient>();
             services.AddScoped<ContactGrpcClient>();
         }
 

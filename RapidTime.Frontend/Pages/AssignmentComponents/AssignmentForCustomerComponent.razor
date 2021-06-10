@@ -1,0 +1,34 @@
+﻿@inject AssignmentGrpcClient _assignmentGrpcService
+
+<ListItemsComponent Items="Items">
+    <TableHeader>
+        <th>Opgave</th>
+        <th>Dato</th>
+        <th>Tid brugt</th>
+        <th>Foreløbigt overslag</th>
+    </TableHeader>
+    
+    <RowTemplate>
+        <td>@context.AssignmentType</td>
+        <td>@context.Date</td>
+        <td>@context.TimeSpent</td>
+        <td>@context.Amount</td>
+    </RowTemplate>
+</ListItemsComponent>
+
+
+
+@code {
+    [Parameter]
+    public int CustomerId { get; set; }
+
+    private List<AssignmentResponse> Items;
+    
+    protected override void OnInitialized()
+    {
+        Items = _assignmentGrpcService.GetAssignmentsByCustomerId(CustomerId);
+        base.OnInitialized();
+    }
+
+
+}
