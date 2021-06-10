@@ -26,9 +26,9 @@ namespace RapidTime.Api.GRPCServices
             var EntityToCreate = new AssignmentEntity()
             {
                 Amount = 0,
-                AssignmentTypeId = request.AssignmentType.Id,
+                AssignmentTypeId = request.AssignmentTypeId,
                 TimeSpentInTotal = TimeSpan.Zero,
-                CustomerId = request.Customer.Id,
+                CustomerId = request.CustomerId,
                 DateStarted = DateTime.Today,
                 UserId = Guid.Parse(request.UserId)
             };

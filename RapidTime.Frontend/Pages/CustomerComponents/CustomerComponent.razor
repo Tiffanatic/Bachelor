@@ -4,18 +4,18 @@
 <CreateCustomerComponent ExternalMethod="@UpdateThis"/>
 
 <h3>Kundeoversigt</h3>
-<ListItemsComponent Items="@_customers">
-    <TableHeader>
-        <th>@context.Name</th>
-    </TableHeader>
-    <RowTemplate>
-        <td></td>
-        <td><button type="button" class="btn btn-info" @onclick="@(() => MethodName(@context.Id))"></button></td>
-    </RowTemplate>
-</ListItemsComponent>
+@* <ListItemsComponent Items="@_customers"> *@
+@*     <TableHeader> *@
+@*         <th></th> *@
+@*     </TableHeader> *@
+@*     <RowTemplate> *@
+@*         <td></td> *@
+@*         <td><button type="button" class="btn btn-info" @onclick="@(() => MethodName(@context.Id))"></button></td> *@
+@*     </RowTemplate> *@
+@* </ListItemsComponent> *@
 
 @code {
-    private List<CustomerBase> _customers;
+    private List<CustomerResponse> _customers;
 
     protected override void OnInitialized()
     {
@@ -24,8 +24,8 @@
     }
 
     private void UpdateThis()
-        {
-            _customers = _customerGrpcClient.GetAllCustomers();
-            StateHasChanged();
-        }
+    {
+        _customers = _customerGrpcClient.GetAllCustomers();
+        StateHasChanged();
+    }
 }

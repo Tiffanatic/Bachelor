@@ -2,22 +2,19 @@
 @inject CustomerGrpcClient _customerGrpcClient
 @inject AssignmentTypeGrpcClient _assignmentTypeGrpcClient
 @inject AssignmentGrpcClient _assignmentGrpcClient
+@inject StateContainer _stateContainer
 @inject NavigationManager _navigationManager
 
 <h3>Opret Opgave</h3>
 
-<EditForm Model="CreateAssignmentResource" OnValidSubmit="SaveAssignment">
-    <div class="form-group row">
-        <label for="Date">Start Dato</label>
-        <InputDate id="Date" @bind-Value="CreateAssignmentResource.DateStarted"></InputDate>
-    </div>
+<EditForm Model="CreateAssignmentResource" OnValidSubmit="@SaveAssignment">
     <div class="form-group row">
         <label for="AssignmentId">Opgave Type</label>
-        <select>
+        <select @bind="CreateAssignmentResource.AssignmentTypeId">
             <option selected disabled="true"> -- Vælg Opgave Type --</option>
             @foreach (var assignmentType in _assignmentTypeResponses)
             {
-                <option @bind="@assignmentType.AssignmentType">@assignmentType.AssignmentType.Name</option>
+                <option value="@assignmentType.Id">@assignmentType.Name</option>
             }
         </select>
     </div>
@@ -27,34 +24,30 @@
 </EditForm>
 
 @code {
-    [Parameter]
-    public int CustomerId { get; init; }
 
+    [Parameter]
+    public int CustomerId { get; set; }
     private CustomerResponse customer;
     private List<AssignmentTypeResponse> _assignmentTypeResponses;
-    
     public CreateAssignmentResource CreateAssignmentResource;
-    
-    
+
     protected override void OnInitialized()
     {
+        CreateAssignmentResource = new();
+        CustomerId = 1;
         customer = _customerGrpcClient.GetCustomer(CustomerId);
         _assignmentTypeResponses = _assignmentTypeGrpcClient.GetAssignmentTypes();
         base.OnInitialized();
     }
-
+    
     private void SaveAssignment()
     {
         _assignmentGrpcClient.CreateAssignment(new()
         {
-            Base = new AssignmentBase()
-            {
-                Amount = 0,
-                AssignmentType = CreateAssignmentResource.AssignmentType,
-                Customer = customer.Response,
-                DateStarted = CreateAssignmentResource.DateStarted.ToTimestamp(),
-                TimeSpent = "0"
-            }
+            AssignmentTypeId = CreateAssignmentResource.AssignmentTypeId,
+            CustomerId = customer.Id,
+            DateStarted =DateTime.Today.ToUniversalTime().ToTimestamp(),
+            UserId = _stateContainer.Id
         });
         _navigationManager.NavigateTo($"/kunder/{CustomerId}");
     }
