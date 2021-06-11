@@ -6,6 +6,12 @@ namespace RapidTime.Frontend.ProtoClients
 {
     public class AssignmentGrpcClient
     {
+        private AssignmentTypeGrpcClient _assignmentTypeGrpcClient;
+        public AssignmentGrpcClient(AssignmentTypeGrpcClient assignmentTypeGrpcClient)
+        {
+            _assignmentTypeGrpcClient = assignmentTypeGrpcClient;
+        }
+        
         public List<AssignmentResponse> GetAssignmentsByCustomerId(int customerId)
         {
             var client = GetClient();

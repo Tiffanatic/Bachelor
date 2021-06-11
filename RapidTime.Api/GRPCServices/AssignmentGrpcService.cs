@@ -14,11 +14,13 @@ namespace RapidTime.Api.GRPCServices
     {
         private ILogger<AssignmentTypeGrpcService> _logger;
         private IAssignmentService _assignmentService;
+        private IAssignmentTypeService _assignmentTypeService;
 
-        public AssignmentGrpcService(IAssignmentService assignmentService, ILogger<AssignmentTypeGrpcService> logger)
+        public AssignmentGrpcService(IAssignmentService assignmentService, ILogger<AssignmentTypeGrpcService> logger, IAssignmentTypeService assignmentTypeService)
         {
             _assignmentService = assignmentService;
             _logger = logger;
+            _assignmentTypeService = assignmentTypeService;
         }
 
         public override Task<AssignmentResponse> CreateAssignment(CreateAssignmentRequest request, ServerCallContext context)
@@ -111,13 +113,14 @@ namespace RapidTime.Api.GRPCServices
             {
                 Id = assignmentEntity.Id,
                 Amount = assignmentEntity.Amount,
-                Date = assignmentEntity.DateStarted.ToTimestamp(),
+                Date = assignmentEntity.DateStarted.ToUniversalTime().ToTimestamp(),
                 TimeSpent = assignmentEntity.TimeSpentInTotal.ToString(),
                 Customer = new()
                 {
                     Id = assignmentEntity.CustomerId
                 },
-                AssignmentType = assignmentEntity.AssignmentTypeId.ToString()
+                
+                // AssignmentType = assignmentEntity.AssignmentTypeId.ToString()
             };
         }
     }
