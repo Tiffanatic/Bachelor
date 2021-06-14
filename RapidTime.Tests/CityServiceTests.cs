@@ -6,6 +6,7 @@ using FluentAssertions.Execution;
 using RapidTime.Core;
 using RapidTime.Core.Models;
 using RapidTime.Core.Models.Address;
+using RapidTime.Core.Repositories;
 using RapidTime.Services;
 
 namespace RapidTime.Tests

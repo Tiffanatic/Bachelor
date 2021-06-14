@@ -4,6 +4,7 @@ using FluentAssertions;
 using Moq;
 using RapidTime.Core;
 using RapidTime.Core.Models;
+using RapidTime.Core.Repositories;
 using RapidTime.Services;
 using Xunit;
 

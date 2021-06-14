@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using RapidTime.Core.Models;
 
-namespace RapidTime.Core
+namespace RapidTime.Core.Repositories
 {
     public interface IRepository<T>
     {

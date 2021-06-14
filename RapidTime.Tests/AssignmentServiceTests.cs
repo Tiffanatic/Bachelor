@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using RapidTime.Core;
 using RapidTime.Core.Models;
+using RapidTime.Core.Repositories;
 using RapidTime.Services;
 using Xunit;
 
@@ -149,14 +150,14 @@ namespace RapidTime.Tests
         };
         
         private readonly Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<IRepository<AssignmentEntity>> _mockAssignmentRepository;
+        private Mock<IAssignmentRepository> _mockAssignmentRepository;
         private AssignmentService _assignmentService;
         private Mock<ILogger<AssignmentService>> _mocklogger;
         
         
         public AssignmentServiceTest()
         {
-            _mockAssignmentRepository = new Mock<IRepository<AssignmentEntity>>();
+            _mockAssignmentRepository = new Mock<IAssignmentRepository>();
             _mocklogger = new Mock<ILogger<AssignmentService>>();
             _mockUnitOfWork = new Mock<IUnitofWork>();
             _assignmentService = new AssignmentService(_mockUnitOfWork.Object, _mocklogger.Object);
