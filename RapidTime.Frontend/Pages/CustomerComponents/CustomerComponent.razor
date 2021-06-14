@@ -1,5 +1,6 @@
 ﻿@page "/Kunder"
 @using Google.Protobuf.WellKnownTypes
+@using System.Globalization
 @inject CustomerGrpcClient _customerGrpcClient
 
 <CreateCustomerComponent ExternalMethod="@UpdateThis"/>
@@ -15,8 +16,8 @@
     </TableHeader>
     <RowTemplate>
         <td>@context.Name</td>
-        <td>@context.CompanyType</td>
-        <td>@context.YearlyReview</td>
+        <td>@context.CompanyType.CompanyTypeName</td>
+        <td>@context.YearlyReview.ToDateTime().Date.ToString("d", CultureInfo.CurrentCulture)</td>
         <td>@context.InvoiceCurrency</td>
         <td>@context.InvoiceEmail</td>
         <td><button type="button" class="btn btn-danger" @onclick="@(() => DeleteCustomer(@context.Id))">Slet</button></td>

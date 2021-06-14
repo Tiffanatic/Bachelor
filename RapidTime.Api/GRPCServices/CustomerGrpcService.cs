@@ -36,7 +36,7 @@ namespace RapidTime.Api.GRPCServices
                 CompanyTypeId = request.CompanyType.Id,
                 YearlyReview = request.YearlyReview.ToDateTime(),
                 InvoiceMail = request.InvoiceEmail,
-                InvoiceCurrency = (CustomerEntity.InvoiceCurrencyEnum) request.InvoiceCurrency
+                InvoiceCurrency = Enum.Parse<CustomerEntity.InvoiceCurrencyEnum>(request.InvoiceCurrency) 
             };
 
             var id = _customerService.Insert(customerToCreate);
@@ -100,7 +100,7 @@ namespace RapidTime.Api.GRPCServices
                     CompanyTypeName = _companyTypeService.findById(customerEntity.CompanyTypeId).CompanyTypeName
                 },
                 YearlyReview = customerEntity.YearlyReview.ToUniversalTime().ToTimestamp(),
-                InvoiceCurrency = (InvoiceCurrencyEnum) customerEntity.InvoiceCurrency,
+                InvoiceCurrency = customerEntity.InvoiceCurrency.ToString(),
                 InvoiceEmail = customerEntity.InvoiceMail
             };
                 
@@ -135,7 +135,7 @@ namespace RapidTime.Api.GRPCServices
         public override Task<MultiCustomerResponse> GetAllCustomers(Empty request, ServerCallContext context)
         {
             var customerEntities = _customerService.GetAllCustomers();
-            MultiCustomerResponse response = new MultiCustomerResponse();
+            MultiCustomerResponse response = new();
         
             foreach (CustomerEntity entity in customerEntities)
             {
@@ -146,15 +146,15 @@ namespace RapidTime.Api.GRPCServices
                     CompanyType = new()
                     {
                         Id = entity.CompanyTypeId,
-                        CompanyTypeName = _companyTypeService.findById(entity.CompanyTypeId).CompanyTypeName
+                        CompanyTypeName = entity.CompanyTypeEntity.CompanyTypeName
                     },
-                    YearlyReview = entity.YearlyReview.ToTimestamp(),
+                    YearlyReview = entity.YearlyReview.ToUniversalTime().ToTimestamp(),
                     InvoiceEmail = entity.InvoiceMail,
-                    InvoiceCurrency = Enum.Parse<InvoiceCurrencyEnum>(entity.InvoiceCurrency.ToString())
+                    InvoiceCurrency = entity.InvoiceCurrency.ToString()
                 });
             }
             
-            return Task.FromResult<MultiCustomerResponse>(response);
+            return Task.FromResult(response);
         }
 
         public override Task<MultiContactsResponse> GetContactsForCustomer(GetCustomerRequest request, ServerCallContext context)

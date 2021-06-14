@@ -31,8 +31,9 @@ namespace RapidTime.Frontend.ProtoClients
                 Name = createCustomerResource.Name,
                 CVRNummer = createCustomerResource.CvrNumber,
                 CompanyType = responseMapped,
-                YearlyReview = createCustomerResource.YearlyReview.ToTimestamp(),
-                InvoiceEmail = createCustomerResource.InvoiceEmail
+                YearlyReview = createCustomerResource.YearlyReview.ToUniversalTime().ToTimestamp(),
+                InvoiceEmail = createCustomerResource.InvoiceEmail,
+                InvoiceCurrency = createCustomerResource.InvoiceCurrency.ToString()
             });
     
             return Task.FromResult(res);

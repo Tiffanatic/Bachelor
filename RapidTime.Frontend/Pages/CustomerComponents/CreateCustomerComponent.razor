@@ -1,4 +1,5 @@
 ﻿@using RapidTime.Frontend.ProtoClients
+@using System
 @inject CustomerGrpcClient _customerGrpcClient
 @inject CompanyTypeGrpcClient _companyTypeGrpcClient
 
@@ -12,7 +13,7 @@
             <label for="CustomerName">Firmanavn</label>
             <InputText id="CustomerName" @bind-Value="_model.Name"></InputText>
         </div>
-        
+
         <div class="col-md-3">
             <select class="form-control" @bind="@_model.CompanyTypeId">
                 <option selected disabled="true"> -- Vælg virksomhedstype --</option>
@@ -22,17 +23,17 @@
                 }
             </select>
         </div>
-        
+
         <div class="col-md-3">
             <label for="CvrNumber">CVR nummer</label>
             <InputNumber id="CvrNumber" @bind-Value="_model.CvrNumber"></InputNumber>
         </div>
-        
+
         <div class="col-md-3">
             <label for="InvoiceEmail">Faktura email</label>
             <InputText id="InvoiceEmail" @bind-Value="_model.InvoiceEmail"></InputText>
         </div>
-        
+
         @* SKAL DEN LAVES SOM DROPDOWN? *@
         <div class="col-md-3">
             <label for="InvoiceCurrency">Faktura valuta</label>
@@ -40,16 +41,16 @@
             <InputSelect id="InvoiceCurrency" @bind-Value="_model.InvoiceCurrency">
                 @foreach (var currency in Enum.GetValues(typeof(CreateCustomerResource.InvoiceCurrencyEnum)))
                 {
-                    <option value="@currency">@currency</option>
+                    <option value="@currency.ToString()">@currency</option>
                 }
             </InputSelect>
         </div>
-        
+
         <div class="col-md-3">
             <label for="YearlyReview">Dato for årsregnskab</label>
             <InputDate id="YearlyReview" @bind-Value="_model.YearlyReview"></InputDate>
         </div>
-        
+
         <div class="col-md-3">
             <button type="submit" class="btn btn-success">Gem</button>
         </div>
@@ -57,5 +58,29 @@
 </EditForm>
 
 @code {
+    [Parameter]
+    public Action ExternalMethod { get; set; }
+
+    private List<CompanyTypeResponse> _companyTypes;
+    private CreateCustomerResource _model;
+
+    protected override async void OnInitialized()
+    {
+        _model = new CreateCustomerResource();
+        _companyTypes = await _companyTypeGrpcClient.GetAllCompanyTypes();
+        base.OnInitialized();
+    }
+
+    private void CreateCustomer()
+    {
+        _customerGrpcClient.CreateCustomer(_model);
+        _model.Name = "";
+        _model.CompanyTypeId = 0;
+        _model.InvoiceCurrency = 0;
+        _model.YearlyReview = DateTime.Now;
+        _model.CvrNumber = 0;
+        _model.InvoiceEmail = "";
+        ExternalMethod?.Invoke();
+    }
 
 }

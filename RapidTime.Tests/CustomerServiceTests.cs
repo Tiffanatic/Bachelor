@@ -42,14 +42,14 @@ namespace RapidTime.Tests
         };
 
         private Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<IRepository<CustomerEntity>> _mockCustomerReposity;
+        private Mock<ICustomerRepository> _mockCustomerReposity;
         private CustomerService _customerService;
         
         
         public CustomerServiceTests()
         {
             _mockUnitOfWork = new Mock<IUnitofWork>();
-            _mockCustomerReposity = new Mock<IRepository<CustomerEntity>>();
+            _mockCustomerReposity = new Mock<ICustomerRepository>();
             _mockUnitOfWork.Setup(_ => _.CustomerRepository).Returns(
                 _mockCustomerReposity.Object);
             _customerService = new CustomerService(_mockUnitOfWork.Object, new Mock<ILogger<CustomerService>>().Object);

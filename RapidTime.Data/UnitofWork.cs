@@ -11,7 +11,7 @@ namespace RapidTime.Data
         private RapidTimeDbContext _context;
         private IRepository<PriceEntity> _priceRepository;
         private IRepository<ContactEntity> _contactRepository;
-        private IRepository<CustomerEntity> _customerRepository;
+        private ICustomerRepository _customerRepository;
         private IRepository<CompanyTypeEntity> _companyTypeRepository;
         private IRepository<AssignmentTypeEntity> _assignmentTypeRepository;
         private IAssignmentRepository _assignmentRepository;
@@ -76,9 +76,9 @@ namespace RapidTime.Data
             get { return _contactRepository ??= new Repository<ContactEntity>(_context); }
         }
 
-        public IRepository<CustomerEntity> CustomerRepository
+        public ICustomerRepository CustomerRepository
         {
-            get { return _customerRepository ??= new Repository<CustomerEntity>(_context); }
+            get { return _customerRepository ??= new CustomerRepository(_context); }
         }
 
         public IRepository<PriceEntity> PriceRepository

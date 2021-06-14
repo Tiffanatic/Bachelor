@@ -35,7 +35,7 @@ message CustomerResponse {
   string name = 2;
   companyType.CompanyTypeResponse companyType = 3;
   google.protobuf.Timestamp yearlyReview = 4;
-  InvoiceCurrencyEnum invoiceCurrency = 5;
+  string invoiceCurrency = 5;
   string invoiceEmail = 6;
   google.protobuf.Timestamp RequestDeletionDate = 7;
 }
@@ -45,7 +45,7 @@ message CreateCustomerRequest {
   int32 CVRNummer = 2;
   companyType.CompanyTypeResponse companyType = 3;
   google.protobuf.Timestamp yearlyReview = 4;
-  InvoiceCurrencyEnum invoiceCurrency = 5;
+  string invoiceCurrency = 5;
   string invoiceEmail = 6;
 }
 
@@ -54,7 +54,7 @@ message UpdateCustomerRequest {
   string name = 2;
   companyType.CompanyTypeResponse companyType = 3;
   google.protobuf.Timestamp yearlyReview = 4;
-  InvoiceCurrencyEnum invoiceCurrency = 5;
+  string invoiceCurrency = 5;
   string invoiceEmail = 6;
   google.protobuf.Timestamp RequestDeletionDate= 7;
 }
@@ -85,10 +85,3 @@ message MultiCustomerResponse {
   repeated CustomerResponse response = 1;
 }
 
-enum InvoiceCurrencyEnum {
-  DKK = 0;
-  SEK = 1;
-  NOK = 2;
-  GBP = 3;
-  EUR = 4;
-}

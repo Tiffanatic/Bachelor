@@ -16,16 +16,16 @@
 
     private List<CompanyTypeResponse> _companyTypes;
 
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
-        _companyTypes = _companyTypeGrpcClient.GetAllCompanyTypes();
-        base.OnInitialized();
+        _companyTypes = await _companyTypeGrpcClient.GetAllCompanyTypes();
+        await base.OnInitializedAsync();
     }
 
 
-    private void UpdateThis()
+    private async void UpdateThis()
     {
-        _companyTypes = _companyTypeGrpcClient.GetAllCompanyTypes();
+        _companyTypes = await _companyTypeGrpcClient.GetAllCompanyTypes();
         StateHasChanged();
     }
 }
