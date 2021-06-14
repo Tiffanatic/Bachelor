@@ -6,6 +6,7 @@ using Moq;
 using RapidTime.Api;
 using RapidTime.Core;
 using RapidTime.Core.Models;
+using RapidTime.Core.Repositories;
 using RapidTime.Services;
 using Xunit;
 

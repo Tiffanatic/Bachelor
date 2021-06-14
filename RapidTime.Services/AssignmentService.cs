@@ -12,6 +12,7 @@ namespace RapidTime.Services
     {
         private IUnitofWork _unitOfWork;
         private ILogger<AssignmentService> _logger;
+        
 
         public AssignmentService(IUnitofWork unitOfWork, ILogger<AssignmentService> logger)
         {

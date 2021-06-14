@@ -7,6 +7,7 @@ using Moq;
 using RapidTime.Core;
 using RapidTime.Core.Models;
 using RapidTime.Core.Models.Address;
+using RapidTime.Core.Repositories;
 using RapidTime.Services;
 using Xunit;
 
@@ -48,7 +49,7 @@ namespace RapidTime.Tests
         
         private Mock<IUnitofWork> _mockUnitOfWork;
         private Mock<ILogger<TimeRegistrationService>> _logger;
-        private Mock<IRepository<AssignmentEntity>> _mockAssignmentRepository;
+        private Mock<IAssignmentRepository> _mockAssignmentRepository;
         private TimeRegistrationService _timeRegistrationService;
         private Mock<IRepository<TimeRecordEntity>> _mockTimeRecordRepository;
         private AssignmentService _assignmentService;
@@ -59,7 +60,7 @@ namespace RapidTime.Tests
             _logger = new Mock<ILogger<TimeRegistrationService>>();
             _assignmentServiceLogger = new Mock<ILogger<AssignmentService>>();
             _mockUnitOfWork = new Mock<IUnitofWork>();
-            _mockAssignmentRepository = new Mock<IRepository<AssignmentEntity>>();
+            _mockAssignmentRepository = new Mock<IAssignmentRepository>();
             _mockTimeRecordRepository = new Mock<IRepository<TimeRecordEntity>>();
             _assignmentService = new AssignmentService(_mockUnitOfWork.Object, _assignmentServiceLogger.Object);
             _timeRegistrationService = new TimeRegistrationService(_mockUnitOfWork.Object, _assignmentService, _logger.Object);

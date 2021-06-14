@@ -2,6 +2,7 @@
 using RapidTime.Core.Models;
 using RapidTime.Core.Models.Address;
 using RapidTime.Core.Models.Auth;
+using RapidTime.Core.Repositories;
 
 namespace RapidTime.Data
 {
@@ -13,7 +14,7 @@ namespace RapidTime.Data
         private IRepository<CustomerEntity> _customerRepository;
         private IRepository<CompanyTypeEntity> _companyTypeRepository;
         private IRepository<AssignmentTypeEntity> _assignmentTypeRepository;
-        private IRepository<AssignmentEntity> _assignmentRepository;
+        private IAssignmentRepository _assignmentRepository;
         private IRepository<CountryEntity> _countryRepository;
         private IRepository<CityEntity> _cityRepository;
         private IRepository<AddressAggregateEntity> _addressAggregateRepository;
@@ -54,10 +55,10 @@ namespace RapidTime.Data
         {
             get { return _countryRepository ??= new Repository<CountryEntity>(_context); }
         }
-        public IRepository<AssignmentEntity> AssignmentRepository
+        public IAssignmentRepository AssignmentRepository
         {
             get
-            { return _assignmentRepository ??= new Repository<AssignmentEntity>(_context); }
+            { return _assignmentRepository ??= new AssignmentRepository(_context); }
         }
 
         public IRepository<AssignmentTypeEntity> AssignmentTypeRepository

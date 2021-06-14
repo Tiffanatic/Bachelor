@@ -58,29 +58,4 @@
 
 @code {
 
-    [Parameter]
-    public Action ExternalMethod { get; set; }
-
-    private List<CompanyTypeResponse> _companyTypes;
-    private CreateCustomerResource _model;
-
-    protected override void OnInitialized()
-    {
-        _model = new CreateCustomerResource();
-        _companyTypes = _companyTypeGrpcClient.GetAllCompanyTypes();
-    }
-
-    private void CreateCustomer()
-    {
-        _customerGrpcClient.CreateCustomer(_model);
-        _model.Name = "";
-        _model.InvoiceCurrency = 0;
-        _model.InvoiceEmail = "";
-        _model.CvrNumber = 0;
-        _model.CompanyTypeId = 0;
-        _model.YearlyReview = DateTime.MinValue;
-        ExternalMethod?.Invoke();
-        StateHasChanged();
-    }
-
 }
