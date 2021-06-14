@@ -8,7 +8,7 @@ namespace RapidTime.Frontend.Models
     public class CreateCustomerResource
     {
         public string Name { get; set; }
-        public int CVRNumber { get; set; }
+        public int CvrNumber { get; set; }
         public int CompanyTypeId { get; set; }
         public DateTime YearlyReview { get; set; }
         public InvoiceCurrencyEnum InvoiceCurrency { get; set; }

@@ -1,18 +1,28 @@
 ﻿@page "/Kunder"
+@using Google.Protobuf.WellKnownTypes
+@using System.Globalization
 @inject CustomerGrpcClient _customerGrpcClient
 
 <CreateCustomerComponent ExternalMethod="@UpdateThis"/>
 
 <h3>Kundeoversigt</h3>
-@* <ListItemsComponent Items="@_customers"> *@
-@*     <TableHeader> *@
-@*         <th></th> *@
-@*     </TableHeader> *@
-@*     <RowTemplate> *@
-@*         <td></td> *@
-@*         <td><button type="button" class="btn btn-info" @onclick="@(() => MethodName(@context.Id))"></button></td> *@
-@*     </RowTemplate> *@
-@* </ListItemsComponent> *@
+<ListItemsComponent Items="@_customers">
+    <TableHeader>
+        <th>Firmanavn</th>
+        <th>Virksomhedstype</th>
+        <th>Regnskabsdato</th>
+        <th>Faktureringsvaluta</th>
+        <th>Faktura Email</th>
+    </TableHeader>
+    <RowTemplate>
+        <td>@context.Name</td>
+        <td>@context.CompanyType.CompanyTypeName</td>
+        <td>@context.YearlyReview.ToDateTime().Date.ToString("d", CultureInfo.CurrentCulture)</td>
+        <td>@context.InvoiceCurrency</td>
+        <td>@context.InvoiceEmail</td>
+        <td><button type="button" class="btn btn-danger" @onclick="@(() => DeleteCustomer(@context.Id))">Slet</button></td>
+    </RowTemplate>
+</ListItemsComponent>
 
 @code {
     private List<CustomerResponse> _customers;
@@ -27,5 +37,11 @@
     {
         _customers = _customerGrpcClient.GetAllCustomers();
         StateHasChanged();
+    }
+
+    private void DeleteCustomer(int customerId)
+    {
+        _customerGrpcClient.DeleteCustomer(customerId);
+        UpdateThis();
     }
 }

@@ -7,6 +7,7 @@ using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models;
+using Enum = System.Enum;
 
 namespace RapidTime.Api.GRPCServices
 {
@@ -22,7 +23,6 @@ namespace RapidTime.Api.GRPCServices
             _logger = logger;
             _customerService = customerService;
             _companyTypeService = companyTypeService;
-
             _customerContactService = customerContactService;
         }
 
@@ -36,7 +36,7 @@ namespace RapidTime.Api.GRPCServices
                 CompanyTypeId = request.CompanyType.Id,
                 YearlyReview = request.YearlyReview.ToDateTime(),
                 InvoiceMail = request.InvoiceEmail,
-                InvoiceCurrency = (CustomerEntity.InvoiceCurrencyEnum) request.InvoiceCurrency
+                InvoiceCurrency = Enum.Parse<CustomerEntity.InvoiceCurrencyEnum>(request.InvoiceCurrency) 
             };
 
             var id = _customerService.Insert(customerToCreate);
@@ -100,7 +100,7 @@ namespace RapidTime.Api.GRPCServices
                     CompanyTypeName = _companyTypeService.findById(customerEntity.CompanyTypeId).CompanyTypeName
                 },
                 YearlyReview = customerEntity.YearlyReview.ToUniversalTime().ToTimestamp(),
-                InvoiceCurrency = (InvoiceCurrencyEnum) customerEntity.InvoiceCurrency,
+                InvoiceCurrency = customerEntity.InvoiceCurrency.ToString(),
                 InvoiceEmail = customerEntity.InvoiceMail
             };
                 
@@ -132,46 +132,50 @@ namespace RapidTime.Api.GRPCServices
 
         }
 
-        // public override Task<MultiCustomerResponse> GetAllCustomers(Empty request, ServerCallContext context)
-        // {
-        //     var customerEntities = _customerService.GetAllCustomers();
-        //     MultiCustomerResponse response = new MultiCustomerResponse();
-        //
-        //     foreach (CustomerEntity entity in customerEntities)
-        //     {
-        //         CompanyTypeEntity companyType = _companyTypeService.findById(entity.CompanyTypeId);
-        //         CompanyTypeBase companyTypeBaseMapped = new CompanyTypeBase()
-        //         {
-        //             Id = companyType.Id,
-        //             CompanyTypeName = companyType.CompanyTypeName
-        //         };
-        //
-        //         var requestDeletionDate = _customerService.GetById(entity.Id);
-        //         var requestDeletionDateMapped = requestDeletionDate.
-        //         response.Response.Add(new CustomerResponse()
-        //         {
-        //             Response = new CustomerBase()
-        //             {
-        //                 Id = entity.Id,
-        //                 Name = entity.Name,
-        //                 CompanyType = companyTypeBaseMapped,
-        //                 InvoiceCurrency = entity.InvoiceCurrency.,
-        //                 InvoiceEmail = entity.InvoiceMail,
-        //                 YearlyReview = entity.YearlyReview.ToTimestamp(),
-        //                 RequestDeletionDate = entity.
-        //             }
-        //         });
-        //     }
-        // }
+        public override Task<MultiCustomerResponse> GetAllCustomers(Empty request, ServerCallContext context)
+        {
+            var customerEntities = _customerService.GetAllCustomers();
+            MultiCustomerResponse response = new();
+        
+            foreach (CustomerEntity entity in customerEntities)
+            {
+                response.Response.Add(new CustomerResponse()
+                {
+                    Id = entity.Id,
+                    Name = entity.Name,
+                    CompanyType = new()
+                    {
+                        Id = entity.CompanyTypeId,
+                        CompanyTypeName = entity.CompanyTypeEntity.CompanyTypeName
+                    },
+                    YearlyReview = entity.YearlyReview.ToUniversalTime().ToTimestamp(),
+                    InvoiceEmail = entity.InvoiceMail,
+                    InvoiceCurrency = entity.InvoiceCurrency.ToString()
+                });
+            }
+            
+            return Task.FromResult(response);
+        }
 
         public override Task<MultiContactsResponse> GetContactsForCustomer(GetCustomerRequest request, ServerCallContext context)
         {
-            return base.GetContactsForCustomer(request, context);
-        }
+            var contacts = _customerContactService.GetContactsForCustomer(request.Id);
+            MultiContactsResponse response = new MultiContactsResponse();
 
-        public override Task<Empty> DeleteContactCustomer(DeleteCustomerContactRequest request, ServerCallContext context)
-        {
-            return base.DeleteContactCustomer(request, context);
+            foreach (CustomerContact contact in contacts)
+            {
+                response.Contacts.Add(new ContactResponse()
+                {
+                    Email = contact.ContactEntity.Email,
+                    FirstName = contact.ContactEntity.Firstname,
+                    LastName = contact.ContactEntity.Lastname,
+                    Id = contact.ContactEntity.Id,
+                    TelephoneNumber = contact.ContactEntity.TelephoneNumber
+                });
+            }
+            
+            return Task.FromResult(response);
         }
+        //TODO: Implement DeleteContactForCustomer
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
 using RapidTime.Frontend.Models;
@@ -13,21 +14,21 @@ namespace RapidTime.Frontend.ProtoClients
             
         }
 
-        public CompanyTypeResponse CreateCompanyType(CreatyCompanyTypeResource createCompanyTypeResource)
+        public async Task<CompanyTypeResponse> CreateCompanyType(CreatyCompanyTypeResource createCompanyTypeResource)
         {
             var client = GetClient();
             CreateCompanyTypeRequest request = new CreateCompanyTypeRequest()
             {
                 CompanyTypeName = createCompanyTypeResource.Name
             };
-            var resp = client.CreateCompanyType(request);
+            var resp = client.Result.CreateCompanyType(request);
 
             return resp;
         }
 
-        public CompanyTypeResponse GetCompanyType(int CompanyTypeId)
+        public async Task<CompanyTypeResponse> GetCompanyType(int CompanyTypeId)
         {
-            var client = GetClient();
+            var client = await GetClient();
             var res = client.GetCompanyType(new() {
                 Id = CompanyTypeId
             });
@@ -36,20 +37,18 @@ namespace RapidTime.Frontend.ProtoClients
         }
 
 
-        public List<CompanyTypeResponse> GetAllCompanyTypes()
+        public async Task<List<CompanyTypeResponse>> GetAllCompanyTypes()
         {
-            var client = GetClient();
-            var response = client.MultiCompanyType(new Empty());
-            return response.Response.ToList();
+            var client = await GetClient();
+            return client.MultiCompanyType(new Empty()).Response.ToList();
         }
-
-
-        private CompanyType.CompanyTypeClient GetClient()
+        
+        
+        private async Task<CompanyType.CompanyTypeClient> GetClient()
         {
             var channel = GrpcChannel.ForAddress("https://localhost:5001");
             var client = new CompanyType.CompanyTypeClient(channel);
             return client;
         }
-
     }
 }

@@ -7,7 +7,7 @@ namespace RapidTime.Core.Models
     public class CustomerEntity : BaseEntity
     {
         public string Name { get; set; }
-        public int? CVRNumber { get; set; }
+        public int CVRNumber { get; set; }
         public int CompanyTypeId { get; set; }
         public CompanyTypeEntity CompanyTypeEntity { get; set; }
         public DateTime YearlyReview { get; set; }

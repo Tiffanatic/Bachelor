@@ -10,7 +10,8 @@ namespace RapidTime.Core
     {
         IRepository<ContactEntity> ContactRepository { get; }
         IRepository<PriceEntity> PriceRepository { get; }
-        IRepository<CustomerEntity> CustomerRepository { get; }
+        //IRepository<CustomerEntity> CustomerRepository { get; }
+        ICustomerRepository CustomerRepository { get; }
         IRepository<CompanyTypeEntity> CompanyTypeRepository { get; }
         IRepository<AssignmentTypeEntity> AssignmentTypeRepository { get; }
         //IRepository<AssignmentEntity> AssignmentRepository { get; }
