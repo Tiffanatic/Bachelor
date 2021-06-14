@@ -1,31 +1,46 @@
-﻿@* @page "/Kunder" *@
-@* @inject CustomerGrpcClient _customerGrpcClient *@
-@* *@
-@* <CreateCustomerComponent ExternalMethod="@UpdateThis"/> *@
-@* *@
-@* <h3>Kundeoversigt</h3> *@
-@* <ListItemsComponent Items="@_customers"> *@
-@*     <TableHeader> *@
-@*         <th>@context.Name</th> *@
-@*     </TableHeader> *@
-@*     <RowTemplate> *@
-@*         <td></td> *@
-@*         <td><button type="button" class="btn btn-info" @onclick="@(() => MethodName(@context.Id))"></button></td> *@
-@*     </RowTemplate> *@
-@* </ListItemsComponent> *@
-@* *@
-@* @code { *@
-@*     private List<CustomerBase> _customers; *@
-@* *@
-@*     protected override void OnInitialized() *@
-@*     { *@
-@*         _customers = _customerGrpcClient.GetAllCustomers(); *@
-@*         base.OnInitialized(); *@
-@*     } *@
-@* *@
-@*     private void UpdateThis() *@
-@*         { *@
-@*             _customers = _customerGrpcClient.GetAllCustomers(); *@
-@*             StateHasChanged(); *@
-@*         } *@
-@* } *@
+﻿@page "/Kunder"
+@using Google.Protobuf.WellKnownTypes
+@inject CustomerGrpcClient _customerGrpcClient
+
+<CreateCustomerComponent ExternalMethod="@UpdateThis"/>
+
+<h3>Kundeoversigt</h3>
+<ListItemsComponent Items="@_customers">
+    <TableHeader>
+        <th>Firmanavn</th>
+        <th>Virksomhedstype</th>
+        <th>Regnskabsdato</th>
+        <th>Faktureringsvaluta</th>
+        <th>Faktura Email</th>
+    </TableHeader>
+    <RowTemplate>
+        <td>@context.Name</td>
+        <td>@context.CompanyType</td>
+        <td>@context.YearlyReview</td>
+        <td>@context.InvoiceCurrency</td>
+        <td>@context.InvoiceEmail</td>
+        <td><button type="button" class="btn btn-danger" @onclick="@(() => DeleteCustomer(@context.Id))">Slet</button></td>
+    </RowTemplate>
+</ListItemsComponent>
+
+@code {
+    private List<CustomerResponse> _customers;
+
+    protected override void OnInitialized()
+    {
+        _customers = _customerGrpcClient.GetAllCustomers();
+        base.OnInitialized();
+    }
+
+    private void UpdateThis()
+    {
+        _customers = _customerGrpcClient.GetAllCustomers();
+        StateHasChanged();
+    }
+
+    private void DeleteCustomer(int customerId)
+    {
+        _customerGrpcClient.DeleteCustomer(customerId);
+        UpdateThis();
+    }
+}

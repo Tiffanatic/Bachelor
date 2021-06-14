@@ -143,10 +143,10 @@ namespace RapidTime.Api.GRPCServices
                 {
                     Id = entity.Id,
                     Name = entity.Name,
-                    CompanyType = new CompanyTypeResponse()
+                    CompanyType = new()
                     {
                         Id = entity.CompanyTypeId,
-                        CompanyTypeName = entity.CompanyTypeEntity.CompanyTypeName
+                        CompanyTypeName = _companyTypeService.findById(entity.CompanyTypeId).CompanyTypeName
                     },
                     YearlyReview = entity.YearlyReview.ToTimestamp(),
                     InvoiceEmail = entity.InvoiceMail,
