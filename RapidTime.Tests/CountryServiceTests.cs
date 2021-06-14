@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using RapidTime.Core;
 using RapidTime.Core.Models.Address;
+using RapidTime.Core.Repositories;
 using RapidTime.Services;
 
 using Xunit;

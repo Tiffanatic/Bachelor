@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models;
+using RapidTime.Core.Repositories;
 
 namespace RapidTime.Data
 {

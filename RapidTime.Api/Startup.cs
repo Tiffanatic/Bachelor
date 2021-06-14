@@ -10,6 +10,7 @@ using RapidTime.Api.GRPCServices;
 using RapidTime.Core;
 using RapidTime.Core.Models;
 using RapidTime.Core.Models.Auth;
+using RapidTime.Core.Repositories;
 using RapidTime.Data;
 using RapidTime.Services;
 
@@ -35,9 +36,8 @@ namespace RapidTime.Api
                 opts.UseNpgsql(
                     Configuration.GetConnectionString("Default"),
                     x => x.MigrationsAssembly("RapidTime.Data")));
-                    
-
-                services.AddScoped<RapidTimeDbContext>();
+            
+            services.AddScoped<RapidTimeDbContext>();
             // User changed to full path to avoid conflicts with generated classes from GRPC
             services.AddIdentity<RapidTime.Core.Models.Auth.User, Role>()
                 .AddEntityFrameworkStores<RapidTimeDbContext>()
@@ -55,6 +55,7 @@ namespace RapidTime.Api
             services.AddTransient<ICustomerContactService, CustomerContactService>();
             services.AddTransient<IPriceService, PriceService>();
             services.AddTransient<IRepository<BaseEntity>, Repository<BaseEntity>>();
+            services.AddTransient<IAssignmentRepository, AssignmentRepository>();
             services.AddTransient<ITimeRegistrationService, TimeRegistrationService>();
             services.AddTransient<IUserService, UserService>();
         }
