@@ -2,6 +2,7 @@
 @using Google.Protobuf.WellKnownTypes
 @using System.Globalization
 @inject CustomerGrpcClient _customerGrpcClient
+@inject NavigationManager _navigationManager
 
 <CreateCustomerComponent ExternalMethod="@UpdateThis"/>
 
@@ -20,6 +21,7 @@
         <td>@context.YearlyReview.ToDateTime().Date.ToString("d", CultureInfo.CurrentCulture)</td>
         <td>@context.InvoiceCurrency</td>
         <td>@context.InvoiceEmail</td>
+        <td><button type="button" class="btn btn-primary" @onclick="@(() => _navigationManager.NavigateTo("/Kunder/"+@context.Id))">Opgaver</button> </td>
         <td><button type="button" class="btn btn-danger" @onclick="@(() => DeleteCustomer(@context.Id))">Slet</button></td>
     </RowTemplate>
 </ListItemsComponent>
