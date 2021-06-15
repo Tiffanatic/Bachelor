@@ -1,0 +1,56 @@
+﻿@inject AssignmentGrpcClient _assignmentGrpcClient
+
+<EditForm Model="_assignments">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <div class="col-md-3">
+            <label for="AssignmentType">Opgaver</label>
+            <select id="AssignmentType" class="form-control" @bind="_assignmentId">
+                <option selected disabled="true">-- Vælg opgave --</option>
+                @foreach (var assignment in _assignments)
+                {
+                    <option value="@assignment.Id">@assignment.AssignmentType</option>
+                }
+            </select>
+        </div>
+    </div>
+</EditForm>
+
+
+<TimeRegistrationComponent AssignmentId="@_assignmentId"/>
+
+@code {
+
+    [Parameter]
+    public int CustomerId
+    {
+        get => _customerId;
+        set
+        {
+            _customerId = value;
+            NotifyStateChanged();
+        }
+    }
+
+    private List<AssignmentResponse> _assignments;
+    private int _assignmentId;
+    private int _customerId;
+
+    protected override void OnInitialized()
+    {
+        _assignments = _assignmentGrpcClient.GetAssignmentsByCustomerId(CustomerId);
+        OnChange += Update;
+        base.OnInitialized();
+    }
+
+    private void Update()
+    {
+        _assignments = _assignmentGrpcClient.GetAssignmentsByCustomerId(CustomerId);
+        StateHasChanged();
+    }
+
+    public event Action OnChange;
+    private void NotifyStateChanged() => OnChange?.Invoke();
+
+}

@@ -1,0 +1,55 @@
+﻿@using Google.Protobuf.WellKnownTypes
+@inject TimeRegistrationGrpcClient _timeRegistrationGrpcClient
+
+
+<EditForm Model="_model" OnValidSubmit="CreateTimeRegistration">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <div class="col-md-3">
+            <label for="Date">Dato</label>
+            <InputDate id="Date" @bind-Value="_model.Date"></InputDate>
+        </div>
+
+        <div class="col-md-3">
+            <label for="TimeRecorded">forbrugt tid</label>
+            <InputText id="TimeRecorded" @bind-Value="TimeRecordedString"></InputText>
+        </div>
+
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-success">Gem</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter] 
+    public int AssignmentId { get; set; }
+    
+    private CreateTimeRegistrationResource _model;
+
+    protected override void OnInitialized()
+    {
+        _model = new CreateTimeRegistrationResource
+        {
+            AssignmentId = AssignmentId,
+            Date = DateTime.Now
+        };
+        base.OnInitialized();
+    }
+
+    private string TimeRecordedString { get; set; }
+    
+
+    private void CreateTimeRegistration()
+    {
+        _timeRegistrationGrpcClient.RegisterTime(new CreateTimeRegistrationRequest
+        {
+            Date = _model.Date.ToUniversalTime().ToTimestamp(),
+            AssignmentId = AssignmentId,
+            TimeRecorded = TimeSpan.FromMinutes(Double.Parse(TimeRecordedString)).ToDuration()
+        });
+        TimeRecordedString = "";
+    }
+
+}

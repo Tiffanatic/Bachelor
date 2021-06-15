@@ -1,0 +1,35 @@
+﻿@inject CustomerGrpcClient _customerGrpcClient
+
+<EditForm Model="_customers">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <div class="col-md-3">
+            <label for="CustomerName">Firmanavn</label>
+            <select class="form-control" @bind="_customerId">
+                <option selected disabled="true">-- Vælg virksomhed --</option>
+                @foreach (var customer in _customers)
+                {
+                    <option title="@customer.Name" value="@customer.Id">@customer.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+</EditForm>
+
+<AssignmentSelectComponent CustomerId="@_customerId"/>
+
+@code {
+    [Parameter]
+    public Action ExternalMethod { get; set; }
+
+    private List<CustomerResponse> _customers;
+
+    private int _customerId;
+
+    protected override void OnInitialized()
+    {
+        _customers = _customerGrpcClient.GetAllCustomers();
+        base.OnInitialized();
+    }
+ }
