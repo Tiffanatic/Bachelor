@@ -9,18 +9,21 @@
 
 <EditForm Model="CreateAssignmentResource" OnValidSubmit="@SaveAssignment">
     <div class="form-group row">
-        <label for="AssignmentId">Opgave Type</label>
-        <select @bind="CreateAssignmentResource.AssignmentTypeId">
-            <option selected disabled="true"> -- Vælg Opgave Type --</option>
-            @foreach (var assignmentType in _assignmentTypeResponses)
-            {
-                <option value="@assignmentType.Id">@assignmentType.Name</option>
-            }
-        </select>
+        <div class="col-md-3">
+            <label for="AssignmentId">Opgave Type</label>
+            <select class="form-control" @bind="CreateAssignmentResource.AssignmentTypeId">
+                <option selected disabled="true"> -- Vælg Opgave Type --</option>
+                @foreach (var assignmentType in _assignmentTypeResponses)
+                {
+                    <option value="@assignmentType.Id">@assignmentType.Name</option>
+                }
+            </select>
+        </div>
     </div>
-    <div class="form-control">
-        <button type="submit">Gem</button>
+    <div class="col-md-3">
+        <button class="btn btn-success" type="submit">Gem</button>
     </div>
+    
 </EditForm>
 
 @code {

@@ -1,4 +1,10 @@
-﻿@inject AssignmentGrpcClient _assignmentGrpcService
+﻿@page "/Kunder/{CustomerId:int}"
+@using System.Globalization
+@inject AssignmentGrpcClient _assignmentGrpcService
+
+<CreateAssignmentComponent CustomerId="CustomerId" />
+
+<br />
 
 <ListItemsComponent Items="Items">
     <TableHeader>
@@ -10,7 +16,7 @@
     
     <RowTemplate>
         <td>@context.AssignmentType</td>
-        <td>@context.Date</td>
+        <td>@context.Date.ToDateTime().Date.ToString("d", CultureInfo.CurrentCulture)</td>
         <td>@context.TimeSpent</td>
         <td>@context.Amount</td>
     </RowTemplate>
@@ -19,8 +25,8 @@
 
 
 @code {
-
-    public int CustomerId = 1;
+    [Parameter]
+    public int CustomerId { get; set; }
 
     private List<AssignmentResponse> Items;
     
