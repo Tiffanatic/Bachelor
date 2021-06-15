@@ -43,6 +43,7 @@ namespace RapidTime.Frontend
             services.AddScoped<CustomerGrpcClient>();
             services.AddScoped<ContactGrpcClient>();
             services.AddScoped<CustomerGrpcClient>();
+            services.AddScoped<TimeRegistrationGrpcClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

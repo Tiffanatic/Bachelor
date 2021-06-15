@@ -33,7 +33,7 @@ namespace RapidTime.Data
 
         public AssignmentEntity GetbyId(int id)
         {
-            return _context.Assignments.SingleOrDefault(s => s.Id == id);
+            return _context.Assignments.Include(_ => _.AssignmentTypeEntity).SingleOrDefault(s => s.Id == id);
         }
 
         public void Update(AssignmentEntity assignmentEntity)
