@@ -18,7 +18,6 @@ namespace RapidTime.Services
             _unitOfWork = unitOfWork;
             _assignmentService = assignmentService;
             _logger = logger;
-            
         }
 
         public TimeSpan GetTimeRecordedForAssignment(int i)
@@ -52,6 +51,7 @@ namespace RapidTime.Services
                 assignmentEntity.TimeRecords.Add(timeRecordEntity);
                 var entity = _unitOfWork.TimeRecordRepository.Insert(timeRecordEntity);
                 _unitOfWork.Commit();
+                UpdateTimeSpentInTotal(assignmentId);
                 return true;
             }
 
@@ -104,6 +104,24 @@ namespace RapidTime.Services
             }
 
             return timeRecords;
+        }
+        
+        
+        public void UpdateTimeSpentInTotal(int assigntmentId)
+        {
+            var timeRecords = GetTimeRecordsForAssignment(assigntmentId);
+            AssignmentEntity assignment = _assignmentService.GetById(assigntmentId);
+
+            TimeSpan UpdatedTimeSpentInTotal = TimeSpan.Zero;
+            
+            foreach (TimeRecordEntity timeRecordEntity in timeRecords)
+            {
+                UpdatedTimeSpentInTotal = UpdatedTimeSpentInTotal.Add(timeRecordEntity.TimeRecorded);
+            }
+
+            assignment.TimeSpentInTotal = UpdatedTimeSpentInTotal;
+            _assignmentService.Update(assignment);
+            _unitOfWork.Commit();
         }
     }
 }
