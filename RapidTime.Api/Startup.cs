@@ -31,10 +31,11 @@ namespace RapidTime.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
+            
 
             services.AddDbContext<RapidTimeDbContext>(opts =>
                 opts.UseNpgsql(
-                    Configuration.GetConnectionString("Default"),
+                    Configuration["ConnectionString:default"],
                     x => x.MigrationsAssembly("RapidTime.Data")));
             
             services.AddScoped<RapidTimeDbContext>();
