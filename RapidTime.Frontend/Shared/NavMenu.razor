@@ -8,22 +8,18 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
+        @* <li class="nav-item px-3"> *@
+        @*     <NavLink class="nav-link" href="" Match="NavLinkMatch.All"> *@
+        @*         <span class="oi oi-home" aria-hidden="true"></span> Home *@
+        @*     </NavLink> *@
+        @* </li> *@
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+            <NavLink class="nav-link" href="tidsregistrering">
+                <span class="oi oi-briefcase" aria-hidden="true"></span> Tidsregistrering
             </NavLink>
         </li>
+
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>
-        <li class="nav-link px-3">
             <NavLink class="nav-link" href="Firmatyper">
                 <span class="oi oi-aperture" aria-hidden="true"></span>Firma typer
             </NavLink>
@@ -43,7 +39,7 @@
                 <span class="oi oi-account-logout" aria-hidden="true"></span> Opgavetyper
             </NavLink>
         </li>
-      <li>
+      <li class="nav-item px-3">
             <NavLink class="nav-link" href="Kontakter">
                 <span class="oi oi-globe" aria-hidden="true"></span> Kontakter
             </NavLink>
@@ -54,11 +50,7 @@
                 <span class="oi oi-briefcase" aria-hidden="true"></span> Kunder
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="tidsregistrering">
-                <span class="oi oi-briefcase" aria-hidden="true"></span> Tidsregistrering
-            </NavLink>
-        </li>
+
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="/LogIn" @onclick="LogOut">
                 <span class="oi oi-account-logout" aria-hidden="true"></span> Log ud
@@ -68,13 +60,13 @@
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+    private bool _collapseNavMenu = true;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+        _collapseNavMenu = !_collapseNavMenu;
     }
 
     public void LogOut()
