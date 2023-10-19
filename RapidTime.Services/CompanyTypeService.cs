@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using RapidTime.Core;
 using RapidTime.Core.Models;
@@ -22,7 +21,7 @@ namespace RapidTime.Services
 
         public void Delete(int companyTypeId)
         {
-            if (companyTypeId == null) throw new NullReferenceException();
+            if (companyTypeId == 0) throw new ArgumentException();
             try
             {
                 _unitofWork.CompanyTypeRepository.Delete(companyTypeId);

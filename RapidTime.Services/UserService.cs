@@ -44,7 +44,7 @@ namespace RapidTime.Services
         {
             try
             {
-                _logger.LogInformation($"DeleteUser called with param: {id}", id);
+                _logger.LogInformation("DeleteUser called with param: {Id}", id);
                 User userFound = _userManager.FindByIdAsync(id).Result;
                 if (userFound == null) throw new Exception();
 
@@ -52,7 +52,7 @@ namespace RapidTime.Services
             }
             catch (Exception e)
             {
-                _logger.LogError("{Message}", "{StackTrace}", e.Message, e.StackTrace);
+                _logger.LogError("{Message}", e);
                 throw new ArgumentException(e.Message);
             }
         }
@@ -71,7 +71,7 @@ namespace RapidTime.Services
             }
             catch (Exception e)
             {
-                _logger.LogError("{Message}", "{StackTrace}", e.Message, e.StackTrace);
+                _logger.LogError("{Message}", e);
                 throw new ArgumentException(e.Message);
             }
         }
@@ -88,7 +88,7 @@ namespace RapidTime.Services
             }
             catch (Exception e)
             {
-                _logger.LogError("{Message}", "{StackTrace}", e.Message, e.StackTrace);
+                _logger.LogError("{Message}", e);
                 throw new ArgumentException(e.Message);
             }
         }
@@ -102,7 +102,7 @@ namespace RapidTime.Services
             }
             catch (Exception e)
             {
-                _logger.LogError("{Message}", "{StackTrace}", e.Message, e.StackTrace);
+                _logger.LogError("{Message}", e);
                 throw new ArgumentException(e.Message);
             }
         }

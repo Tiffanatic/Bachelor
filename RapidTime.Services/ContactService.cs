@@ -22,7 +22,7 @@ namespace RapidTime.Services
 
         public void Delete(int contactId)
         {
-            if (contactId == null) throw new ArgumentNullException(nameof(contactId));
+            if (contactId == 0) throw new ArgumentNullException(nameof(contactId));
             try
             {
                 _unitofWork.ContactRepository.Delete(contactId);

@@ -58,7 +58,7 @@ namespace RapidTime.Services
 
         public void Delete(int priceId)
         {
-            if (priceId == null) throw new ArgumentNullException();
+            if (priceId == 0) throw new ArgumentNullException();
             try
             {
                 _unitofWork.PriceRepository.Delete(priceId);

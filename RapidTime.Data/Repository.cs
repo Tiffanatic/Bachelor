@@ -33,7 +33,7 @@ namespace RapidTime.Data
 
         public T Insert(T entity)
         {
-            if (entity == null) throw new ArgumentNullException("entity");
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             entity.Created = DateTime.UtcNow;
             entity.Updated = DateTime.UtcNow;
             var entityEntry = entities.Add(entity);
@@ -42,15 +42,13 @@ namespace RapidTime.Data
 
         public void Update(T entity)
         {
-            if ( entity == null) throw new ArgumentNullException("entity");
+            if ( entity == null) throw new ArgumentNullException(nameof(entity));
             entity.Updated = DateTime.UtcNow;
             entities.Update(entity);
         }
 
         public void Delete(int id)
         {
-            if ( id == null) throw new ArgumentNullException(nameof(id));
-
             T entity = entities.SingleOrDefault(s => s.Id == id);
 
             if (entity == null)
