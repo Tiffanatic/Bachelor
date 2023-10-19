@@ -48,7 +48,7 @@ namespace RapidTime.Data
 
         public void Delete(int id)
         {
-            if (id == null) throw new ArgumentNullException(nameof(id));
+            if (id == 0) throw new ArgumentNullException(nameof(id));
             AssignmentEntity entity = _context.Assignments.SingleOrDefault(s => s.Id == id);
             if (entity == null)
             {
