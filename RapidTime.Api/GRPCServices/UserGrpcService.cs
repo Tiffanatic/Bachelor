@@ -16,8 +16,8 @@ namespace RapidTime.Api.GRPCServices
 
         public UserGrpcService(ILogger<UserGrpcService> logger, IUserService userService)
         {
-            _logger = logger;
             _userService = userService;
+            _logger = logger;
         }
 
 
@@ -32,7 +32,7 @@ namespace RapidTime.Api.GRPCServices
                 GdprDeleted = user.Result.GdprDeleted,
                 PhoneNumber = user.Result.PhoneNumber
             };
-            
+            _logger.LogInformation("Created userResponse {Response}", response);
             return Task.FromResult(response);
         }
 
@@ -75,6 +75,7 @@ namespace RapidTime.Api.GRPCServices
             
             var userEntityToBeUpdated = new Core.Models.Auth.User()
             {
+                Id = userFound.Id,
                 Firstname = request.FirstName,
                 Lastname = request.LastName,
                 GdprDeleted = request.GdprDeleted,

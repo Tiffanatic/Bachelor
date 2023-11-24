@@ -5,7 +5,7 @@ namespace RapidTime.Core
 {
     public interface ICustomerContactService
     {
-        bool CreateCustomerContact(int CustomerId, int ContactId);
+        bool CreateCustomerContact(int customerId, int contactId);
         bool RemoveCustomerContact(int customerContactId);
         List<CustomerContact> GetContactsForCustomer(int customerId);
     }

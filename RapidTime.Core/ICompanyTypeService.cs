@@ -7,7 +7,7 @@ namespace RapidTime.Core
     {
         IEnumerable<CompanyTypeEntity> GetAll();
         void Delete(int companyTypeId);
-        CompanyTypeEntity findById(int i);
+        CompanyTypeEntity FindById(int i);
         void Update(CompanyTypeEntity companyTypeEntity);
         int Insert(CompanyTypeEntity companyTypeEntity);
     }

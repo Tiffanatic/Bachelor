@@ -18,15 +18,15 @@ namespace RapidTime.Tests
             new() {Id = 2, Name = "Consulting", Number = "002", InvoiceAble = true}
         };
 
-        private Mock<IUnitofWork> _mockUnitWork;
-        private Mock<IRepository<AssignmentTypeEntity>> _mockAssignmentTypeRepository;
-        private AssignmentTypeService _assignmentTypeService;
+        private readonly Mock<IUnitofWork> _mockUnitWork;
+        private readonly Mock<IRepository<AssignmentTypeEntity>> _mockAssignmentTypeRepository;
+        private readonly AssignmentTypeService _assignmentTypeService;
         
         public AssignmentTypeServiceTests()
         {
             _mockUnitWork = new Mock<IUnitofWork>();
             _mockAssignmentTypeRepository = new Mock<IRepository<AssignmentTypeEntity>>();
-            _mockUnitWork.Setup(_ => _.AssignmentTypeRepository).Returns(
+            _mockUnitWork.Setup(w => w.AssignmentTypeRepository).Returns(
                 _mockAssignmentTypeRepository.Object);
 
             _assignmentTypeService = new AssignmentTypeService(_mockUnitWork.Object);
@@ -63,8 +63,8 @@ namespace RapidTime.Tests
             _assignmentTypeService.Delete(assignmentTypeEntity.Id);
             
             //Assert
-            _mockUnitWork.Verify(_ => _.Commit(), Times.Once);
-            _mockAssignmentTypeRepository.Verify(_ => _.Delete(It.IsAny<int>()), Times.Once);
+            _mockUnitWork.Verify(w => w.Commit(), Times.Once);
+            _mockAssignmentTypeRepository.Verify(r => r.Delete(It.IsAny<int>()), Times.Once);
         }
         [Fact]
         public void ServiceShouldThrowOnDeleteAssignmentType()
@@ -75,7 +75,7 @@ namespace RapidTime.Tests
             AssignmentTypeEntity assignmentTypeEntity = null;
             
             //Act
-            _assignmentTypeService.Invoking(_ => _.Delete(assignmentTypeEntity.Id))
+            _assignmentTypeService.Invoking(s => s.Delete(assignmentTypeEntity.Id))
                 .Should().Throw<NullReferenceException>();
         }
 
@@ -87,7 +87,7 @@ namespace RapidTime.Tests
         public void ServiceShouldGetByNameOrNumber(string input)
         {
             //Arramge
-            _mockAssignmentTypeRepository.Setup(_ => _.GetAll()).Returns(DummyData);
+            _mockAssignmentTypeRepository.Setup(r => r.GetAll()).Returns(DummyData);
             //Act
             var result = _assignmentTypeService.GetByNameOrNumber(input);
             
@@ -108,22 +108,22 @@ namespace RapidTime.Tests
             {
                 Id = 3
             };
-            _mockAssignmentTypeRepository.Setup(_ => _.Insert(It.IsAny<AssignmentTypeEntity>()))
+            _mockAssignmentTypeRepository.Setup(r => r.Insert(It.IsAny<AssignmentTypeEntity>()))
                 .Returns(assignmentTypeEntity);
             //Act
             _assignmentTypeService.Insert(assignmentTypeEntity);
             
             //Assert
-            _mockUnitWork.Verify(_ => _.Commit(), Times.Once);
-            _mockAssignmentTypeRepository.Verify(_ => _.Insert(assignmentTypeEntity), Times.Once);
+            _mockUnitWork.Verify(w => w.Commit(), Times.Once);
+            _mockAssignmentTypeRepository.Verify(r => r.Insert(assignmentTypeEntity), Times.Once);
         }
 
         [Fact]
         public void ServiceShouldGetById()
         {
             //Arrange
-            _mockAssignmentTypeRepository.Setup(_
-                => _.GetbyId(It.IsAny<int>())).Returns(DummyData[0]);
+            _mockAssignmentTypeRepository.Setup(r
+                => r.GetbyId(It.IsAny<int>())).Returns(DummyData[0]);
             //Act
             var assignmentType =_assignmentTypeService.GetById(1);
             //Assert
@@ -143,8 +143,8 @@ namespace RapidTime.Tests
         {
             AssignmentTypeEntity assignmentTypeEntity = null; 
             
-            _assignmentTypeService.Invoking(_ 
-                => _.Update(assignmentTypeEntity)).Should().Throw<NullReferenceException>();
+            _assignmentTypeService.Invoking(s 
+                => s.Update(assignmentTypeEntity)).Should().Throw<NullReferenceException>();
         }
 
         [Fact]

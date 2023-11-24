@@ -1,14 +1,13 @@
 ﻿using RapidTime.Core;
 using RapidTime.Core.Models;
 using RapidTime.Core.Models.Address;
-using RapidTime.Core.Models.Auth;
 using RapidTime.Core.Repositories;
 
 namespace RapidTime.Data
 {
     public class UnitofWork : IUnitofWork
     {
-        private RapidTimeDbContext _context;
+        private readonly RapidTimeDbContext _context;
         private IRepository<PriceEntity> _priceRepository;
         private IRepository<ContactEntity> _contactRepository;
         private ICustomerRepository _customerRepository;

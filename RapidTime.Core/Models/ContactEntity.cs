@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace RapidTime.Core.Models
 {
@@ -11,7 +10,7 @@ namespace RapidTime.Core.Models
         public string Email { get; set; }
         public string TelephoneNumber { get; set; }
         public IList<CustomerContact> CustomerContacts { get; set; }
-        public string fullName()
+        public string FullName()
         {
             return Firstname + " " + Lastname;
         }

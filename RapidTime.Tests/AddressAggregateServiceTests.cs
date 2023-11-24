@@ -33,16 +33,16 @@ namespace RapidTime.Tests
             }
         };
 
-        private Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<IRepository<AddressAggregateEntity>> _mockAddressAggregateRepository;
-        private AddressAggregateService _addressAggregateService;
+        private readonly Mock<IUnitofWork> _mockUnitOfWork;
+        private readonly Mock<IRepository<AddressAggregateEntity>> _mockAddressAggregateRepository;
+        private readonly AddressAggregateService _addressAggregateService;
         
         public AddressAggregateTests()
         {
             _mockUnitOfWork = new Mock<IUnitofWork>();
             _mockAddressAggregateRepository = new Mock<IRepository<AddressAggregateEntity>>();
             
-            _mockUnitOfWork.Setup(_ => _.AddressAggregateRepository).Returns(
+            _mockUnitOfWork.Setup(w => w.AddressAggregateRepository).Returns(
                 _mockAddressAggregateRepository.Object);
             _addressAggregateService = new AddressAggregateService(_mockUnitOfWork.Object);
         }
@@ -76,8 +76,8 @@ namespace RapidTime.Tests
             //Act
             _addressAggregateService.Delete(aggregateEntity.Id);
             //Assert
-            _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
-            _mockAddressAggregateRepository.Verify(_ => _.Delete(It.IsAny<int>()), Times.Once);
+            _mockUnitOfWork.Verify(w => w.Commit(), Times.Once);
+            _mockAddressAggregateRepository.Verify(r => r.Delete(It.IsAny<int>()), Times.Once);
         }
 
         [Fact]
@@ -120,8 +120,8 @@ namespace RapidTime.Tests
             //Assert
             using (new AssertionScope())
             {
-                _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
-                _mockAddressAggregateRepository.Verify(_ => _.Update(addressAggregateEntity), Times.Once);
+                _mockUnitOfWork.Verify(w => w.Commit(), Times.Once);
+                _mockAddressAggregateRepository.Verify(r => r.Update(addressAggregateEntity), Times.Once);
             }
         }
         [Fact]
@@ -145,7 +145,7 @@ namespace RapidTime.Tests
                 Street = "Langelinje 6",
                 
             };
-            _mockAddressAggregateRepository.Setup(_ => _.Insert(It.IsAny<AddressAggregateEntity>())).Returns(addressAggregateEntity);
+            _mockAddressAggregateRepository.Setup(r => r.Insert(It.IsAny<AddressAggregateEntity>())).Returns(addressAggregateEntity);
             //act
             
             _addressAggregateService.Insert(addressAggregateEntity);
@@ -153,8 +153,8 @@ namespace RapidTime.Tests
             //assert
             using (new AssertionScope())
             {
-                _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
-                _mockAddressAggregateRepository.Verify(_ => _.Insert(addressAggregateEntity), Times.Once);
+                _mockUnitOfWork.Verify(w => w.Commit(), Times.Once);
+                _mockAddressAggregateRepository.Verify(r => r.Insert(addressAggregateEntity), Times.Once);
             }
         }
         

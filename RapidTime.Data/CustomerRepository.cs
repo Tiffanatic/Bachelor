@@ -9,7 +9,7 @@ namespace RapidTime.Data
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private RapidTimeDbContext _context;
+        private readonly RapidTimeDbContext _context;
 
         public CustomerRepository(RapidTimeDbContext context)
         {
@@ -18,7 +18,7 @@ namespace RapidTime.Data
 
         public IEnumerable<CustomerEntity> GetAll()
         {
-            return _context.Customers.Include(_ => _.CompanyTypeEntity);
+            return _context.Customers.Include(e => e.CompanyTypeEntity);
         }
 
         public CustomerEntity Insert(CustomerEntity customerEntity)

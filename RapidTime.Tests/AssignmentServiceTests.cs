@@ -18,7 +18,7 @@ namespace RapidTime.Tests
             new AssignmentEntity()
             {
                 Amount = 10000,
-                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.Dkk},
                 Id = 0,
                 AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Revision", InvoiceAble = true},
                 DateStarted = DateTime.Now,
@@ -40,7 +40,7 @@ namespace RapidTime.Tests
             new AssignmentEntity()
             {
                 Amount = 10000,
-                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.SEK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.Sek},
                 Id = 1,
                 AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Assistance", InvoiceAble = true},
                 DateStarted = DateTime.Now,
@@ -62,7 +62,7 @@ namespace RapidTime.Tests
             new AssignmentEntity()
             {
                 Amount = 10000,
-                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.Dkk},
                 Id = 2,
                 AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Kontor", InvoiceAble = false},
                 DateStarted = DateTime.Now,
@@ -84,7 +84,7 @@ namespace RapidTime.Tests
             new AssignmentEntity()
             {
                 Amount = 10000,
-                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.Dkk},
                 Id = 3,
                 AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Revision", InvoiceAble = true},
                 DateStarted = DateTime.Now.AddYears(-2),
@@ -106,7 +106,7 @@ namespace RapidTime.Tests
             new AssignmentEntity()
             {
                 Amount = 10000,
-                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.Dkk},
                 Id = 4,
                 AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Assistance", InvoiceAble = true},
                 DateStarted = DateTime.Now.AddYears(-2),
@@ -128,7 +128,7 @@ namespace RapidTime.Tests
             new AssignmentEntity()
             {
                 Amount = 10000,
-                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.Dkk},
                 Id = 5,
                 AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Kontor", InvoiceAble = false},
                 DateStarted = DateTime.Now.AddYears(-2),
@@ -150,9 +150,9 @@ namespace RapidTime.Tests
         };
         
         private readonly Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<IAssignmentRepository> _mockAssignmentRepository;
-        private AssignmentService _assignmentService;
-        private Mock<ILogger<AssignmentService>> _mocklogger;
+        private readonly Mock<IAssignmentRepository> _mockAssignmentRepository;
+        private readonly AssignmentService _assignmentService;
+        private readonly Mock<ILogger<AssignmentService>> _mocklogger;
         
         
         public AssignmentServiceTest()
@@ -236,7 +236,7 @@ namespace RapidTime.Tests
             AssignmentEntity assignmentEntity = new AssignmentEntity()
             {
                 Amount = 10000,
-                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.Dkk},
                 Id = 6,
                 AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Kontor", InvoiceAble = false},
                 DateStarted = DateTime.Now.AddYears(-2),
@@ -256,7 +256,7 @@ namespace RapidTime.Tests
                 }
             };
 
-            _mockAssignmentRepository.Setup(_ => _.Insert(It.IsAny<AssignmentEntity>())).Returns(assignmentEntity);
+            _mockAssignmentRepository.Setup(r => r.Insert(It.IsAny<AssignmentEntity>())).Returns(assignmentEntity);
             //Act
             
             _assignmentService.Insert(assignmentEntity);
@@ -276,7 +276,7 @@ namespace RapidTime.Tests
             AssignmentEntity assignmentEntity = new AssignmentEntity()
             {
                 Amount = 10000,
-                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK},
+                CustomerEntity = new CustomerEntity() {InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.Dkk},
                 Id = 5,
                 AssignmentTypeEntity = new AssignmentTypeEntity() {Name = "Kontor", InvoiceAble = false},
                 DateStarted = DateTime.Now.AddYears(-2),

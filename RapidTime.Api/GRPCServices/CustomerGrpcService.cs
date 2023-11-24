@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
@@ -13,10 +11,10 @@ namespace RapidTime.Api.GRPCServices
 {
     public class CustomerGrpcService : Customer.CustomerBase
     {
-        private ICustomerService _customerService;
-        private ICompanyTypeService _companyTypeService;
-        private ILogger<CustomerGrpcService> _logger;
-        private ICustomerContactService _customerContactService;
+        private readonly ICustomerService _customerService;
+        private readonly ICompanyTypeService _companyTypeService;
+        private readonly ILogger<CustomerGrpcService> _logger;
+        private readonly ICustomerContactService _customerContactService;
 
         public CustomerGrpcService(ILogger<CustomerGrpcService> logger, ICustomerService customerService, ICompanyTypeService companyTypeService, ICustomerContactService customerContactService)
         {
@@ -32,7 +30,7 @@ namespace RapidTime.Api.GRPCServices
             var customerToCreate = new CustomerEntity()
             {
                 Name = request.Name,
-                CVRNumber = request.CVRNummer,
+                CvrNumber = request.CVRNummer,
                 CompanyTypeId = request.CompanyType.Id,
                 YearlyReview = request.YearlyReview.ToDateTime(),
                 InvoiceMail = request.InvoiceEmail,
@@ -97,7 +95,7 @@ namespace RapidTime.Api.GRPCServices
                 CompanyType = new()
                 {
                     Id = customerEntity.CompanyTypeId,
-                    CompanyTypeName = _companyTypeService.findById(customerEntity.CompanyTypeId).CompanyTypeName
+                    CompanyTypeName = _companyTypeService.FindById(customerEntity.CompanyTypeId).CompanyTypeName
                 },
                 YearlyReview = customerEntity.YearlyReview.ToUniversalTime().ToTimestamp(),
                 InvoiceCurrency = customerEntity.InvoiceCurrency.ToString(),
@@ -106,22 +104,6 @@ namespace RapidTime.Api.GRPCServices
                 
             //response.Response.Contact.AddRange(CustomerContactsToContactBaseRepeatedField(customerEntity.CustomerContacts));
             return response;
-        }
-
-        private RepeatedField<ContactResponse> CustomerContactsToContactBaseRepeatedField(IList<CustomerContact> contacts)
-        {
-            RepeatedField<ContactResponse> contactBases = new RepeatedField<ContactResponse>();
-            foreach (var contact in contacts)
-            {
-                contactBases.Add(new ContactResponse()
-                {
-                    Email = contact.ContactEntity.Email,
-                    FirstName = contact.ContactEntity.Firstname,
-                    LastName = contact.ContactEntity.Lastname,
-                    TelephoneNumber = contact.ContactEntity.TelephoneNumber
-                });
-            };
-            return contactBases;
         }
 
         public override Task<CustomerContactResponse> AddContactCustomer(CustomerContactRequest request, ServerCallContext context)

@@ -7,7 +7,7 @@ namespace RapidTime.Core.Models
     public class CustomerEntity : BaseEntity
     {
         public string Name { get; set; }
-        public int CVRNumber { get; set; }
+        public int CvrNumber { get; set; }
         public int CompanyTypeId { get; set; }
         public CompanyTypeEntity CompanyTypeEntity { get; set; }
         public DateTime YearlyReview { get; set; }
@@ -19,11 +19,11 @@ namespace RapidTime.Core.Models
 
         public enum InvoiceCurrencyEnum
         {
-            DKK = 0,
-            SEK = 1,
-            NOK = 2,
-            GBP = 3,
-            EUR = 4
+            Dkk = 0,
+            Sek = 1,
+            Nok = 2,
+            Gbp = 3,
+            Eur = 4
         }
     }
     

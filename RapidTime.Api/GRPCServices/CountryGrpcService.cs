@@ -1,19 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
-using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models.Address;
-using Serilog;
 
 namespace RapidTime.Api.GRPCServices
 {
     public class CountryGrpcService : Country.CountryBase
     {
-        private ICountryService _countryService;
+        private readonly ICountryService _countryService;
         private readonly ILogger<CountryGrpcService> _logger;
 
         public CountryGrpcService(ICountryService countryService, ILogger<CountryGrpcService> logger)
@@ -72,16 +69,13 @@ namespace RapidTime.Api.GRPCServices
         {
             var countries = _countryService.GetAllCountries();
 
-            MultiCountryResponse response = new()
-            {
-                Response = {}
-            };
+            MultiCountryResponse response = new();
 
             List<CountryResponse> countryResponses = new();
 
             foreach (var country in countries)
             {
-                countryResponses.Add(new CountryResponse()
+                countryResponses.Add(new CountryResponse
                 {
                     Id = country.Id,
                     CountryCode = country.CountryCode,
