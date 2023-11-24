@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
       <UserSecretsId>7d70210d-894c-44ce-a2c1-107d333eacbb</UserSecretsId>
       <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-      <LangVersion>12.0</LangVersion>
+      <LangVersion>?</LangVersion>
   </PropertyGroup>
 
     <ItemGroup>
