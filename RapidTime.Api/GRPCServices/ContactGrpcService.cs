@@ -7,12 +7,20 @@ using RapidTime.Core.Models;
 
 namespace RapidTime.Api.GRPCServices
 {
-    public class ContactGrpcService(ILogger<ContactGrpcService> logger, IContactService contactService)
-        : Contact.ContactBase
+    public class ContactGrpcService : Contact.ContactBase
     {
+        private readonly ILogger<ContactGrpcService> _logger;
+        private readonly IContactService _contactService;
+
+        public ContactGrpcService(ILogger<ContactGrpcService> logger, IContactService contactService)
+        {
+            _logger = logger;
+            _contactService = contactService;
+        }
+
         public override Task<ContactResponse> CreateContact(CreateContactRequest request, ServerCallContext context)
         {
-            logger.LogInformation("CreateContact called with values {@CreateContact}", request);
+            _logger.LogInformation("CreateContact called with values {@CreateContact}", request);
             ContactEntity contactEntity = new ContactEntity()
             {
                 Email = request.Email,
@@ -20,8 +28,8 @@ namespace RapidTime.Api.GRPCServices
                 Lastname = request.LastName,
                 TelephoneNumber = request.TelephoneNumber
             };
-            var id = contactService.Insert(contactEntity);
-            var contact = contactService.FindById(id);
+            var id = _contactService.Insert(contactEntity);
+            var contact = _contactService.FindById(id);
             
             return Task.FromResult( new ContactResponse()
             {
@@ -35,9 +43,9 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<ContactResponse> AddContactToCustomer(AddContactToCustomerRequest request, ServerCallContext context)
         {
-            logger.LogInformation("Get AddContactToCustomer Called with Ids: {Id}", request.CustomerId);
-            var contact = contactService.FindById(request.ContactId);
-            contactService.AddContactToCustomer(contact, request.CustomerId);
+            _logger.LogInformation("Get AddContactToCustomer Called with Ids: {Id}", request.CustomerId);
+            var contact = _contactService.FindById(request.ContactId);
+            _contactService.AddContactToCustomer(contact, request.CustomerId);
             return Task.FromResult( new ContactResponse()
             {
                 Email = contact.Email,
@@ -49,8 +57,8 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<ContactResponse> GetContact(GetContactRequest request, ServerCallContext context)
         {
-            logger.LogInformation("Get Contact Called with Id: {Id}", request.Id);
-            var contact = contactService.FindById(request.Id);
+            _logger.LogInformation("Get Contact Called with Id: {Id}", request.Id);
+            var contact = _contactService.FindById(request.Id);
             return Task.FromResult( new ContactResponse()
             {
                 Email = contact.Email,
@@ -63,28 +71,28 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<Empty> DeleteContact(DeleteContactRequest request, ServerCallContext context)
         {
-            logger.LogInformation("DeleteContact Called with Id: {Id}", request.Id);
-            contactService.Delete(request.Id);
+            _logger.LogInformation("DeleteContact Called with Id: {Id}", request.Id);
+            _contactService.Delete(request.Id);
             return Task.FromResult(new Empty());
         }
 
         public override Task<Empty> UpdateContact(UpdateContactRequest request, ServerCallContext context)
         {
-            logger.LogInformation("UpdateContact Called with Id: {Id}", request);
-            var contact = contactService.FindById(request.Id);
+            _logger.LogInformation("UpdateContact Called with Id: {Id}", request);
+            var contact = _contactService.FindById(request.Id);
             contact.Email = request.Email;
             contact.Firstname = request.FirstName;
             contact.Lastname = request.LastName;
             contact.TelephoneNumber = request.TelephoneNumber;
             
-            contactService.Update(contact);
+            _contactService.Update(contact);
             return Task.FromResult(new Empty());
         }
 
         public override Task<MultiContactResponse> GetAllContacts(Empty request, ServerCallContext context)
         {
-            logger.LogInformation("MultiContact called");
-            var contacts = contactService.GetAll();
+            _logger.LogInformation("MultiContact called");
+            var contacts = _contactService.GetAll();
 
             var responses = new MultiContactResponse();
             responses.Response.Capacity = 0;

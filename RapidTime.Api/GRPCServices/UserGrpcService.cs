@@ -9,14 +9,21 @@ namespace RapidTime.Api.GRPCServices
 {
     
     
-    public class UserGrpcService(ILogger<UserGrpcService> logger, IUserService userService) : User.UserBase
+    public class UserGrpcService : User.UserBase
     {
-        private ILogger<UserGrpcService> _logger = logger;
+        private ILogger<UserGrpcService> _logger;
+        private readonly IUserService _userService;
+
+        public UserGrpcService(ILogger<UserGrpcService> logger, IUserService userService)
+        {
+            _userService = userService;
+            _logger = logger;
+        }
 
 
         public override Task<UserResponse> GetUser(GetUserRequest request, ServerCallContext context)
         {
-            var user = userService.GetUser(request.Id.ToString());
+            var user = _userService.GetUser(request.Id.ToString());
             UserResponse response = new UserResponse()
             {
                 FirstName = user.Result.Firstname,
@@ -41,7 +48,7 @@ namespace RapidTime.Api.GRPCServices
                 UserName = request.Email
             };
         
-            var userCreated = await userService.CreateUser(userEntityToBeCreated);
+            var userCreated = await _userService.CreateUser(userEntityToBeCreated);
         
             UserResponse response = new UserResponse()
             {
@@ -58,13 +65,13 @@ namespace RapidTime.Api.GRPCServices
 
         public override async Task<Empty> DeleteUser(DeleteUserRequest request, ServerCallContext context)
         {
-            await userService.DeleteUser(request.Id);
+            await _userService.DeleteUser(request.Id);
             return new Empty();
         }
 
         public override async Task<UserResponse> UpdateUser(UpdateUserRequest request, ServerCallContext context)
         {
-            var userFound = await userService.GetUser(request.Id);
+            var userFound = await _userService.GetUser(request.Id);
             
             var userEntityToBeUpdated = new Core.Models.Auth.User()
             {
@@ -77,7 +84,7 @@ namespace RapidTime.Api.GRPCServices
                 UserName = request.Email
             };
         
-            var userCreated = await userService.UpdateUser(userEntityToBeUpdated);
+            var userCreated = await _userService.UpdateUser(userEntityToBeUpdated);
         
             UserResponse response = new UserResponse()
             {
@@ -93,7 +100,7 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<MultiUserResponse> GetAllUsers(Empty request, ServerCallContext context)
         {
-            var users = userService.GetAllUsers();
+            var users = _userService.GetAllUsers();
         
             var responseObject = new MultiUserResponse() {MultiUserResponse_ = {new List<UserResponse>()}};
             
@@ -125,7 +132,7 @@ namespace RapidTime.Api.GRPCServices
 
         public override async Task<DeleteDateResponse> GetUserDeleteDate(GetUserRequest request, ServerCallContext context)
         {
-            var user = await userService.GetUser(request.Id);
+            var user = await _userService.GetUser(request.Id);
             var userDeleteDate = user.DeleteDate.ToUniversalTime().ToTimestamp();
             
             var response = new DeleteDateResponse()
@@ -138,12 +145,12 @@ namespace RapidTime.Api.GRPCServices
 
         public override async Task<UserResponse> SetUserDeleteDate(SetUserDeleteDateRequest request, ServerCallContext context)
         {
-            var user = await userService.GetUser(request.Id);
+            var user = await _userService.GetUser(request.Id);
             var userDeleteDate = user.DeleteDate.ToUniversalTime().ToTimestamp();
             
-            userService.SetUserDeleteDate(user.Id.ToString(), request.DeleteDate.ToDateTime());
+            _userService.SetUserDeleteDate(user.Id.ToString(), request.DeleteDate.ToDateTime());
         
-            user = await userService.GetUser(request.Id);
+            user = await _userService.GetUser(request.Id);
         
             var response = new UserResponse()
             {

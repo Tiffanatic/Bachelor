@@ -9,11 +9,15 @@ using RapidTime.Core.Models;
 
 namespace RapidTime.Api.GRPCServices
 {
-    public class AssignmentGrpcService(IAssignmentService assignmentService, ILogger<AssignmentGrpcService> logger,
-            IAssignmentTypeService assignmentTypeService)
-        : Assignment.AssignmentBase
+    public class AssignmentGrpcService : Assignment.AssignmentBase
     {
-        private readonly IAssignmentService _assignmentService = assignmentService ?? throw new ArgumentNullException(nameof(assignmentService));
+        private readonly IAssignmentService _assignmentService;
+
+        public AssignmentGrpcService(IAssignmentService assignmentService, ILogger<AssignmentGrpcService> logger,
+            IAssignmentTypeService assignmentTypeService)
+        {
+            _assignmentService = assignmentService ?? throw new ArgumentNullException(nameof(assignmentService));
+        }
 
         public override Task<AssignmentResponse> CreateAssignment(CreateAssignmentRequest request, ServerCallContext context)
         {
