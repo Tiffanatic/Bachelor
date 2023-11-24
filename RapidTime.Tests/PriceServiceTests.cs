@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
-using RapidTime.Api;
 using RapidTime.Core;
 using RapidTime.Core.Models;
 using RapidTime.Core.Repositories;
@@ -45,9 +44,9 @@ namespace RapidTime.Tests
         };
 
         private readonly Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<IRepository<PriceEntity>> _mockPriceRepository;
-        private PriceService _priceService;
-        private Mock<ILogger<PriceService>> _logger;
+        private readonly Mock<IRepository<PriceEntity>> _mockPriceRepository;
+        private readonly PriceService _priceService;
+        private readonly Mock<ILogger<PriceService>> _logger;
 
         public PriceServiceTest()
         {
@@ -57,7 +56,7 @@ namespace RapidTime.Tests
             _priceService = new PriceService(_mockUnitOfWork.Object, _logger.Object);
 
 
-            _mockUnitOfWork.Setup(_ => _.PriceRepository).Returns(_mockPriceRepository.Object);
+            _mockUnitOfWork.Setup(w => w.PriceRepository).Returns(_mockPriceRepository.Object);
         }
 
         [Fact]

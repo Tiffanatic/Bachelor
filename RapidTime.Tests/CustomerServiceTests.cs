@@ -23,7 +23,7 @@ namespace RapidTime.Tests
                 
                 CompanyTypeEntity = new CompanyTypeEntity() {Id = 1, CompanyTypeName = "A/S"},
                 
-                InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK,
+                InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.Dkk,
                 InvoiceMail = "Economy@test.com",
                 Name = "Test company",
                 YearlyReview = new DateTime(1970, 1, 1)
@@ -34,23 +34,23 @@ namespace RapidTime.Tests
                 
                 CompanyTypeEntity = new CompanyTypeEntity() {Id = 1, CompanyTypeName = "A/S"},
                 
-                InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.DKK,
+                InvoiceCurrency = CustomerEntity.InvoiceCurrencyEnum.Dkk,
                 InvoiceMail = "Economy@test.com",
                 Name = "Test holding company",
                 YearlyReview = new DateTime(1970, 1, 1)
             }
         };
 
-        private Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<ICustomerRepository> _mockCustomerReposity;
-        private CustomerService _customerService;
+        private readonly Mock<IUnitofWork> _mockUnitOfWork;
+        private readonly Mock<ICustomerRepository> _mockCustomerReposity;
+        private readonly CustomerService _customerService;
         
         
         public CustomerServiceTests()
         {
             _mockUnitOfWork = new Mock<IUnitofWork>();
             _mockCustomerReposity = new Mock<ICustomerRepository>();
-            _mockUnitOfWork.Setup(_ => _.CustomerRepository).Returns(
+            _mockUnitOfWork.Setup(w => w.CustomerRepository).Returns(
                 _mockCustomerReposity.Object);
             _customerService = new CustomerService(_mockUnitOfWork.Object, new Mock<ILogger<CustomerService>>().Object);
         }
@@ -88,8 +88,8 @@ namespace RapidTime.Tests
             _customerService.Delete(customerEntity.Id);
             
             //Assert
-            _mockCustomerReposity.Verify(_ => _.Delete(It.IsAny<int>()), Times.Once);
-            _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
+            _mockCustomerReposity.Verify(r => r.Delete(It.IsAny<int>()), Times.Once);
+            _mockUnitOfWork.Verify(w => w.Commit(), Times.Once);
         }
 
         [Fact]
@@ -116,8 +116,8 @@ namespace RapidTime.Tests
             _customerService.Insert(customerEntity);
 
             //Assert
-            _mockCustomerReposity.Verify(_ => _.Insert(It.IsAny<CustomerEntity>()), Times.Once);
-            _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
+            _mockCustomerReposity.Verify(r => r.Insert(It.IsAny<CustomerEntity>()), Times.Once);
+            _mockUnitOfWork.Verify(w => w.Commit(), Times.Once);
         }
 
         [Fact]
@@ -133,8 +133,8 @@ namespace RapidTime.Tests
             _customerService.Update(customerEntity);
             
             //Assert
-            _mockCustomerReposity.Verify(_ => _.Update(It.IsAny<CustomerEntity>()), Times.Once);
-            _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
+            _mockCustomerReposity.Verify(r => r.Update(It.IsAny<CustomerEntity>()), Times.Once);
+            _mockUnitOfWork.Verify(w => w.Commit(), Times.Once);
         }
 
         [Fact]

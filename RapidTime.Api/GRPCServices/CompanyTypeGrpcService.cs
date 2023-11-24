@@ -4,24 +4,16 @@ using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models;
-using RapidTime.Services;
 
 namespace RapidTime.Api.GRPCServices
 {
-    public class CompanyTypeGrpcService : CompanyType.CompanyTypeBase
+    public class CompanyTypeGrpcService(ICompanyTypeService companyTypeService, ILogger<CompanyTypeGrpcService> logger)
+        : CompanyType.CompanyTypeBase
     {
-        private ILogger<CompanyTypeGrpcService> _logger;
-        private ICompanyTypeService _companyTypeService;
-
-        public CompanyTypeGrpcService(ICompanyTypeService companyTypeService, ILogger<CompanyTypeGrpcService> logger)
-        {
-            _companyTypeService = companyTypeService;
-            _logger = logger;
-        }
-
         public override Task<CompanyTypeResponse> GetCompanyType(GetCompanyTypeRequest request, ServerCallContext context)
         {
-            var companyTypeEntity = _companyTypeService.findById(request.Id);
+            var companyTypeEntity = companyTypeService.FindById(request.Id);
+            logger.LogInformation("Creating city response by {CompanyTypeEntityCompanyTypeName}", companyTypeEntity.CompanyTypeName);
             return Task.FromResult(new CompanyTypeResponse()
             {
                 CompanyTypeName = companyTypeEntity.CompanyTypeName,
@@ -36,8 +28,8 @@ namespace RapidTime.Api.GRPCServices
                 CompanyTypeName = request.CompanyTypeName
             };
 
-            var id = _companyTypeService.Insert(companyTypeEntity);
-            var companyTypeToReturn = _companyTypeService.findById(id);
+            var id = companyTypeService.Insert(companyTypeEntity);
+            var companyTypeToReturn = companyTypeService.FindById(id);
             return Task.FromResult(new CompanyTypeResponse()
             {
                 CompanyTypeName = companyTypeToReturn.CompanyTypeName,
@@ -47,13 +39,13 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<Empty> DeleteCompanyType(DeleteCompanyTypeRequest request, ServerCallContext context)
         {
-            _companyTypeService.Delete(request.Id);
+            companyTypeService.Delete(request.Id);
             return Task.FromResult(new Empty());
         }
 
         public override Task<MultiCompanyTypeResponse> MultiCompanyType(Empty request, ServerCallContext context)
         {
-            var companyTypeEntities = _companyTypeService.GetAll();
+            var companyTypeEntities = companyTypeService.GetAll();
             MultiCompanyTypeResponse response = new();
             foreach (var companyTypeEntity in companyTypeEntities)
             {

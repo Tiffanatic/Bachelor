@@ -1,7 +1,5 @@
-﻿using System;
-using RapidTime.Core.Models;
+﻿using RapidTime.Core.Models;
 using RapidTime.Core.Models.Address;
-using RapidTime.Core.Models.Auth;
 using RapidTime.Core.Repositories;
 
 namespace RapidTime.Core

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +9,7 @@ namespace RapidTime.Data
 {
     public class AssignmentRepository : IAssignmentRepository
     {
-        private RapidTimeDbContext _context;
+        private readonly RapidTimeDbContext _context;
 
         public AssignmentRepository(RapidTimeDbContext context)
         {
@@ -19,7 +18,7 @@ namespace RapidTime.Data
 
         public IEnumerable<AssignmentEntity> GetAll()
         {
-            return _context.Assignments.Include(_ => _.AssignmentTypeEntity);
+            return _context.Assignments.Include(entity => entity.AssignmentTypeEntity);
         }
 
         public AssignmentEntity Insert(AssignmentEntity assignmentEntity)
@@ -34,8 +33,8 @@ namespace RapidTime.Data
         public AssignmentEntity GetbyId(int id)
         {
             return _context.Assignments
-                .Include(_ => _.AssignmentTypeEntity)
-                .Include(_ => _.TimeRecords)
+                .Include(entity => entity.AssignmentTypeEntity)
+                .Include(e => e.TimeRecords)
                 .SingleOrDefault(s => s.Id == id);
         }
 

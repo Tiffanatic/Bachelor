@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using RapidTime.Core;
 using RapidTime.Core.Models;
-using RapidTime.Core.Models.Address;
 using RapidTime.Core.Repositories;
 using RapidTime.Services;
 using Xunit;
@@ -47,12 +46,12 @@ namespace RapidTime.Tests
             }
         };
         
-        private Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<ILogger<TimeRegistrationService>> _logger;
-        private Mock<IAssignmentRepository> _mockAssignmentRepository;
-        private TimeRegistrationService _timeRegistrationService;
-        private Mock<IRepository<TimeRecordEntity>> _mockTimeRecordRepository;
-        private AssignmentService _assignmentService;
+        private readonly Mock<IUnitofWork> _mockUnitOfWork;
+        private readonly Mock<ILogger<TimeRegistrationService>> _logger;
+        private readonly Mock<IAssignmentRepository> _mockAssignmentRepository;
+        private readonly TimeRegistrationService _timeRegistrationService;
+        private readonly Mock<IRepository<TimeRecordEntity>> _mockTimeRecordRepository;
+        private readonly AssignmentService _assignmentService;
         private readonly Mock<ILogger<AssignmentService>> _assignmentServiceLogger;
 
         public TimeRegistrationServiceTests()
@@ -65,8 +64,8 @@ namespace RapidTime.Tests
             _assignmentService = new AssignmentService(_mockUnitOfWork.Object, _assignmentServiceLogger.Object);
             _timeRegistrationService = new TimeRegistrationService(_mockUnitOfWork.Object, _assignmentService, _logger.Object);
 
-            _mockUnitOfWork.Setup(_ => _.AssignmentRepository).Returns(_mockAssignmentRepository.Object);
-            _mockUnitOfWork.Setup(_ => _.TimeRecordRepository).Returns(_mockTimeRecordRepository.Object);
+            _mockUnitOfWork.Setup(w => w.AssignmentRepository).Returns(_mockAssignmentRepository.Object);
+            _mockUnitOfWork.Setup(w => w.TimeRecordRepository).Returns(_mockTimeRecordRepository.Object);
 
         }
         
@@ -96,7 +95,7 @@ namespace RapidTime.Tests
             
             
             //Assert
-            _timeRegistrationService.Invoking(_ => _.RegisterTime(tooBigToRegister, 0))
+            _timeRegistrationService.Invoking(s => s.RegisterTime(tooBigToRegister, 0))
                 .Should().Throw<Exception>().WithMessage("Unable to register more than 24 hours a day.");
         }
 

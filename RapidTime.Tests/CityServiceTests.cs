@@ -4,7 +4,6 @@ using Moq;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using RapidTime.Core;
-using RapidTime.Core.Models;
 using RapidTime.Core.Models.Address;
 using RapidTime.Core.Repositories;
 using RapidTime.Services;
@@ -29,7 +28,7 @@ namespace RapidTime.Tests
             var mockCityRepository = new Mock<IRepository<CityEntity>>();
             mockCityRepository.Setup(cr => cr.GetAll())
                 .Returns(DummyData);
-            mockUnitofWork.Setup(_ => _.CityRepository).Returns(mockCityRepository.Object);
+            mockUnitofWork.Setup(w => w.CityRepository).Returns(mockCityRepository.Object);
 
             CityService cityService = new CityService(mockUnitofWork.Object);
 
@@ -59,14 +58,14 @@ namespace RapidTime.Tests
             mockCityRepository.Setup(cr => cr.Delete(It.IsAny<int>()));
             
             var mockUnitofWork = new Mock<IUnitofWork>();
-            mockUnitofWork.Setup(_ => _.CityRepository).Returns(mockCityRepository.Object);
+            mockUnitofWork.Setup(w => w.CityRepository).Returns(mockCityRepository.Object);
             CityEntity cityEntity = new CityEntity() {Id = 1};
             CityService cityService = new CityService(mockUnitofWork.Object);
             //act
             cityService.DeleteCity(cityEntity.Id);
             //assert
-            mockUnitofWork.Verify(_ => _.Commit(), Times.Once);
-            mockCityRepository.Verify(_ => _.Delete(It.IsAny<int>()), Times.Once);
+            mockUnitofWork.Verify(w => w.Commit(), Times.Once);
+            mockCityRepository.Verify(r => r.Delete(It.IsAny<int>()), Times.Once);
         }
 
         [Fact]
@@ -83,7 +82,7 @@ namespace RapidTime.Tests
             mockCityRepository.Setup(cr => cr.GetAll()).Returns(DummyData);
             
             var mockUnitofWork = new Mock<IUnitofWork>();
-            mockUnitofWork.Setup(_ => _.CityRepository).Returns(mockCityRepository.Object);
+            mockUnitofWork.Setup(w => w.CityRepository).Returns(mockCityRepository.Object);
             CityEntity cityEntityToFind = new CityEntity() { PostalCode = "7100", CityName = "Vejle"};
             CityEntity newCityEntityToFind = new CityEntity() {PostalCode = "8700", CityName = "Horsens"};
             CityService cityService = new CityService(mockUnitofWork.Object);
@@ -119,7 +118,7 @@ namespace RapidTime.Tests
             mockCityRepository.Setup(cr => cr.GetbyId(It.IsAny<int>())).Returns(DummyData[0]);
             
             var mockUnitofWork = new Mock<IUnitofWork>();
-            mockUnitofWork.Setup(_ => _.CityRepository).Returns(mockCityRepository.Object);
+            mockUnitofWork.Setup(w => w.CityRepository).Returns(mockCityRepository.Object);
             
             CityService cityService = new CityService(mockUnitofWork.Object);
             //act
@@ -142,7 +141,7 @@ namespace RapidTime.Tests
             mockCityRepository.Setup(cr => cr.Update(It.IsAny<CityEntity>()));
             
             var mockUnitofWork = new Mock<IUnitofWork>();
-            mockUnitofWork.Setup(_ => _.CityRepository).Returns(mockCityRepository.Object);
+            mockUnitofWork.Setup(w => w.CityRepository).Returns(mockCityRepository.Object);
             
             CityService cityService = new CityService(mockUnitofWork.Object);
             CityEntity cityEntity = new CityEntity() {Id = 1, CityName = "Vejle Kommune", PostalCode = "7100"};
@@ -151,8 +150,8 @@ namespace RapidTime.Tests
             cityService.Update(cityEntity);
             
             //assert
-            mockUnitofWork.Verify(_ => _.Commit(), Times.Once);
-            mockCityRepository.Verify(_ => _.Update(cityEntity), Times.Once);
+            mockUnitofWork.Verify(w => w.Commit(), Times.Once);
+            mockCityRepository.Verify(r => r.Update(cityEntity), Times.Once);
         }
 
         [Fact]
@@ -164,14 +163,14 @@ namespace RapidTime.Tests
             mockCityRepository.Setup(cr => cr.Insert(It.IsAny<CityEntity>())).Returns(cityEntity);
             
             var mockUnitofWork = new Mock<IUnitofWork>();
-            mockUnitofWork.Setup(_ => _.CityRepository).Returns(mockCityRepository.Object);
+            mockUnitofWork.Setup(w => w.CityRepository).Returns(mockCityRepository.Object);
             
             CityService cityService = new CityService(mockUnitofWork.Object);
             //act
             cityService.Insert(cityEntity);
             //assert
-            mockUnitofWork.Verify(_ => _.Commit(), Times.Once);
-            mockCityRepository.Verify(_ => _.Insert(cityEntity), Times.Once);
+            mockUnitofWork.Verify(w => w.Commit(), Times.Once);
+            mockCityRepository.Verify(r => r.Insert(cityEntity), Times.Once);
 
         }
     }

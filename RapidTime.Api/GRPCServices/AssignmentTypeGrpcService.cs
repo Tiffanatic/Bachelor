@@ -10,8 +10,8 @@ namespace RapidTime.Api.GRPCServices
 {
     public class AssignmentTypeGrpcService : AssignmentType.AssignmentTypeBase
     {
-        private ILogger<AssignmentTypeGrpcService> _logger;
-        private IAssignmentTypeService _assignmentTypeService;
+        private readonly ILogger<AssignmentTypeGrpcService> _logger;
+        private readonly IAssignmentTypeService _assignmentTypeService;
 
         public AssignmentTypeGrpcService(IAssignmentTypeService assignmentTypeService,
             ILogger<AssignmentTypeGrpcService> logger)
@@ -34,16 +34,16 @@ namespace RapidTime.Api.GRPCServices
             var id = _assignmentTypeService.Insert(assignmentTypeToBeCreated);
             
             var createdAssignmentType = _assignmentTypeService.GetById(id);
-            var ToReturn = EntityToResponse(createdAssignmentType);
-            return Task.FromResult(ToReturn);
+            var toReturn = EntityToResponse(createdAssignmentType) ?? throw new ArgumentNullException(nameof(request));
+            return Task.FromResult(toReturn);
         }
 
         public override Task<AssignmentTypeResponse> GetAssignmentType(GetAssignmentTypeRequest request, ServerCallContext context)
         {
             _logger.LogInformation("Get AssignmentType called with Id: {Id}", request.Id);
             var assignmentToReturn = _assignmentTypeService.GetById(request.Id);
-            var ToReturn = EntityToResponse(assignmentToReturn);
-            return Task.FromResult(ToReturn);
+            var toReturn = EntityToResponse(assignmentToReturn) ?? throw new ArgumentNullException(nameof(request));
+            return Task.FromResult(toReturn);
 
         }
 
@@ -70,8 +70,8 @@ namespace RapidTime.Api.GRPCServices
             _assignmentTypeService.Update(assignmentTypeToUpdate);
 
             var updatedAssignmentType = _assignmentTypeService.GetById(assignmentTypeToUpdate.Id);
-            var ToReturn = EntityToResponse(updatedAssignmentType);
-            return Task.FromResult(ToReturn);
+            var toReturn = EntityToResponse(updatedAssignmentType) ?? throw new ArgumentNullException(nameof(request));
+            return Task.FromResult(toReturn);
         }
 
         public override async Task MultiAssignmentType(IAsyncStreamReader<GetMultiAssignmentTypeRequest> requestStream, IServerStreamWriter<MultiAssignmentTypeResponse> responseStream,

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RapidTime.Core;
 using RapidTime.Core.Models.Address;
 
@@ -7,7 +6,7 @@ namespace RapidTime.Services
 {
     public class AddressAggregateService : IAddressAggregateService
     {
-        private IUnitofWork _unitOfWork;
+        private readonly IUnitofWork _unitOfWork;
 
         public AddressAggregateService(IUnitofWork unitOfWork)
         {

@@ -4,31 +4,31 @@
         <TargetFramework>net8.0</TargetFramework>
       <UserSecretsId>7d70210d-894c-44ce-a2c1-107d333eacbb</UserSecretsId>
       <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-      <LangVersion>preview</LangVersion>
+      <LangVersion>12</LangVersion>
   </PropertyGroup>
 
     <ItemGroup>
         
-        <PackageReference Include="Grpc.AspNetCore" Version="2.58.0" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
         <PackageReference Include="Grpc.Tools" Version="2.59.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.12" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.12">
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
-        <PackageReference Include="Serilog" Version="3.0.1" />
+        <PackageReference Include="Serilog" Version="3.1.1" />
         <PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />
         <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
         <PackageReference Include="Serilog.Sinks.Http" Version="8.0.0" />
-        <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
-        <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.1" />
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
         <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
     </ItemGroup>
 

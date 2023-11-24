@@ -33,7 +33,7 @@ namespace RapidTime.Services
             }
         }
 
-        public CompanyTypeEntity findById(int i)
+        public CompanyTypeEntity FindById(int i)
         {
             return _unitofWork.CompanyTypeRepository.GetbyId(i);
         }

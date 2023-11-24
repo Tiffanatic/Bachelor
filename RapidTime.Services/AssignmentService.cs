@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models;
-using RapidTime.Core.Models.Address;
 
 namespace RapidTime.Services
 {
     public class AssignmentService : IAssignmentService
     {
-        private IUnitofWork _unitOfWork;
-        private ILogger<AssignmentService> _logger;
+        private readonly IUnitofWork _unitOfWork;
+        private readonly ILogger<AssignmentService> _logger;
 
 
         public AssignmentService(IUnitofWork unitOfWork, ILogger<AssignmentService> logger)

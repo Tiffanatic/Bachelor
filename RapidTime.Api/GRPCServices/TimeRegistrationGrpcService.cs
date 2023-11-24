@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
@@ -13,14 +11,15 @@ namespace RapidTime.Api.GRPCServices
     public class TimeRegistrationGrpcService : TimeRegistration.TimeRegistrationBase
     {
         private readonly IAssignmentService _assignmentService;
-        private readonly ILogger<TimeRegistrationService> _logger;
+        private readonly ILogger<TimeRegistrationGrpcService> _logger;
         private readonly ITimeRegistrationService _timeRegistrationService;
 
         public TimeRegistrationGrpcService(ITimeRegistrationService timeRegistrationService,
-            ILogger<TimeRegistrationService> logger, IAssignmentService assignmentService)
+            ILogger<TimeRegistrationGrpcService> logger, IAssignmentService assignmentService)
         {
+            if (logger == null) throw new ArgumentNullException(nameof(logger));
+            _logger = logger;
             _timeRegistrationService = timeRegistrationService;
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _assignmentService = assignmentService;
         }
 
@@ -43,16 +42,6 @@ namespace RapidTime.Api.GRPCServices
             return Task.FromResult(BoolToTimeRegistrationResponseConverter(response));
         }
 
-        public override Task<TimeRegistrationsByAssignmentId> GetTimeRegistrationByAssignmentId(GetTimeRegistrationByAssignmentIdRequest request, ServerCallContext context)
-        {
-            return base.GetTimeRegistrationByAssignmentId(request, context);
-        }
-
-        public override Task<TotalTimeSpentOnAssignment> GetTotalTimeRegisteredOnAssignmentId(GetTimeRegistrationByAssignmentIdRequest request, ServerCallContext context)
-        {
-            return base.GetTotalTimeRegisteredOnAssignmentId(request, context);
-        }
-
         //Helper method
         private static TimeRegistrationResponse BoolToTimeRegistrationResponseConverter(bool value)
         {
@@ -60,26 +49,6 @@ namespace RapidTime.Api.GRPCServices
             {
                 Success = value
             };
-
-            return response;
-        }
-        
-        
-        
-        private static IEnumerable<TimeRecordEntity> TimeRegistrationEntityToTimeRegistrationResponse(IEnumerable<TimeRecordEntity> timeRegistrations)
-        {
-            var response = new List<TimeRecordEntity>();
-            foreach (TimeRecordEntity timeRegistration in timeRegistrations)
-            {
-                response.Add(new TimeRecordEntity()
-                {
-                    Date = timeRegistration.Date,
-                    Id = timeRegistration.Id,
-                    AssignmentEntity = timeRegistration.AssignmentEntity,
-                    AssignmentId = timeRegistration.AssignmentId,
-                    TimeRecorded = timeRegistration.TimeRecorded
-                });
-            }
 
             return response;
         }

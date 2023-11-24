@@ -9,7 +9,7 @@ namespace RapidTime.Services
     public class PriceService : IPriceService
     {
         private readonly IUnitofWork _unitofWork;
-        private ILogger<PriceService> _logger;
+        private readonly ILogger<PriceService> _logger;
 
         public PriceService(IUnitofWork unitofWork, ILogger<PriceService> logger)
         {
