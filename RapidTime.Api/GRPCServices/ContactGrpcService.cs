@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models;
-using RapidTime.Services;
 
 namespace RapidTime.Api.GRPCServices
 {
     public class ContactGrpcService : Contact.ContactBase
     {
-        private ILogger<ContactGrpcService> _logger;
-        private IContactService _contactService;
+        private readonly ILogger<ContactGrpcService> _logger;
+        private readonly IContactService _contactService;
 
         public ContactGrpcService(ILogger<ContactGrpcService> logger, IContactService contactService)
         {
@@ -45,7 +43,7 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<ContactResponse> AddContactToCustomer(AddContactToCustomerRequest request, ServerCallContext context)
         {
-            _logger.LogInformation("Get AddContactToCustomer Called with Ids: {Id}, {Id}", request.ContactId, request.CustomerId);
+            _logger.LogInformation("Get AddContactToCustomer Called with Ids: {Id}", request.CustomerId);
             var contact = _contactService.FindById(request.ContactId);
             _contactService.AddContactToCustomer(contact, request.CustomerId);
             return Task.FromResult( new ContactResponse()
@@ -95,16 +93,10 @@ namespace RapidTime.Api.GRPCServices
         {
             _logger.LogInformation("MultiContact called");
             var contacts = _contactService.GetAll();
-            var response = new MultiContactResponse()
-            {
-                Response = { }
-            };
 
-            var responses = new MultiContactResponse()
-            {
-                Response = { }
-            };
-            
+            var responses = new MultiContactResponse();
+            responses.Response.Capacity = 0;
+
             foreach (ContactEntity contact in contacts)
             {
                 responses.Response.Add(new ContactResponse()
@@ -115,7 +107,7 @@ namespace RapidTime.Api.GRPCServices
                     TelephoneNumber = contact.TelephoneNumber
                 });
             }
-            return Task.FromResult<MultiContactResponse>(responses);
+            return Task.FromResult(responses);
         }
     }
 }

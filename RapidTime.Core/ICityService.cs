@@ -6,7 +6,7 @@ namespace RapidTime.Core
     public interface ICityService
     {
         IEnumerable<CityEntity> GetAllCities();
-        CityEntity[] FindCityByNameOrPostalCode(string NameOrPostalCode);
+        CityEntity[] FindCityByNameOrPostalCode(string nameOrPostalCode);
         void DeleteCity(int id);
         int Insert(CityEntity cityEntity);
         CityEntity FindById(int id);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
@@ -12,20 +11,17 @@ namespace RapidTime.Api.GRPCServices
 {
     public class AssignmentGrpcService : Assignment.AssignmentBase
     {
-        private ILogger<AssignmentTypeGrpcService> _logger;
-        private IAssignmentService _assignmentService;
-        private IAssignmentTypeService _assignmentTypeService;
+        private readonly IAssignmentService _assignmentService;
 
-        public AssignmentGrpcService(IAssignmentService assignmentService, ILogger<AssignmentTypeGrpcService> logger, IAssignmentTypeService assignmentTypeService)
+        public AssignmentGrpcService(IAssignmentService assignmentService, ILogger<AssignmentGrpcService> logger,
+            IAssignmentTypeService assignmentTypeService)
         {
-            _assignmentService = assignmentService;
-            _logger = logger;
-            _assignmentTypeService = assignmentTypeService;
+            _assignmentService = assignmentService ?? throw new ArgumentNullException(nameof(assignmentService));
         }
 
         public override Task<AssignmentResponse> CreateAssignment(CreateAssignmentRequest request, ServerCallContext context)
         {
-            var EntityToCreate = new AssignmentEntity()
+            var entityToCreate = new AssignmentEntity()
             {
                 Amount = 0,
                 AssignmentTypeId = request.AssignmentTypeId,
@@ -35,7 +31,7 @@ namespace RapidTime.Api.GRPCServices
                 UserId = Guid.Parse(request.UserId)
             };
         
-            var assignmentIdToReturn = _assignmentService.Insert(EntityToCreate);
+            var assignmentIdToReturn = _assignmentService.Insert(entityToCreate);
             var entity = _assignmentService.GetById(assignmentIdToReturn);
 
             return Task.FromResult(EntityToResponse(entity));
@@ -58,7 +54,7 @@ namespace RapidTime.Api.GRPCServices
         {
             var entity = _assignmentService.GetById(request.Id);
             
-            if (entity.Amount != request.Amount)
+            if (Math.Abs(entity.Amount - request.Amount) > 0.01)
                 entity.Amount = request.Amount;
             
             if ( entity.CustomerId != request.Customer.Id)

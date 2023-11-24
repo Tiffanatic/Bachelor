@@ -1,11 +1,7 @@
 ﻿using Grpc.Net.Client;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Grpc.Core;
 using RapidTime.Frontend.Models;
-using RapidTime.Frontend.Pages.PriceComponents;
 
 namespace RapidTime.Frontend.ProtoClients
 {

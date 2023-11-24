@@ -11,8 +11,8 @@ namespace RapidTime.Api.GRPCServices
 {
     public class PriceGrpcService : Price.PriceBase
     {
-        private ILogger<PriceGrpcService> _logger;
-        private IPriceService _priceService;
+        private readonly ILogger<PriceGrpcService> _logger;
+        private readonly IPriceService _priceService;
 
         public PriceGrpcService(IPriceService priceService, ILogger<PriceGrpcService> logger)
         {
@@ -22,7 +22,7 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<PriceResponse> CreatePrice(CreatePriceRequest request, ServerCallContext context)
         {
-            _logger.LogInformation("CreatePrice Called {@request}", request);
+            _logger.LogInformation("CreatePrice Called {@Request}", request);
             var price = new PriceEntity()
             {
                 HourlyRate = request.HourlyRate,
@@ -37,11 +37,11 @@ namespace RapidTime.Api.GRPCServices
 
         public override Task<MultiPriceResponse> UserPrices(GetUserPriceListRequest request, ServerCallContext context)
         {
-            _logger.LogInformation("Userprices called Id: {request}", request.Id);
+            _logger.LogInformation("Userprices called Id: {Request}", request.Id);
             var prices = _priceService.GetAll();
-            var UserPrices = prices.Where(x => x.UserId == Guid.Parse(request.Id));
+            var userPrices = prices.Where(x => x.UserId == Guid.Parse(request.Id));
             var multiPriceResponse = new MultiPriceResponse();
-            foreach (var price in UserPrices)
+            foreach (var price in userPrices)
             {
                 multiPriceResponse.Response.Add(new PriceResponse()
                 {

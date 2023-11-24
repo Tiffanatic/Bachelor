@@ -5,29 +5,29 @@ using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models.Address;
-using RapidTime.Services;
 
 namespace RapidTime.Api.GRPCServices
 {
     public class AddressAggregateGrpcService : AddressAggregate.AddressAggregateBase
     {
-        private IAddressAggregateService _addressAggregateService;
+        private readonly IAddressAggregateService _addressAggregateService;
         private readonly ILogger<AddressAggregateGrpcService> _logger;
-        private ICityService _cityService;
-        private ICountryService _countryService;
+        private readonly ICityService _cityService;
+        private readonly ICountryService _countryService;
     
         public AddressAggregateGrpcService(IAddressAggregateService addressAggregateService,
-            ILogger<AddressAggregateGrpcService> logger, ICityService cityService)
+            ILogger<AddressAggregateGrpcService> logger, ICityService cityService, ICountryService countryService)
         {
             _addressAggregateService = addressAggregateService;
             _logger = logger;
             _cityService = cityService;
+            _countryService = countryService;
         }
     
         public override Task<AddressAggregateResponse> CreateAddressAggregate(CreateAddressAggregateRequest request,
             ServerCallContext context)
         {
-            _logger.LogInformation("Create Address Called with street {street}, for customerId {customer}",
+            _logger.LogInformation("Create Address Called with street {Street}, for customerId {Customer}",
                 request.Street, request.CustomerId);
             
             var addressToInsert = new AddressAggregateEntity()

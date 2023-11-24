@@ -7,8 +7,8 @@ namespace RapidTime.Services
 {
     public class ContactService : IContactService
     {
-        private IUnitofWork _unitofWork;
-        private ICustomerService _customerService;
+        private readonly IUnitofWork _unitofWork;
+        private readonly ICustomerService _customerService;
         public ContactService(IUnitofWork unitofWork, ICustomerService customerService)
         {
             _unitofWork = unitofWork;

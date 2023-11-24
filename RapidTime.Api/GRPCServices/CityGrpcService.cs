@@ -1,22 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using Grpc.Core.Utils;
 using Microsoft.Extensions.Logging;
 using RapidTime.Core;
 using RapidTime.Core.Models.Address;
-using RapidTime.Services;
 
 namespace RapidTime.Api.GRPCServices
 {
     public class CityGrpcService : City.CityBase
     {
-        private ICityService _cityService;
-        private ICountryService _countryService;
+        private readonly ICityService _cityService;
+        private readonly ICountryService _countryService;
         private readonly ILogger<CityGrpcService> _logger;
         
         public CityGrpcService(ICityService cityService, ILogger<CityGrpcService> logger, ICountryService countryService)
@@ -42,12 +37,9 @@ namespace RapidTime.Api.GRPCServices
         public override Task<MultiCityResponse> MultiCity(GetCityRequest request, ServerCallContext context)
         {
             _logger.LogInformation("MultiCity called");
-            var cities = _cityService.GetAllCities();
-            var response = new MultiCityResponse()
-            {   
-                Response = {}
-            };
-            var cityBases = cityEntitiesToCityResponse(cities);
+            var allCities = _cityService.GetAllCities();
+            var response = new MultiCityResponse();
+            var cityBases = CityEntitiesToCityResponse(allCities);
             response.Response.AddRange(cityBases);
             return Task.FromResult(response);
         }
@@ -76,37 +68,37 @@ namespace RapidTime.Api.GRPCServices
         {
             var clientToServerTask = ClientToServerFindCityHandlingAsync(requestStream, context);
 
-            var ServerToClientTask = ServerToClientFindCityHandlingAsync(responseStream, context);
+            var serverToClientTask = ServerToClientFindCityHandlingAsync(responseStream, context);
 
-            await Task.WhenAll(clientToServerTask, ServerToClientTask);
+            await Task.WhenAll(clientToServerTask, serverToClientTask);
         }
 
         public override Task<MultiCityResponse> FindCitySingular(FindCityRequest request, ServerCallContext context)
         {
-            var cities = _cityService.FindCityByNameOrPostalCode(request.Input);
+            var cityByNameOrPostalCode = _cityService.FindCityByNameOrPostalCode(request.Input);
             
-            var cityBases = cityEntitiesToCityResponse(cities);
+            var cityBases = CityEntitiesToCityResponse(cityByNameOrPostalCode);
             var multiCity = new MultiCityResponse();
             multiCity.Response.AddRange(cityBases);
             return Task.FromResult(multiCity);
         }
 
-        private CityEntity[] cities = System.Array.Empty<CityEntity>();
+        private CityEntity[] _cities = System.Array.Empty<CityEntity>();
         private async Task ClientToServerFindCityHandlingAsync(IAsyncStreamReader<FindCityRequest> requestStream,
             ServerCallContext context)
         {
             while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
             {
-                cities = _cityService.FindCityByNameOrPostalCode(requestStream.Current.Input);
+                _cities = _cityService.FindCityByNameOrPostalCode(requestStream.Current.Input);
             }
         }
 
         private async Task ServerToClientFindCityHandlingAsync(IServerStreamWriter<MultiCityResponse> responseStream,
             ServerCallContext context)
         {
-            while (!context.CancellationToken.IsCancellationRequested && cities.Length > 0)
+            while (!context.CancellationToken.IsCancellationRequested && _cities.Length > 0)
             {
-                var cityBases = cityEntitiesToCityResponse(cities);
+                var cityBases = CityEntitiesToCityResponse(_cities);
                 var multiCity = new MultiCityResponse();
                 multiCity.Response.AddRange(cityBases);
                 await responseStream.WriteAsync(multiCity);
@@ -115,7 +107,7 @@ namespace RapidTime.Api.GRPCServices
             await Task.Delay(1000);
         }
 
-        private IEnumerable<CityResponse> cityEntitiesToCityResponse(IEnumerable<CityEntity> cities)
+        private IEnumerable<CityResponse> CityEntitiesToCityResponse(IEnumerable<CityEntity> cities)
         {
             List<CityResponse> cityResponses = new List<CityResponse>();
             foreach (var city in cities)

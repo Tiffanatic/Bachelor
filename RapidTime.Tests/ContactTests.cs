@@ -26,16 +26,16 @@ namespace RapidTime.Tests
             }
         };
 
-        private Mock<IUnitofWork> _mockUnitOfWork;
-        private Mock<IRepository<ContactEntity>> _mockContactRepository;
-        private ContactService _contactService;
-        private Mock<ICustomerService> _customerService;
+        private readonly Mock<IUnitofWork> _mockUnitOfWork;
+        private readonly Mock<IRepository<ContactEntity>> _mockContactRepository;
+        private readonly ContactService _contactService;
+        private readonly Mock<ICustomerService> _customerService;
 
         public ContactTests()
         {
             _mockUnitOfWork = new Mock<IUnitofWork>();
             _mockContactRepository = new Mock<IRepository<ContactEntity>>();
-            _mockUnitOfWork.Setup(_ => _.ContactRepository).Returns(
+            _mockUnitOfWork.Setup(w => w.ContactRepository).Returns(
                 _mockContactRepository.Object);
             _customerService = new Mock<ICustomerService>();
             _contactService = new ContactService(_mockUnitOfWork.Object, _customerService.Object);
@@ -72,8 +72,8 @@ namespace RapidTime.Tests
             _contactService.Delete(contactEntity.Id);
 
             //Assert
-            _mockContactRepository.Verify(_ => _.Delete(It.IsAny<int>()), Times.Once);
-            _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
+            _mockContactRepository.Verify(r => r.Delete(It.IsAny<int>()), Times.Once);
+            _mockUnitOfWork.Verify(w => w.Commit(), Times.Once);
         }
 
         [Fact]
@@ -107,8 +107,8 @@ namespace RapidTime.Tests
             //Act
             _contactService.Update(contactEntity);
             //Assert
-            _mockUnitOfWork.Verify(_ =>_.Commit(), Times.Once);
-            _mockContactRepository.Verify(_ => _.Update(contactEntity), Times.Once);
+            _mockUnitOfWork.Verify(w =>w.Commit(), Times.Once);
+            _mockContactRepository.Verify(r => r.Update(contactEntity), Times.Once);
         }
 
         [Fact]
@@ -122,11 +122,11 @@ namespace RapidTime.Tests
                 Lastname = "Fowler",
                 TelephoneNumber = "12345678"
             };
-            _mockContactRepository.Setup(_ => _.Insert(It.IsAny<ContactEntity>())).Returns(contactEntity);
+            _mockContactRepository.Setup(r => r.Insert(It.IsAny<ContactEntity>())).Returns(contactEntity);
             _contactService.Insert(contactEntity);
             
-            _mockContactRepository.Verify(_ => _.Insert(contactEntity), Times.Once);
-            _mockUnitOfWork.Verify(_ => _.Commit(), Times.Once);
+            _mockContactRepository.Verify(r => r.Insert(contactEntity), Times.Once);
+            _mockUnitOfWork.Verify(w => w.Commit(), Times.Once);
         }
         
         // new Contact()
@@ -139,7 +139,7 @@ namespace RapidTime.Tests
         {
             var contact = DummyData[0];
 
-            contact.fullName().Should().Be("Mads Rynord");
+            contact.FullName().Should().Be("Mads Rynord");
             contact.Firstname.Should().Be("Mads");
             contact.Lastname.Should().Be("Rynord");
             contact.TelephoneNumber.Should().Be("24757727");

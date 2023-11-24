@@ -9,8 +9,8 @@ namespace RapidTime.Services
 {
     public class CustomerService : ICustomerService
     {
-        private IUnitofWork _unitofWork;
-        private ILogger<CustomerService> _logger;
+        private readonly IUnitofWork _unitofWork;
+        private readonly ILogger<CustomerService> _logger;
 
         public CustomerService(IUnitofWork unitofWork, ILogger<CustomerService> logger)
         {
