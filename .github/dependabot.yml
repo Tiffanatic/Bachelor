@@ -9,3 +9,8 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+  # This should hopefully update both dockerfile and docker-compose.yml
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
