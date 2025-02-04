@@ -12,7 +12,7 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Grpc.AspNetCore" Version="2.65.0" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.66.0" />
         <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8" />
