@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/nightly/aspnet:8.0 AS base
+FROM mcr.microsoft.com/dotnet/nightly/aspnet:10.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
